@@ -72,14 +72,24 @@ app.get('/', function (req, res) {
 app.get('/account', ensureAuthenticated, function(req, res) {
     console.log("REQ.SESSION.PASSPORT.USER:");
     console.log(req.session.passport.user);
-    res.render('account.html', {locals:{ user: req.session.passport.user}});
+    res.render('account.html', {
+        locals: { 
+            user: req.session.passport.user
+        },
+        partials:{
+            headPartial: './partial-head'
+        }
+    });
 });
 
 app.get('/login', function(req, res) {
-    if (!(req.session.passport.user)){
+    if (!(req.session.passport)){
     res.render('login', {
         locals: { 
-            user: req.session.passport.user 
+            // user: req.session.passport.user 
+        },
+        partials:{
+            headPartial: './partial-head'
         }
     });
     }
@@ -110,6 +120,9 @@ app.get(
 
 app.get('/logout', function(req, res) {
     req.logout();
+    req.session.destroy(function(err) {
+        // cannot access session here
+      });
     res.redirect('/');
 });
 
