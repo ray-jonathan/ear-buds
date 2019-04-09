@@ -70,25 +70,31 @@ app.get('/', function (req, res) {
 });
 
 app.get('/account', ensureAuthenticated, function(req, res) {
-    console.log(req.user);
-    res.render('account.html', {locals:{ user: req.user }});
+    console.log("REQ.SESSION.PASSPORT.USER:");
+    console.log(req.session.passport.user);
+    res.render('account.html', {locals:{ user: req.session.passport.user}});
 });
 
 app.get('/login', function(req, res) {
+    if (!(req.session.passport.user)){
     res.render('login', {
         locals: { 
-            user: req.user 
+            user: req.session.passport.user 
         }
     });
+    }
+    else{
+        res.redirect('/account');
+    }
 });
 
-app.get(
-    '/auth/spotify',
+app.get('/auth/spotify',
     passport.authenticate('spotify', {
         scope: everyScope,
         showDialog: true
     }),
     function(req, res) {
+        req.session.save(()=> {});
       // The request will be redirected to spotify for authentication, so this
       // function will not be called.
     }
