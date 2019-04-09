@@ -21,14 +21,16 @@ app.set('views', 'views');
 app.set('view engine', 'html');
 
 let bearerToken;
+const matchRouter = require('./routes/match');
+
 const everyScope = ['user-read-private' , 'user-read-birthdate', 'user-read-email', 'playlist-read-private', 'user-library-read', 'user-library-modify', 'user-top-read', 'playlist-read-collaborative', 'playlist-modify-public', 'playlist-modify-private', 'user-follow-read', 'user-follow-modify', 'user-read-playback-state', 'user-read-currently-playing', 'user-modify-playback-state', 'user-read-recently-played'];
 const PORT = process.env.PORT;
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = process.env.DB_NAME;
-console.log(PORT);
-console.log(DB_HOST);
+// console.log(PORT);
+// console.log(DB_HOST);
 
 
 passport.serializeUser(function(user, done) {
@@ -106,16 +108,8 @@ app.get('/', function (req, res) {
         // }
 });
 
-app.get('/match', function (req, res) {
-    res.render('match.html', {
-        locals: { 
-            user: req.session.passport.user
-        },
-        partials:{
-            headPartial: './partial-head'
-        }
-    });
-});
+app.get('/match', matchRouter);
+
 app.get('/messages', function (req, res) {
     res.render('messages.html', {
         locals: { 
