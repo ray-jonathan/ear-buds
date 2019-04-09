@@ -91,11 +91,21 @@ app.get('/match', function (req, res) {
         }
     });
 });
+app.get('/messages', function (req, res) {
+    res.render('messages.html', {
+        locals: { 
+            user: req.session.passport.user
+        },
+        partials:{
+            headPartial: './partial-head'
+        }
+    });
+});
 
-app.get('/account', ensureAuthenticated, function(req, res) {
+app.get('/profile', ensureAuthenticated, function(req, res) {
     console.log("REQ.SESSION.PASSPORT.USER:");
     console.log(req.session.passport.user);
-    res.render('account.html', {
+    res.render('profile.html', {
         locals: { 
             user: req.session.passport.user
         },
@@ -117,7 +127,7 @@ app.get('/login', function(req, res) {
     });
     }
     else{
-        res.redirect('/account');
+        res.redirect('/profile');
     }
 });
 
@@ -137,7 +147,7 @@ app.get(
     '/callback',
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     function(req, res) {
-        res.redirect('/account');
+        res.redirect('/profile');
     }
 );
 
