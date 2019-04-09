@@ -66,7 +66,30 @@ app.use(passport.session());
 // app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
-    res.end(`<h2>Hello world!</h2>`);
+    if (!(req.session.passport)){
+        res.render('login', {
+            locals: { 
+                // user: req.session.passport.user 
+            },
+            partials:{
+                headPartial: './partial-head'
+            }
+        });
+        }
+        else{
+            res.redirect('/match');
+        }
+});
+
+app.get('/match', function (req, res) {
+    res.render('match.html', {
+        locals: { 
+            user: req.session.passport.user
+        },
+        partials:{
+            headPartial: './partial-head'
+        }
+    });
 });
 
 app.get('/account', ensureAuthenticated, function(req, res) {
