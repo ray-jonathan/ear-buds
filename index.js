@@ -23,6 +23,7 @@ app.set('view engine', 'html');
 let bearerToken;
 const matchRouter = require('./routes/match');
 const messagesRouter = require('./routes/messages');
+const profileRouter = require('./routes/profile');
 
 const everyScope = ['user-read-private' , 'user-read-birthdate', 'user-read-email', 'playlist-read-private', 'user-library-read', 'user-library-modify', 'user-top-read', 'playlist-read-collaborative', 'playlist-modify-public', 'playlist-modify-private', 'user-follow-read', 'user-follow-modify', 'user-read-playback-state', 'user-read-currently-playing', 'user-modify-playback-state', 'user-read-recently-played'];
 const PORT = process.env.PORT;
@@ -94,40 +95,17 @@ app.use((req, res, next) => {
 });
 
 app.get('/', function (req, res) {
-    // if (!(req.session.passport)){
-    //     res.render('login', {
-    //         locals: { 
-    //             // user: req.session.passport.user 
-    //         },
-    //         partials:{
-    //             headPartial: './partial-head'
-    //         }
-    //     });
-    //     }
-    //     else{
-            res.redirect('/match');
-        // }
+    res.redirect('/match');
 });
 
-app.get('/match', matchRouter);
+app.get('/match', ensureAuthenticated, matchRouter);
 
-app.get('/messages', messagesRouter);
+app.get('/messages', ensureAuthenticated, messagesRouter);
 
-app.get('/profile', ensureAuthenticated, function(req, res) {
-    // console.log("REQ.SESSION.PASSPORT.USER:");
-    // console.log(req.session.passport.user);
-    res.render('profile.html', {
-        locals: { 
-            user: req.session.passport.user
-        },
-        partials:{
-            headPartial: './partial-head'
-        }
-    });
-});
+app.get('/profile', ensureAuthenticated, profileRouter);
 
-app.get('/login', function(req, res) {
-    console.log(req);
+app.get('/login', function(req, res) { // probably want to handle this with controller
+    // console.log(req);
     if (!(req.session.passport)){
     res.render('login', {
         locals: { 
@@ -163,7 +141,7 @@ app.get(
     }
 );
 
-app.get('/logout', function(req, res) {
+app.get('/logout', function(req, res) { // probably want to handle this with controller
     req.logout();
     req.session.destroy(function(err) {
         // cannot access session here
