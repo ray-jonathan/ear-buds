@@ -44,7 +44,7 @@ passport.use(
         {
             clientID: CLIENT_ID,
             clientSecret: CLIENT_SECRET,
-            callbackURL: `http://localhost:3007/callback/`
+            callbackURL: `http://localhost:3007/auth/callback/`
         },
         async function(accessToken, refreshToken, expires_in, profile, done){
             process.nextTick(function() {
@@ -65,8 +65,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 // app.use(express.static(__dirname + '/public'));
 
-app.get('/', function (req, res) {
-    if (!(req.session.passport)){
+app.use((req, res, next) => {
+    console.log("=================URL==================");
+    console.log(req.url);
+    if(req.session.passport){
+        console.log("All good with the session!");
+    }
+    else{
+        console.log("Not great.");
+    }
+    if ((!(req.session.passport)) && ((!(req.url !== "/")) || (!((req.url).includes("auth"))))){
         res.render('login', {
             locals: { 
                 // user: req.session.passport.user 
@@ -75,10 +83,26 @@ app.get('/', function (req, res) {
                 headPartial: './partial-head'
             }
         });
-        }
-        else{
+    }
+    else{
+        next();
+    }
+});
+
+app.get('/', function (req, res) {
+    // if (!(req.session.passport)){
+    //     res.render('login', {
+    //         locals: { 
+    //             // user: req.session.passport.user 
+    //         },
+    //         partials:{
+    //             headPartial: './partial-head'
+    //         }
+    //     });
+    //     }
+    //     else{
             res.redirect('/match');
-        }
+        // }
 });
 
 app.get('/match', function (req, res) {
@@ -103,8 +127,8 @@ app.get('/messages', function (req, res) {
 });
 
 app.get('/profile', ensureAuthenticated, function(req, res) {
-    console.log("REQ.SESSION.PASSPORT.USER:");
-    console.log(req.session.passport.user);
+    // console.log("REQ.SESSION.PASSPORT.USER:");
+    // console.log(req.session.passport.user);
     res.render('profile.html', {
         locals: { 
             user: req.session.passport.user
@@ -116,6 +140,7 @@ app.get('/profile', ensureAuthenticated, function(req, res) {
 });
 
 app.get('/login', function(req, res) {
+    console.log(req);
     if (!(req.session.passport)){
     res.render('login', {
         locals: { 
@@ -144,7 +169,7 @@ app.get('/auth/spotify',
 );
 
 app.get(
-    '/callback',
+    '/auth/callback',
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     function(req, res) {
         res.redirect('/profile');
@@ -155,9 +180,14 @@ app.get('/logout', function(req, res) {
     req.logout();
     req.session.destroy(function(err) {
         // cannot access session here
-      });
+    });
     res.redirect('/');
 });
+
+app.all('*', (req, res) => {
+    res.render('404');
+});
+
 
 app.listen(PORT, () => {
     console.log(`listening to ${DB_HOST}:${PORT}`);
