@@ -1,0 +1,45 @@
+{
+  "name": "ear-buds",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "db:create": "createdb earbuds-app",
+    "db:init": "psql -f schema.sql earbuds-app && psql -f seed.sql earbuds-app",
+    "db:destroy": "dropdb earbuds-app",
+    "db:reset": "npm run db:destroy; npm run db:create && npm run db:init",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:watch": "mocha -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ray-jonathan/ear-buds.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ray-jonathan/ear-buds/issues"
+  },
+  "homepage": "https://github.com/ray-jonathan/ear-buds#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^7.0.0",
+    "escape-html": "^1.0.3",
+    "express": "^4.16.4",
+    "express-es6-template-engine": "^2.1.7",
+    "express-session": "^1.15.6",
+    "helmet": "^3.16.0",
+    "passport": "^0.4.0",
+    "passport-spotify": "^1.0.1",
+    "pg-promise": "^8.6.4",
+    "session-file-store": "^1.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^6.1.2",
+    "nodemon": "^1.18.11"
+  }
+}
