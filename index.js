@@ -65,9 +65,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 // app.use(express.static(__dirname + '/public'));
 
-app.use((req, res, next) => {
-    console.log("=================URL==================");
-    console.log(req.url);
+// The middleware below checks that a user is logged in before they can proceed
+// If they are not, they are sent to the login page to sign into Spotify
+// The long conditional is to catch too-many-redirect-errors and traffic coming to/from
+// Spotify's authentication servers.
+app.use((req, res, next) => { 
+    // console.log("=================URL==================");
+    // console.log(req.url);
     if(req.session.passport){
         console.log("All good with the session!");
     }
@@ -76,9 +80,6 @@ app.use((req, res, next) => {
     }
     if ((!(req.session.passport)) && ((!(req.url !== "/")) || (!((req.url).includes("auth"))))){
         res.render('login', {
-            locals: { 
-                // user: req.session.passport.user 
-            },
             partials:{
                 headPartial: './partial-head'
             }
