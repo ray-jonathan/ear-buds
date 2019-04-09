@@ -22,6 +22,7 @@ app.set('view engine', 'html');
 
 let bearerToken;
 const matchRouter = require('./routes/match');
+const messagesRouter = require('./routes/messages');
 
 const everyScope = ['user-read-private' , 'user-read-birthdate', 'user-read-email', 'playlist-read-private', 'user-library-read', 'user-library-modify', 'user-top-read', 'playlist-read-collaborative', 'playlist-modify-public', 'playlist-modify-private', 'user-follow-read', 'user-follow-modify', 'user-read-playback-state', 'user-read-currently-playing', 'user-modify-playback-state', 'user-read-recently-played'];
 const PORT = process.env.PORT;
@@ -110,16 +111,7 @@ app.get('/', function (req, res) {
 
 app.get('/match', matchRouter);
 
-app.get('/messages', function (req, res) {
-    res.render('messages.html', {
-        locals: { 
-            user: req.session.passport.user
-        },
-        partials:{
-            headPartial: './partial-head'
-        }
-    });
-});
+app.get('/messages', messagesRouter);
 
 app.get('/profile', ensureAuthenticated, function(req, res) {
     // console.log("REQ.SESSION.PASSPORT.USER:");
