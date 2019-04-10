@@ -1,4 +1,4 @@
-// require('dotenv').config();
+require('dotenv').config();
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = process.env.DB_NAME;
 // first require 'pg-promise'
