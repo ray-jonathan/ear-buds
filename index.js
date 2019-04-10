@@ -45,6 +45,7 @@ passport.deserializeUser(function(obj, done) {
     done(null, obj);
 });
 
+
 passport.use(
     new SpotifyStrategy(
         {
@@ -53,6 +54,9 @@ passport.use(
             callbackURL: `http://localhost:3007/auth/callback/`
         },
         async function(accessToken, refreshToken, expires_in, profile, done){
+            console.log(profile);
+            console.log('=============')
+            // req.session.spotify = profile;
             process.nextTick(function() {
                 // To keep the example simple, the user's spotify profile is returned to
                 // represent the logged-in user. In a typical application, you would want
@@ -107,7 +111,8 @@ app.get('/messages', ensureAuthenticated, messagesRouter);
 app.get('/profile', ensureAuthenticated, profileRouter);
 
 app.get('/login', function(req, res) { // probably want to handle this with controller
-    // console.log(req);
+    console.log(req.session);
+    console.log('^^^^^^^^^^^^^^^^')
     if (!(req.session.passport)){
     res.render('login', {
         locals: { 
@@ -127,19 +132,18 @@ app.get('/auth/spotify',
     passport.authenticate('spotify', {
         scope: everyScope,
         showDialog: true
-    }),
-    function(req, res) {
-        req.session.save(()=> {});
-      // The request will be redirected to spotify for authentication, so this
-      // function will not be called.
-    }
+    })
 );
 
 app.get(
     '/auth/callback',
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     function(req, res) {
+    req.session.save(()=> {
+        console.log('/auth/callback')
         res.redirect('/profile');
+    });
+
     }
 );
 

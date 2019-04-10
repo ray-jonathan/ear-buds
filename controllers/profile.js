@@ -3,6 +3,7 @@
 // const  Profile = require('../models/profile');
 
 async function getProfile(req, res){
+    console.log('profile router')
     res.render('profile.html', {
         locals: { 
             user: req.session.passport.user
