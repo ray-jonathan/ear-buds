@@ -21,14 +21,18 @@ app.set('views', 'views');
 app.set('view engine', 'html');
 
 let bearerToken;
+const matchRouter = require('./routes/match');
+const messagesRouter = require('./routes/messages');
+const profileRouter = require('./routes/profile');
+
 const everyScope = ['user-read-private' , 'user-read-birthdate', 'user-read-email', 'playlist-read-private', 'user-library-read', 'user-library-modify', 'user-top-read', 'playlist-read-collaborative', 'playlist-modify-public', 'playlist-modify-private', 'user-follow-read', 'user-follow-modify', 'user-read-playback-state', 'user-read-currently-playing', 'user-modify-playback-state', 'user-read-recently-played'];
 const PORT = process.env.PORT;
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = process.env.DB_NAME;
-console.log(PORT);
-console.log(DB_HOST);
+// console.log(PORT);
+// console.log(DB_HOST);
 
 
 passport.serializeUser(function(user, done) {
@@ -44,7 +48,7 @@ passport.use(
         {
             clientID: CLIENT_ID,
             clientSecret: CLIENT_SECRET,
-            callbackURL: `http://localhost:3007/callback/`
+            callbackURL: `http://localhost:3007/auth/callback/`
         },
         async function(accessToken, refreshToken, expires_in, profile, done){
             process.nextTick(function() {
@@ -65,26 +69,55 @@ app.use(passport.initialize());
 app.use(passport.session());
 // app.use(express.static(__dirname + '/public'));
 
+// The middleware below checks that a user is logged in before they can proceed
+// If they are not, they are sent to the login page to sign into Spotify
+// The long conditional is to catch too-many-redirect-errors and traffic coming to/from
+// Spotify's authentication servers.
+app.use((req, res, next) => { 
+    // console.log("=================URL==================");
+    // console.log(req.url);
+    if(req.session.passport){
+        console.log("All good with the session!");
+    }
+    else{
+        console.log("Not great.");
+    }
+    if ((!(req.session.passport)) && ((!(req.url !== "/")) || (!((req.url).includes("auth"))))){
+        res.render('login', {
+            partials:{
+                headPartial: './partial-head'
+            }
+        });
+    }
+    else{
+        next();
+    }
+});
+
 app.get('/', function (req, res) {
-    res.end(`<h2>Hello world!</h2>`);
+    res.redirect('/match');
 });
 
-app.get('/account', ensureAuthenticated, function(req, res) {
-    console.log("REQ.SESSION.PASSPORT.USER:");
-    console.log(req.session.passport.user);
-    res.render('account.html', {locals:{ user: req.session.passport.user}});
-});
+app.get('/match', ensureAuthenticated, matchRouter);
 
-app.get('/login', function(req, res) {
-    if (!(req.session.passport.user)){
+app.get('/messages', ensureAuthenticated, messagesRouter);
+
+app.get('/profile', ensureAuthenticated, profileRouter);
+
+app.get('/login', function(req, res) { // probably want to handle this with controller
+    // console.log(req);
+    if (!(req.session.passport)){
     res.render('login', {
         locals: { 
-            user: req.session.passport.user 
+            // user: req.session.passport.user 
+        },
+        partials:{
+            headPartial: './partial-head'
         }
     });
     }
     else{
-        res.redirect('/account');
+        res.redirect('/profile');
     }
 });
 
@@ -101,17 +134,25 @@ app.get('/auth/spotify',
 );
 
 app.get(
-    '/callback',
+    '/auth/callback',
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     function(req, res) {
-        res.redirect('/account');
+        res.redirect('/profile');
     }
 );
 
-app.get('/logout', function(req, res) {
+app.get('/logout', function(req, res) { // probably want to handle this with controller
     req.logout();
+    req.session.destroy(function(err) {
+        // cannot access session here
+    });
     res.redirect('/');
 });
+
+app.all('*', (req, res) => {
+    res.render('404');
+});
+
 
 app.listen(PORT, () => {
     console.log(`listening to ${DB_HOST}:${PORT}`);
