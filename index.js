@@ -11,10 +11,12 @@ const helmet = require('helmet');
 const axios = require('axios');
 app.use(helmet());
 app.use(express.urlencoded({extended:true}));
+
 app.use(session({
     store: new FileStore(),
     secret: process.env.SESSION_SECRET
 }));
+
 
 app.engine('html', es6Renderer);
 app.set('views', 'views');
