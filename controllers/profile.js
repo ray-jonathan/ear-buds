@@ -4,22 +4,34 @@ const  Profile = require('../models/profile');
 const  Artists = require('../models/artists');
 
 async function getProfile(req, res){
-    req.session.spotifyId = req.session.passport.user.id;
-    req.session.userName = req.session.passport.user.displayName;
-    req.session.userPhoto = req.session.passport.user.photos[0];
-    const idNum = await Profile.getIdBySpotify(req.session.spotifyId);
-    req.session.userId = idNum.id;
+    // console.log(user)
+    // const photo = req.session.passport.user.photos[0]? req.session.passport.user.photos[0] : 'http://beverlycove.org/wp-content/uploads/2016/07/no-profile-male.jpg';
+    // user.spotifyId = req.session.passport.user.id;
+    // req.session.userName = req.session.passport.user.displayName;
+    // req.session.userPhoto = photo;
     // Time to import artists and save to session
-    const userArrayOfArtists = await Artists.getArtists(req.session.userId);
-    const firstVisitBool = await Profile.checkSpotifyID(req.session.spotifyId);
-    firstVisitBool.exists? renderProfile() : await Profile.add(req.session.passport.user).then(()=>{renderProfile()});
+    const firstVisitBool = await Profile.checkSpotifyID(req.session.passport.user.id);
+    console.log(firstVisitBool)
+    if (!(firstVisitBool.exists)){
+        await Profile.add(req.session.passport.user);
+    }
+    else{
+        // await Profile.getIdBySpotify(req.session.passport.user.id);
+    }
+    console.log(req.session.passport.user)
+    const user = await Profile.getBySpotifyId(req.session.passport.user.id);
+    // by this time, the user is for sure in the db
+    const userArrayOfArtists = await Artists.getArtists(user.id);
+    const idNum = await Profile.getIdBySpotify(user.spotifyId);
+    req.session.userId = idNum.id;
+    // firstVisitBool.exists? renderProfile() : await Profile.add(req.session.passport.user).then(()=>{renderProfile()});
     function renderProfile(){
         res.render('profile.html', {
             locals: { 
-                userId: req.session.userId,
-                userSpotifyId: req.session.spotifyId,
-                userName: req.session.userName,
-                userPhoto: req.session.userPhoto,
+                userId: user.id,
+                userSpotifyId: user.spotifyId,
+                userName: user.name,
+                userPhoto: user.picture,
                 userArtists: userArrayOfArtists
             },
             partials:{
@@ -28,6 +40,7 @@ async function getProfile(req, res){
             });
             return;
     }
+    renderProfile();
 }
 
 
