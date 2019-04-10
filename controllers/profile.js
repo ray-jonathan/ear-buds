@@ -1,12 +1,16 @@
 // functions for res.render-ing user info from routes
 
-// const  Profile = require('../models/profile');
+const  Profile = require('../models/profile');
 
 async function getProfile(req, res){
-    console.log('profile router')
+    req.session.userId = req.session.passport.user.id;
+    req.session.userName = req.session.passport.user.displayName;
+    req.session.userPhoto = req.session.passport.user.photos[0];
     res.render('profile.html', {
         locals: { 
-            user: req.session.passport.user
+            userId: req.session.userId,
+            userName: req.session.userName,
+            userPhoto: req.session.userPhoto
         },
         partials:{
             headPartial: './partial-head'
