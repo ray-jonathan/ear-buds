@@ -1,7 +1,7 @@
 const db = require('./conn');
 
 class Profile {
-    constructor(id, spotify_id, name, picture){
+    constructor(id, spotify_id, name, picture='http://beverlycove.org/wp-content/uploads/2016/07/no-profile-male.jpg'){
         this.id = id;
         this.spotifyId = spotify_id;
         this.name = name;

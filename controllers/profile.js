@@ -9,6 +9,7 @@ async function getProfile(req, res){
     req.session.userPhoto = req.session.passport.user.photos[0];
     const idNum = await Profile.getIdBySpotify(req.session.spotifyId);
     req.session.userId = idNum.id;
+    // Time to import artists and save to session
     const firstVisitBool = await Profile.checkSpotifyID(req.session.spotifyId);
     firstVisitBool.exists? renderProfile() : await Profile.add(req.session.passport.user).then(()=>{renderProfile()});
     function renderProfile(){
