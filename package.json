@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon --ignore sessions index.js",
     "db:create": "createdb earbuds-app",
     "db:init": "psql -f schema.sql earbuds-app && psql -f seed.sql earbuds-app",
     "db:destroy": "dropdb earbuds-app",
     "db:reset": "npm run db:destroy; npm run db:create && npm run db:init",
-    "merged":"npm i && npm run db:reset && npm run dev",
+    "merged": "npm i && npm run db:reset && npm run dev",
     "test": "mocha -w"
   },
   "repository": {
