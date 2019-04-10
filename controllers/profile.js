@@ -9,7 +9,7 @@ async function getProfile(req, res){
     req.session.userPhoto = req.session.passport.user.photos[0];
     // Time to import artists and save to session
     const firstVisitBool = await Profile.checkSpotifyID(req.session.spotifyId);
-    if (!(firstVisitBool)){
+    if (!(firstVisitBool.exists)){
         await Profile.add(req.session.passport.user);
     }
     else{
