@@ -6,7 +6,27 @@ async function getProfile(req, res){
     req.session.userId = req.session.passport.user.id;
     req.session.userName = req.session.passport.user.displayName;
     req.session.userPhoto = req.session.passport.user.photos[0];
-    res.render('profile.html', {
+    const boolValue = await Profile.checkSpotifyID(req.session.userId);
+    console.log("BoolValue:", boolValue);
+    console.log("BoolValue type:",typeof boolValue.exists);
+    if (!boolValue.exists){
+        console.log("We behaved.");
+        await Profile.add(req.session.passport.user);
+        res.render('profile.html', {
+            locals: { 
+                userId: req.session.userId,
+                userName: req.session.userName,
+                userPhoto: req.session.userPhoto
+            },
+            partials:{
+                headPartial: './partial-head'
+            }
+        });
+        return;
+    }
+    else if (boolValue.exists){
+        console.log("Bad dog.");
+        res.render('profile.html', {
         locals: { 
             userId: req.session.userId,
             userName: req.session.userName,
@@ -15,7 +35,9 @@ async function getProfile(req, res){
         partials:{
             headPartial: './partial-head'
         }
-    });
+        });
+        return;
+    } 
 }
 
 
