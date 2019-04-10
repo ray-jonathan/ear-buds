@@ -80,8 +80,6 @@ app.use(passport.session());
 // The long conditional is to catch too-many-redirect-errors and traffic coming to/from
 // Spotify's authentication servers.
 app.use((req, res, next) => { 
-    // console.log("=================URL==================");
-    // console.log(req.url);
     if ((!(req.session.passport)) && ((!(req.url !== "/")) || (!((req.url).includes("auth"))))){
         res.render('login', {
             partials:{

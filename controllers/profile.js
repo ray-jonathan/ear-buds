@@ -4,27 +4,34 @@ const  Profile = require('../models/profile');
 const  Artists = require('../models/artists');
 
 async function getProfile(req, res){
-    // console.log(user)
-    // const photo = req.session.passport.user.photos[0]? req.session.passport.user.photos[0] : 'http://beverlycove.org/wp-content/uploads/2016/07/no-profile-male.jpg';
-    // user.spotifyId = req.session.passport.user.id;
-    // req.session.userName = req.session.passport.user.displayName;
-    // req.session.userPhoto = photo;
-    // Time to import artists and save to session
     const firstVisitBool = await Profile.checkSpotifyID(req.session.passport.user.id);
-    console.log(firstVisitBool)
     if (!(firstVisitBool.exists)){
         await Profile.add(req.session.passport.user);
     }
-    else{
-        // await Profile.getIdBySpotify(req.session.passport.user.id);
-    }
-    console.log(req.session.passport.user)
-    const user = await Profile.getBySpotifyId(req.session.passport.user.id);
     // by this time, the user is for sure in the db
+    const user = await Profile.getBySpotifyId(req.session.passport.user.id);
     const userArrayOfArtists = await Artists.getArtists(user.id);
-    const idNum = await Profile.getIdBySpotify(user.spotifyId);
-    req.session.userId = idNum.id;
-    // firstVisitBool.exists? renderProfile() : await Profile.add(req.session.passport.user).then(()=>{renderProfile()});
+    const emptyObject = {
+        id: '',
+        user_id: '',
+        artist_name: 'Add an artist',
+        artist_picture: 'http://secure.hmepowerweb.com/Resources/Images/NoImageAvailableLarge.jpg'
+    };
+    let count = 9999;
+    let artistIncomplete = false;
+    if(userArrayOfArtists.length < 4){
+        artistIncomplete = true;
+    }
+    while(userArrayOfArtists.length < 4){
+        count++;
+        emptyObject.id = count;
+        userArrayOfArtists.push(emptyObject);
+        console.log(emptyObject);
+    }
+    while(userArrayOfArtists.length > 4){
+        userArrayOfArtists.pop();
+    }
+    // render the profile page!
     function renderProfile(){
         res.render('profile.html', {
             locals: { 
@@ -32,7 +39,8 @@ async function getProfile(req, res){
                 userSpotifyId: user.spotifyId,
                 userName: user.name,
                 userPhoto: user.picture,
-                userArtists: userArrayOfArtists
+                userArtists: userArrayOfArtists,
+                artistIncomplete: artistIncomplete
             },
             partials:{
                 headPartial: './partial-head'

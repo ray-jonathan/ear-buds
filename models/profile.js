@@ -28,7 +28,7 @@ class Profile {
     static getBySpotifyId(spotifyId){
         return db.one(`select * from users where spotify_id=$1`, [spotifyId])
             .then((userData) => {
-                return new Profile (userData.id, userData.spotify_id, userData.name, userData.picture)
+                return new Profile (userData.id, userData.spotify_id, userData.name, userData.picture);
             });
     }
     // fetchResponse.map((object.item) => {
