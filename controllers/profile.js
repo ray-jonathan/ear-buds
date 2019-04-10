@@ -3,10 +3,17 @@
 // const  Profile = require('../models/profile');
 
 async function getProfile(req, res){
-    console.log('profile router')
+    req.session.userId = req.session.passport.user.id;
+    console.log("ID: ", req.session.userId);
+    req.session.name = req.session.passport.user.displayName;
+    console.log(req.session.name);
+    req.session.photo = req.session.passport.user.photos[0];
+    console.log(req.session.photo);
     res.render('profile.html', {
         locals: { 
-            user: req.session.passport.user
+            userId: req.session.userId,
+            userName: req.session.name,
+            userPhoto: req.session.photo
         },
         partials:{
             headPartial: './partial-head'
