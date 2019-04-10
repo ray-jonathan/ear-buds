@@ -36,7 +36,7 @@ ${headPartial}
                 </div>
                 <div class="card-img-overlay">
                     <h5 class="card-title" style="text-shadow: 2px 2px #000000;">${Artist.artist_name}</h5>
-                    <div> 
+                    <div ${hideMe? `hidden`: '' } > 
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-${Artist.id}">
                             Edit
                         </button>
@@ -55,13 +55,20 @@ ${headPartial}
                             </button>
                         </div>
                         <div class="modal-body">
+
+
+
                             <!-- this is where you query Spotify for a new artist -->
                             <p>Do you want to edit this artist?</p>
+
+
+
+                            
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Nope</button>
+                            <button type="button" class="btn btn-secondary" style="display: none;" data-dismiss="modal">Nope</button>
                             <!-- <button type="button" class="btn btn-primary">Yes!</button> -->
-                            <a href="/trade/${Artist.id}/cards" class="btn btn-primary">Yes!</a>
+                            <a href="/trade/${Artist.id}/cards" class="btn btn-secondary">Save changes</a>
                 </div>
                     </div>
                 </div>

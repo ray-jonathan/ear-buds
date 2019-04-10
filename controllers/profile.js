@@ -2,6 +2,8 @@
 
 const  Profile = require('../models/profile');
 const  Artists = require('../models/artists');
+const {searchArtist} = require('../controllers/match'); // object of functions from controllers page
+
 
 async function getProfile(req, res){
     const firstVisitBool = await Profile.checkSpotifyID(req.session.passport.user.id);
@@ -40,7 +42,8 @@ async function getProfile(req, res){
                 userName: user.name,
                 userPhoto: user.picture,
                 userArtists: userArrayOfArtists,
-                artistIncomplete: artistIncomplete
+                artistIncomplete: artistIncomplete,
+                hideMe: false
             },
             partials:{
                 headPartial: './partial-head'
