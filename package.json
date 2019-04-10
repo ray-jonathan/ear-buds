@@ -9,7 +9,7 @@
     "db:init": "psql -f schema.sql earbuds-app && psql -f seed.sql earbuds-app",
     "db:destroy": "dropdb earbuds-app",
     "db:reset": "npm run db:destroy; npm run db:create && npm run db:init",
-    "merged":"npm run i && npm run db:reset && npm run dev",
+    "merged":"npm i && npm run db:reset && npm run dev",
     "test": "mocha -w"
   },
   "repository": {
