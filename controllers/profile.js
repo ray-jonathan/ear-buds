@@ -10,6 +10,7 @@ async function getProfile(req, res){
     const idNum = await Profile.getIdBySpotify(req.session.spotifyId);
     req.session.userId = idNum.id;
     // Time to import artists and save to session
+    const userArrayOfArtists = await Artists.getArtists(req.session.userId);
     const firstVisitBool = await Profile.checkSpotifyID(req.session.spotifyId);
     firstVisitBool.exists? renderProfile() : await Profile.add(req.session.passport.user).then(()=>{renderProfile()});
     function renderProfile(){
@@ -18,7 +19,8 @@ async function getProfile(req, res){
                 userId: req.session.userId,
                 userSpotifyId: req.session.spotifyId,
                 userName: req.session.userName,
-                userPhoto: req.session.userPhoto
+                userPhoto: req.session.userPhoto,
+                userArtists: userArrayOfArtists
             },
             partials:{
                 headPartial: './partial-head'
