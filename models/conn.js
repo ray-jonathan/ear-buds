@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = process.env.DB_NAME;
 // first require 'pg-promise'
@@ -10,8 +10,8 @@ const pgp = require('pg-promise')({
 });
 // next, define the connections options
 const options = {
-    host: DB_HOST,
-    database: DB_NAME
+    host: 'localhost',
+    database: 'earbuds-app'
 };
 
 // make a connection to the database specified by the options object

@@ -1,7 +1,7 @@
 const db = require('./conn');
 
 class Profile {
-    constructor(id, spotify_id, name, picture){
+    constructor(id, spotify_id, name, picture='http://beverlycove.org/wp-content/uploads/2016/07/no-profile-male.jpg'){
         this.id = id;
         this.spotifyId = spotify_id;
         this.name = name;
@@ -20,6 +20,9 @@ class Profile {
         return db.one(`select exists (select 1 from users where spotify_id=$1)`, [spotifyId]);
     }
 
+    static getIdBySpotify(spotifyId){
+        return db.one(`select id from users where spotify_id=$1`, [spotifyId]);
+    }
     // fetchResponse.map((object.item) => {
     //     await Artists.add(session.user.id, thingy)
     // })

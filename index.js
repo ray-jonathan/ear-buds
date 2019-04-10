@@ -82,12 +82,6 @@ app.use(passport.session());
 app.use((req, res, next) => { 
     // console.log("=================URL==================");
     // console.log(req.url);
-    if(req.session.passport){
-        console.log("All good with the session!");
-    }
-    else{
-        console.log("Not great.");
-    }
     if ((!(req.session.passport)) && ((!(req.url !== "/")) || (!((req.url).includes("auth"))))){
         res.render('login', {
             partials:{
@@ -111,8 +105,6 @@ app.get('/messages', ensureAuthenticated, messagesRouter);
 app.get('/profile', ensureAuthenticated, profileRouter);
 
 app.get('/login', function(req, res) { // probably want to handle this with controller
-    console.log(req.session);
-    console.log('^^^^^^^^^^^^^^^^')
     if (!(req.session.passport)){
     res.render('login', {
         locals: { 
@@ -140,7 +132,6 @@ app.get(
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     function(req, res) {
     req.session.save(()=> {
-        console.log('/auth/callback')
         res.redirect('/profile');
     });
 

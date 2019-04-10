@@ -1,7 +1,7 @@
 const db = require('./conn');
 
 class Artists {
-    constructor(id, user_id, artist_name, artist_picture){
+    constructor(id, user_id, artist_name, artist_picture='http://secure.hmepowerweb.com/Resources/Images/NoImageAvailableLarge.jpg'){
         this.id = id;
         this.userId = user_id;
         this.artistName = artist_name;
@@ -25,10 +25,15 @@ class Artists {
     }
 
     static getArtists(user_id){
-        return db.one(`select * from artists where user_id=$1`, [user_id])
-        .then((result) => {
-                return new Artists(result.id, result.userId, result.artistName, result.artistPicture);
-            });
+        return db.any(`select * from artists where user_id=$1`, [user_id])
+        // .then((result) => {
+        //     let arrayOfArtists = [];
+        //     result.forEach((artist) => {
+        //         newArtist = new Artists(artist.id, artist.userId, artist.artistName, artist.artistPicture);
+        //         arrayOfArtists.push(newArtist);
+        //     })
+        //     return arrayOfArtists;
+        // });
     }
 
 }
