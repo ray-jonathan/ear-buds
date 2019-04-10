@@ -1,43 +1,30 @@
 // functions for res.render-ing user info from routes
 
 const  Profile = require('../models/profile');
+const  Artists = require('../models/artists');
 
 async function getProfile(req, res){
-    req.session.userId = req.session.passport.user.id;
+    req.session.spotifyId = req.session.passport.user.id;
     req.session.userName = req.session.passport.user.displayName;
     req.session.userPhoto = req.session.passport.user.photos[0];
-    const boolValue = await Profile.checkSpotifyID(req.session.userId);
-    console.log("BoolValue:", boolValue);
-    console.log("BoolValue type:",typeof boolValue.exists);
-    if (!boolValue.exists){
-        console.log("We behaved.");
-        await Profile.add(req.session.passport.user);
+    const idNum = await Profile.getIdBySpotify(req.session.spotifyId);
+    req.session.userId = idNum.id;
+    const firstVisitBool = await Profile.checkSpotifyID(req.session.spotifyId);
+    firstVisitBool.exists? renderProfile() : await Profile.add(req.session.passport.user).then(()=>{renderProfile()});
+    function renderProfile(){
         res.render('profile.html', {
             locals: { 
                 userId: req.session.userId,
+                userSpotifyId: req.session.spotifyId,
                 userName: req.session.userName,
                 userPhoto: req.session.userPhoto
             },
             partials:{
                 headPartial: './partial-head'
             }
-        });
-        return;
+            });
+            return;
     }
-    else if (boolValue.exists){
-        console.log("Bad dog.");
-        res.render('profile.html', {
-        locals: { 
-            userId: req.session.userId,
-            userName: req.session.userName,
-            userPhoto: req.session.userPhoto
-        },
-        partials:{
-            headPartial: './partial-head'
-        }
-        });
-        return;
-    } 
 }
 
 

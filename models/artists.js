@@ -25,10 +25,15 @@ class Artists {
     }
 
     static getArtists(user_id){
-        return db.one(`select * from artists where user_id=$1`, [user_id])
+        return db.all(`select * from artists where user_id=$1`, [user_id])
         .then((result) => {
-                return new Artists(result.id, result.userId, result.artistName, result.artistPicture);
-            });
+            let arrayOfArtists = [];
+            result.forEach((artist) => {
+                newArtist = new Artists(artist.id, artist.userId, artist.artistName, artist.artistPicture);
+                arrayOfArtists.push(newArtist);
+            })
+            return arrayOfArtists;
+        });
     }
 
 }

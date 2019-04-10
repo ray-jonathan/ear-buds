@@ -20,6 +20,9 @@ class Profile {
         return db.one(`select exists (select 1 from users where spotify_id=$1)`, [spotifyId]);
     }
 
+    static getIdBySpotify(spotifyId){
+        return db.one(`select id from users where spotify_id=$1`, [spotifyId]);
+    }
     // fetchResponse.map((object.item) => {
     //     await Artists.add(session.user.id, thingy)
     // })
