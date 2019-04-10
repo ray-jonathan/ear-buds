@@ -16,3 +16,12 @@ async function getMatch(req, res){
 module.exports = {
     getMatch
 };
+
+
+// // DB FRAMEWORK // //
+
+// // Potential matches for logged-in user to review
+// inner join user_id from top_artists table where viewed_user_id from matches isn't
+
+// // Add match result 
+// insert (etc)

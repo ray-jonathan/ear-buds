@@ -16,3 +16,8 @@ async function getMessages(req, res){
 module.exports = {
     getMessages
 };
+
+// // DB FRAMEWORK // //
+// // Message history for all of Current User's matches
+// `select * from table where user_id = req.session.user.id`
+// inner join matches table (looking for blocked=false)
