@@ -9,3 +9,33 @@
 
 -- messages table
 -- id, matches_id[FK], message, timestamp, user_id[FK]
+
+create table users (
+    id serial primary key,
+    spotify_id varchar (200),
+    name varchar (200),
+    picture varchar (500)
+);
+
+create table artists (
+    id serial primary key,
+    user_id integer references users(id),
+    artist_name varchar(200),
+    artist_picture varchar(500)
+);
+
+create table matches (
+    id serial primary key,
+    current_user_id integer references users(id),
+    viewed_user_id integer references users(id),
+    liked boolean default null,
+    blocked boolean default False
+);
+
+create table messages (
+    id serial primary key,
+    matches_id integer references matches(id),
+    message varchar(1000),
+    timestamp TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    user_id integer references users(id)
+);
