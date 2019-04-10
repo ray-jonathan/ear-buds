@@ -7,12 +7,19 @@ async function getProfile(req, res){
     req.session.spotifyId = req.session.passport.user.id;
     req.session.userName = req.session.passport.user.displayName;
     req.session.userPhoto = req.session.passport.user.photos[0];
+    // Time to import artists and save to session
+    const firstVisitBool = await Profile.checkSpotifyID(req.session.spotifyId);
+    if (!(firstVisitBool.exists)){
+        await Profile.add(req.session.passport.user);
+    }
+    else{
+        await Profile.getIdBySpotify(req.session.spotifyId);
+    }
+    // by this time, the user is for sure in the db
+    const userArrayOfArtists = await Artists.getArtists(req.session.userId);
     const idNum = await Profile.getIdBySpotify(req.session.spotifyId);
     req.session.userId = idNum.id;
-    // Time to import artists and save to session
-    const userArrayOfArtists = await Artists.getArtists(req.session.userId);
-    const firstVisitBool = await Profile.checkSpotifyID(req.session.spotifyId);
-    firstVisitBool.exists? renderProfile() : await Profile.add(req.session.passport.user).then(()=>{renderProfile()});
+    // firstVisitBool.exists? renderProfile() : await Profile.add(req.session.passport.user).then(()=>{renderProfile()});
     function renderProfile(){
         res.render('profile.html', {
             locals: { 
@@ -28,6 +35,7 @@ async function getProfile(req, res){
             });
             return;
     }
+    renderProfile();
 }
 
 
