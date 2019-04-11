@@ -18,18 +18,18 @@ class Messages {
         (matches_id, message, timestamp, user_id)
         values
         ($1, $2, $3, $4)
-        `, [message.matchesId, message.message, message.timestamp, message.userId])
+        `, [message.matchesId, message.message, message.timestamp, message.userId]);
     }
 
     static getMessagesByMatch(matches_id){
-        return db.any(`select * from messages where matches_id=$1`, [matches_id])
+        return db.any(`select * from messages where matches_id=$1`, [matches_id]);
         // .then((data) => {
         //     new Messages(data.id, data.matchesId, data.message)
         // })
     }
 
     static getMostRecentMessage(matches_id){
-        return db.one(`select * from messages where matches_id=$1 order by timestamp DESC LIMIT 1`, [matches_id])
+        return db.one(`select * from messages where matches_id=$1 order by timestamp DESC LIMIT 1`, [matches_id]);
     }
 
 }
