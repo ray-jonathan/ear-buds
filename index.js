@@ -100,7 +100,15 @@ app.get('/match', ensureAuthenticated, matchRouter);
 
 app.get('/messages', ensureAuthenticated, messagesRouter);
 
+app.use((req, res, next) => {
+    // console.log(req.body.searchArtist);
+    req.body.searchArtist? req.session.searchArtist = req.body.searchArtist : req.session.searchArtist = 123;
+    req.session.save();
+    next();
+});
+
 app.get('/profile', ensureAuthenticated, profileRouter);
+app.post('/profile', ensureAuthenticated, profileRouter);
 
 app.get('/login', function(req, res) { // probably want to handle this with controller
     if (!(req.session.passport)){

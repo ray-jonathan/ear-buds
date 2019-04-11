@@ -2,8 +2,6 @@
 
 const  Profile = require('../models/profile');
 const  Artists = require('../models/artists');
-const {searchArtist} = require('../controllers/match'); // object of functions from controllers page
-
 
 async function getProfile(req, res){
     const firstVisitBool = await Profile.checkSpotifyID(req.session.passport.user.id);
