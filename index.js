@@ -73,6 +73,7 @@ passport.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static('public'))
 // app.use(express.static(__dirname + '/public'));
 
 // The middleware below checks that a user is logged in before they can proceed
