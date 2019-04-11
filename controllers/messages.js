@@ -79,10 +79,11 @@ async function getMessages(req, res){
 
 
     let aUserId;
+    let mostRecentMessage;
     if(requestedUserID){
         aUserId =  (requestedUserID);
     }else{
-        const mostRecentMessage = await Message.getMostRecentMessage(matchIdsForCurrentUser[1].id);
+        mostRecentMessage = await Message.getMostRecentMessage(matchIdsForCurrentUser[1].id);
         aUserId = mostRecentMessage.user_id;
     }
     console.log('');
@@ -119,12 +120,13 @@ async function getMessages(req, res){
     console.log("wholeConversation: ",wholeConversation);
     console.log('');
 
-    let resquestedUser;
-    if(requestedUserID){
-        resquestedUser = await Profile.getUserById(requestedUserID);
-    }else{
-        resquestedUser = await Profile.getUserById(conversationMatchId[0]);
-    }
+    // let resquestedUser;
+    // if(requestedUserID){
+    //     resquestedUser = await Profile.getUserById(requestedUserID);
+    // }else{
+    //     resquestedUser = await Profile.getUserById(conversationMatchId[0]);
+    // }
+    const resquestedUser = await Profile.getUserById(aUserId);
 
     console.log("resquestedUser: ", resquestedUser);
 
