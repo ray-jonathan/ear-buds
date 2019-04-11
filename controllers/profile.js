@@ -18,12 +18,10 @@ async function getProfile(req, res){
         artist_name: 'Add an artist',
         artist_picture: 'http://secure.hmepowerweb.com/Resources/Images/NoImageAvailableLarge.jpg'
     };
-    let count = 9999;
     let artistIncompleter = false;
     if(userArrayOfArtists.length !== 4){
         artistIncompleter = true;
         while(userArrayOfArtists.length < 4){
-            count++;
             emptyObject.id = null;
             userArrayOfArtists.push(emptyObject);
             // console.log(emptyObject);

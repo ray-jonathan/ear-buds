@@ -38,6 +38,9 @@ class Profile {
     // fetchResponse.map((object.item) => {
     //     await Artists.add(session.user.id, thingy)
     // })
+    static getUserById(id){
+        return db.one(`select * from users where id=$1`, [id]);
+    }
 
 }
 

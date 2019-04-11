@@ -12,5 +12,38 @@ ${headPartial}
     <a href="./login">login</a>
     <br>
     <a href="./profile">profile</a>
+
+    <div class="d-flex justify-content-center">
+        <h3>${displayedUser.name}</h3>
+    </div>
+    <div class="d-flex justify-content-center" >
+        <div class="card-group" style="min-width:200px; max-width: 600px" >
+            ${userArtists.map((Artist) =>  `
+                <div class="card bg-dark text-white d-flex" style="min-width: 50%; max-width: 50%;">
+                    <div class="picture-frame" style="width:100%;height: height: 225px">
+                        <img src="${Artist.artist_picture}" class="card-img-top" alt="..." style="width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    <div class="card-img-overlay">
+                        <h5 class="card-title" style="text-shadow: 2px 2px #000000;">${Artist.artist_name}</h5>
+                        <div ${hideMe? `hidden`: '' } > 
+
+                        </div>
+                        <!-- <p class="card-text" style="text-shadow: 1px 1px #000000;">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+                    </div>
+                </div>
+            `).join('<br />')}
+        </div>
+    </div>
+
+    <form action="/match" method="POST">
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-danger d-flex justify-content-center" style="width: 300px;height: 50px;">Skip</button>
+            <button type="submit" class="btn btn-success d-flex justify-content-center" style="width: 300px;height: 50px;">Connect</button>
+        </div>
+    </form>
+
+
+
+
 </body>
 </html>
