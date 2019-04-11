@@ -3,17 +3,26 @@
 const  Message = require('../models/messages');
 
 async function getMessages(req, res){
-    const allMessages = await Message.getMessagesByMatch(1);
+    // const matches = await Message.getMatches(req.session.passport.user.id)
+    // console.log(matches)
+    // console.log(req.session.user)
+    const allZeMatches = await Message.getMatchId(2);
+    console.log(allZeMatches)
+    let groupsOfMessages = []
+    for(let i = 0; i < allZeMatches.length; i++) {
+        let oneGroup = await Message.getMessagesByMatch(allZeMatches[i].id)
+        groupsOfMessages.push(oneGroup);
+    }
+    console.log(groupsOfMessages);
     //////////need to figure out which user it is/////////////
-    // console.log(something);
-    // console.log(typeof something)
     const mostRecent = await Message.getMostRecentMessage(1);
-    console.log(mostRecent)
+    // console.log(mostRecent)
     res.render('./messages.html', {
         locals: { 
             // user: req.session.passport.user
-            Messages: allMessages,
             recent: mostRecent,
+            allMessages: groupsOfMessages,
+            
 
         },
         partials:{

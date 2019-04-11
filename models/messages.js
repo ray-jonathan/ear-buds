@@ -9,6 +9,10 @@ class Messages {
         this.userId = user_id;
     }
 
+    static getMatchId(user){
+        return db.any(`select id from matches where ((current_user_id=$1) or (viewed_user_id=$1)) and (liked=True) and (blocked=False)`, [user]);
+    }
+
     static addMessage(message){
         return db.one(`insert into messages
         (matches_id, message, timestamp, user_id)
@@ -27,8 +31,6 @@ class Messages {
     static getMostRecentMessage(matches_id){
         return db.one(`select * from messages where matches_id=$1 order by timestamp DESC LIMIT 1`, [matches_id])
     }
-
-
 
 }
 
