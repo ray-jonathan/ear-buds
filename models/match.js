@@ -34,7 +34,7 @@ class Match {
     }
 
     static getMatchId(user){
-        return db.any(`select id from matches where ((current_user_id=$1) or (viewed_user_id=$1)) and (liked=True) and (blocked=False)`, [user]);
+        return db.any(`select id from matches where (current_user_id=$1) or (viewed_user_id=$1)`, [user]);
     }
 
     static getMatchById(id) {

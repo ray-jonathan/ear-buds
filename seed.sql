@@ -33,7 +33,6 @@ insert into matches
 values
     (1, 2, True, False),
     (1, 3, True, False),
-    (2, 4, True, False),
     (2, 3, True, True)
 ;
 
