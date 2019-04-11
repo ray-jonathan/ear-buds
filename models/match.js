@@ -9,6 +9,7 @@ class Match {
         this.blocked = blocked;
     }
 
+
     static add(matchData) {
         return db.one(`insert into matches
             (current_user_id, viewed_user_id, liked, blocked)
@@ -41,6 +42,6 @@ class Match {
     }
 
 
-};
+}
 
 module.exports= Match;

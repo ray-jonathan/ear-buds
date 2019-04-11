@@ -25,6 +25,10 @@ class Profile {
         return db.one(`select id from users where spotify_id=$1`, [spotifyId]);
     }
 
+    static getUserById(id){
+        return db.one(`select * from users where id=$1`, [id]);
+    }
+
     static getBySpotifyId(spotifyId){
         return db.one(`select * from users where spotify_id=$1`, [spotifyId])
             .then((userData) => {

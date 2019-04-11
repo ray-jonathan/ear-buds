@@ -100,6 +100,7 @@ app.get('/match', ensureAuthenticated, matchRouter);
 app.post('/match', ensureAuthenticated, matchRouter);
 
 app.get('/messages', ensureAuthenticated, messagesRouter);
+app.get('/messages/*', ensureAuthenticated, messagesRouter);
 
 app.get('/profile', ensureAuthenticated, profileRouter);
 app.post('/profile', ensureAuthenticated, profileRouter);
