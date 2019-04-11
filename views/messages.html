@@ -1,12 +1,36 @@
 ${headPartial}
+
+
 <body>
-    <h3>messages!</h3>
-    <a href="./match">match</a>
+    <h3>Messages!</h3>
+    <a href="./match.html">matches</a>
     <br>
     <a href="./logout">logout</a>
     <br>
     <a href="./login">login</a>
     <br>
     <a href="./profile">profile</a>
+
+
+
+<p>${allMessages[0][0].message}</p>
+<p>${allMessages[0][1].message}</p>
+<p>${allMessages[1][0].message}</p>
+<p>${allMessages[1][1].message}</p>
+
+
+
+
+
+<p>
+    ${allMessages.map((conversations) => `
+        ${conversations.map((convos) => `
+            ${convos.message}
+        `).join('<br \>')}
+    `).join('<br \><br \>')}
+</p>
+
+
+
 </body>
 </html>

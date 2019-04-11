@@ -16,12 +16,15 @@ class Artists {
         returning true`,[user.id, user.displayName, user.photos[0]]);
     }
 
+
     static add(userID, spotifyResult){
         return db.one(`insert into artists 
         (user_id, artist_name, artist_picture)
         values
         ($1, $2, $3)
+
         returning true`, [userID, spotifyResult.data.artists.items[0].name, spotifyResult.data.artists.items[0].images[2].url]);
+
     }
 
     static getArtists(user_id){
