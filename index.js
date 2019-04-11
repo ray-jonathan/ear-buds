@@ -97,6 +97,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/match', ensureAuthenticated, matchRouter);
+app.post('/match', ensureAuthenticated, matchRouter);
 
 app.get('/messages', ensureAuthenticated, messagesRouter);
 

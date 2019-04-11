@@ -9,6 +9,13 @@ class Match {
         this.blocked = blocked;
     }
 
+    static add(matchData) {
+        return db.one(`insert into matches
+            (current_user_id, viewed_user_id, liked, blocked)
+        values
+            ($1, $2, $3, $4)`, [matchData.current_user_id, matchData.viewed_user_id, matchData.liked, matchedData.blocked])
+    }
+
     static getAllUsers(user) {
         return db.any(`select * from users where id!=$1`, [user])
     }
