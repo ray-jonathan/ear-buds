@@ -1,11 +1,20 @@
 // functions for res.render-ing user info from routes
 
-// const  Message = require('../models/message');
+const  Message = require('../models/messages');
 
 async function getMessages(req, res){
+    const allMessages = await Message.getMessagesByMatch(1);
+    //////////need to figure out which user it is/////////////
+    // console.log(something);
+    // console.log(typeof something)
+    const mostRecent = await Message.getMostRecentMessage(1);
+    console.log(mostRecent)
     res.render('./messages.html', {
         locals: { 
-            user: req.session.passport.user
+            // user: req.session.passport.user
+            Messages: allMessages,
+            recent: mostRecent,
+
         },
         partials:{
             headPartial: './partial-head'

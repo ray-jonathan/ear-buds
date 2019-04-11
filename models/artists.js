@@ -16,12 +16,12 @@ class Artists {
         returning true`,[user.id, user.displayName, user.photos[0]]);
     }
 
-    static add(user_id, thingy){
+    static add(user_id, data){
         return db.one(`insert into artists 
         (user_id, artist_name, artist_picture)
         values
         ($1, $2, $3)
-        returning true`, [user_id, thingy.name, thingy.images[2].url]);
+        returning true`, [user_id, data.name, data.images[2].url]);
     }
 
     static getArtists(user_id){
