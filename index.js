@@ -55,7 +55,7 @@ passport.use(
         },
         async function(accessToken, refreshToken, expires_in, profile, done){
             console.log(profile);
-            console.log('=============')
+            console.log('=============');
             // req.session.spotify = profile;
             process.nextTick(function() {
                 // To keep the example simple, the user's spotify profile is returned to
@@ -63,9 +63,9 @@ passport.use(
                 // to associate the spotify account with a user record in your database,
                 // and return that user instead.
                 // console.log("============= TOKENS, EXPIRY =============");
-                bearerToken = accessToken;
+                const scaryArray = [profile, accessToken];
                 // console.log("acc: ", accessToken, "// ref: ", refreshToken, "// exp: ", expires_in);
-                return done(null, profile);
+                return done(null, scaryArray);
             });
         }
     )
@@ -100,13 +100,6 @@ app.get('/match', ensureAuthenticated, matchRouter);
 
 app.get('/messages', ensureAuthenticated, messagesRouter);
 
-app.use((req, res, next) => {
-    // console.log(req.body.searchArtist);
-    req.body.searchArtist? req.session.searchArtist = req.body.searchArtist : req.session.searchArtist = 123;
-    req.session.save();
-    next();
-});
-
 app.get('/profile', ensureAuthenticated, profileRouter);
 app.post('/profile', ensureAuthenticated, profileRouter);
 
@@ -137,6 +130,11 @@ app.get(
     '/auth/callback',
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     function(req, res) {
+        console.log("====================VVVVVVVVV REQ SESSION VVVVVVVVVVVVVVV");
+        // req.session.passport.user = "It worked.";
+        req.session.passport.accessToken = req.session.passport.user[1];
+        req.session.passport.user = req.session.passport.user[0];
+        console.log(req.session);
     req.session.save(()=> {
         res.redirect('/profile');
     });
@@ -155,7 +153,6 @@ app.get('/logout', function(req, res) { // probably want to handle this with con
 app.all('*', (req, res) => {
     res.render('404');
 });
-
 
 app.listen(PORT, () => {
     console.log(`listening to ${DB_HOST}:${PORT}`);

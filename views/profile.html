@@ -54,17 +54,11 @@ ${headPartial}
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-
                             <div class="modal-body">
-
-
-
                                 <!-- this is where you query Spotify for a new artist -->
-                                <p>Which artist would you like ${`${Artist.id}` > 9999? `to add?`:`instead?`}</p>
+                                <p>Which artist would you like ${`${Artist.id}`?`to add?`:`instead?`}</p>
                                 <input type="search" name="searchArtist" id="searchArtist" placeholder="Artist name">
-
-
-
+                                <input type="hidden" name="deleteMe" value="${Artist.id}">
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-secondary" style="display: none;" data-dismiss="modal">Nope</button>

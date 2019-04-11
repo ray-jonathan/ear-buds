@@ -1,15 +1,27 @@
 const  Artists = require('../models/artists');
 const axios = require('axios');
+const escapeHtml = require('escape-html');
 
 
 // Need way to get "req.session.searchArtist" in scope so we can run the API call.
 // // Stupid idea, move this function to index.js and require Artists there too. Ugh.
-async function searchArtist(){
+async function searchArtist(req, res){
     console.log('Wow!');
-    console.log("searchArtistName: ", req.session.searchArtist);
-    const spotifyResult = await axios.get(`https://api.spotify.com/v1/search?q=${(searchArtistName)}&type=artist&limit=1`);
+    const searchArtistName = encodeURIComponent(escapeHtml(req.body.searchArtist));
+    console.log("searchArtistName: ", searchArtistName);// req.body.searchArtist needs to be URL-ENCODED
+    console.log("Artist to remove: ", req.body.deleteMe);
+    console.log("Talking to the database: ");
+    await Artists.removeArtist(req.body.deleteMe);
+    console.log("Moving onto polling Spotify: ");
+    // console.log("TOKEN",req.session.passport.accessToken);
+    const token = req.session.passport.accessToken;
+    const header = {headers: {"Authorization" : 'Bearer ' + token}};
+    const spotifyResult = await axios.get(`https://api.spotify.com/v1/search?q=${searchArtistName}&type=artist&limit=1`,
+    // const spotifyResult = await axios.get(`https://api.spotify.com/v1/search?q=bjork&type=artist&limit=1`,
+    header);
     console.log("Double wow!");
-    await Artists.add(spotifyResult);
+    // console.log(spotifyResult.data.artists.items);
+    await Artists.add(req.session.userid, spotifyResult);
     res.redirect('/profile');
 }
 

@@ -11,6 +11,7 @@ async function getProfile(req, res){
     // by this time, the user is for sure in the db
     const user = await Profile.getBySpotifyId(req.session.passport.user.id);
     const userArrayOfArtists = await Artists.getArtists(user.id);
+    req.session.userid = user.id;
     const emptyObject = {
         id: '',
         user_id: '',
@@ -19,11 +20,11 @@ async function getProfile(req, res){
     };
     let count = 9999;
     let artistIncompleter = false;
-    if(userArrayOfArtists.length < 4){
+    if(userArrayOfArtists.length !== 4){
         artistIncompleter = true;
         while(userArrayOfArtists.length < 4){
             count++;
-            emptyObject.id = count;
+            emptyObject.id = null;
             userArrayOfArtists.push(emptyObject);
             // console.log(emptyObject);
         }
