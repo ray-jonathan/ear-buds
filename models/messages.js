@@ -10,6 +10,7 @@ class Messages {
     }
 
     static getMatchId(user){
+        console.log("user for matchid: ", user);
         return db.any(`select id from matches where ((current_user_id=$1) or (viewed_user_id=$1)) and (liked=True) and (blocked=False)`, [user]);
     }
 
@@ -22,6 +23,12 @@ class Messages {
     }
 
     static getMessagesByMatch(matches_id){
+        return db.any(`select * from messages where matches_id=$1`, [matches_id]);
+        // .then((data) => {
+        //     new Messages(data.id, data.matchesId, data.message)
+        // })
+    }
+    static getConversationByMatchId(matches_id){
         return db.any(`select * from messages where matches_id=$1`, [matches_id]);
         // .then((data) => {
         //     new Messages(data.id, data.matchesId, data.message)

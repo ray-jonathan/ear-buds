@@ -17,6 +17,12 @@ class Match {
         return db.one(`select * from matches where id=$1`, [id]);
     }
 
+    static getMatchesThatUserIsIn(user) {
+        console.log("======================================================");
+        console.log("user being sent to getMatchesThatUserIsIn: ",user);
+        return db.any(`select * from matches where (current_user_id=$1) or (viewed_user_id=$1)`, [user])
+    }
+
 }
 
 module.exports= Match;
