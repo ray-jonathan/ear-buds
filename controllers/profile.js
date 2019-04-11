@@ -11,6 +11,7 @@ async function getProfile(req, res){
     // by this time, the user is for sure in the db
     const user = await Profile.getBySpotifyId(req.session.passport.user.id);
     const userArrayOfArtists = await Artists.getArtists(user.id);
+    req.session.userid = user.id;
     const emptyObject = {
         id: '',
         user_id: '',
@@ -18,18 +19,18 @@ async function getProfile(req, res){
         artist_picture: 'http://secure.hmepowerweb.com/Resources/Images/NoImageAvailableLarge.jpg'
     };
     let count = 9999;
-    let artistIncomplete = false;
-    if(userArrayOfArtists.length < 4){
-        artistIncomplete = true;
-    }
-    while(userArrayOfArtists.length < 4){
-        count++;
-        emptyObject.id = count;
-        userArrayOfArtists.push(emptyObject);
-        console.log(emptyObject);
-    }
-    while(userArrayOfArtists.length > 4){
-        userArrayOfArtists.pop();
+    let artistIncompleter = false;
+    if(userArrayOfArtists.length !== 4){
+        artistIncompleter = true;
+        while(userArrayOfArtists.length < 4){
+            count++;
+            emptyObject.id = null;
+            userArrayOfArtists.push(emptyObject);
+            // console.log(emptyObject);
+        }
+        while(userArrayOfArtists.length > 4){
+            userArrayOfArtists.pop();
+        }
     }
     // render the profile page!
     function renderProfile(){
@@ -40,7 +41,8 @@ async function getProfile(req, res){
                 userName: user.name,
                 userPhoto: user.picture,
                 userArtists: userArrayOfArtists,
-                artistIncomplete: artistIncomplete
+                artistIncomplete: artistIncompleter,
+                hideMe: false
             },
             partials:{
                 headPartial: './partial-head'

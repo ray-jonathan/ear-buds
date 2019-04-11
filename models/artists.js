@@ -16,12 +16,15 @@ class Artists {
         returning true`,[user.id, user.displayName, user.photos[0]]);
     }
 
-    static add(user_id, data){
+
+    static add(userID, spotifyResult){
         return db.one(`insert into artists 
         (user_id, artist_name, artist_picture)
         values
         ($1, $2, $3)
-        returning true`, [user_id, data.name, data.images[2].url]);
+
+        returning true`, [userID, spotifyResult.data.artists.items[0].name, spotifyResult.data.artists.items[0].images[2].url]);
+
     }
 
     static getArtists(user_id){
@@ -34,6 +37,18 @@ class Artists {
         //     })
         //     return arrayOfArtists;
         // });
+    }
+
+    static removeArtist(id){
+        console.log("ID to be deleted: ", id);
+        if(!(id === "null")){
+            console.log("deleting...");
+            return db.one(`delete from artists where id=$1 returning true`, [id]);
+        }
+        else{
+            console.log("doing nothing...");
+            return;
+        }
     }
 
 }
