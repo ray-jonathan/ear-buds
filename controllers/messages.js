@@ -17,10 +17,12 @@ async function getMessages(req, res){
         let aConversation = await Message.getMessagesByMatch(matchIdsForCurrentUser[i].id);
         allConversationsWithUser.push(aConversation);
     }
+    // console.log(" look here");
+    // console.log(matchIdsForCurrentUser[0].id);
     // console.log(allConversationsWithUser);
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     // // The below code should be a function that iterates over allConversationsWithUser and pulls out aConversation that has the latest timestamp // 
-    const mostRecent = await Message.getMostRecentMessage(matchIdsForCurrentUser[1].id);
+    const mostRecent = await Message.getMostRecentMessage(matchIdsForCurrentUser[0].id);
     // console.log("Most recent message: ",mostRecent);
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     const theUser = await Profile.getBySpotifyId(req.session.passport.user.id);
@@ -60,12 +62,11 @@ async function getMessages(req, res){
 
 
 
-
-
-
-
+    console.log("length", matchIdsForCurrentUser.length);
     const conversationMatchId = [];
-    for(let i = 0; i < usersMatches.length; i++) { // forEach and map were giving us headache, back to basics
+    for(let i = 0; i < matchIdsForCurrentUser.length; i++) { // forEach and map were giving us headache, back to basics
+        console.log(i);
+        console.log("lookie here: ", matchIdsForCurrentUser[i].id);
         let aMatch = await Match.getMatchById(matchIdsForCurrentUser[i].id);
         // let aMatch = await Match.getMatchById(usersMatches);
         if((theUser.id === aMatch.viewed_user_id)){
@@ -83,7 +84,7 @@ async function getMessages(req, res){
     if(requestedUserID){
         aUserId =  (requestedUserID);
     }else{
-        mostRecentMessage = await Message.getMostRecentMessage(matchIdsForCurrentUser[1].id);
+        mostRecentMessage = await Message.getMostRecentMessage(matchIdsForCurrentUser[0].id);
         aUserId = mostRecentMessage.user_id;
     }
     console.log('');
