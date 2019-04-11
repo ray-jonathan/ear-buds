@@ -36,10 +36,10 @@ async function getMatch(req, res){
         }
     }
 
-    console.log(totallyNewPeopleId);
+    console.log(totallyNewPeopleId[0]);
 
     const userArrayOfArtists = await Artists.getArtists(totallyNewPeopleId[0]);
-    const displayedUserInfo = await Match.getAllUsers(totallyNewPeopleId[0]);
+    const displayedUserInfo = await Match.getUser(totallyNewPeopleId[0]);
     console.log(displayedUserInfo)
 
 
@@ -52,6 +52,7 @@ async function getMatch(req, res){
             // otherUsers: arrayOfAllUsersId,
             userArtists: userArrayOfArtists,
             hideMe: false,
+            displayedUser: displayedUserInfo
         },
         partials:{
             headPartial: './partial-head'

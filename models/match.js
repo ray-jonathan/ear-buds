@@ -12,6 +12,10 @@ class Match {
     static getAllUsers(user) {
         return db.any(`select * from users where id!=$1`, [user])
     }
+    
+    static getUser(user){
+        return db.one(`select * from users where id=$1`, [user])
+    }
 
     static getAllUsersId(user) {
         return db.any(`select id from users where id!=$1`, [user])
