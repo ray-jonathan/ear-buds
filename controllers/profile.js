@@ -20,18 +20,18 @@ async function getProfile(req, res){
         artist_picture: 'http://secure.hmepowerweb.com/Resources/Images/NoImageAvailableLarge.jpg'
     };
     let count = 9999;
-    let artistIncomplete = false;
+    let artistIncompleter = false;
     if(userArrayOfArtists.length < 4){
-        artistIncomplete = true;
-    }
-    while(userArrayOfArtists.length < 4){
-        count++;
-        emptyObject.id = count;
-        userArrayOfArtists.push(emptyObject);
-        console.log(emptyObject);
-    }
-    while(userArrayOfArtists.length > 4){
-        userArrayOfArtists.pop();
+        artistIncompleter = true;
+        while(userArrayOfArtists.length < 4){
+            count++;
+            emptyObject.id = count;
+            userArrayOfArtists.push(emptyObject);
+            // console.log(emptyObject);
+        }
+        while(userArrayOfArtists.length > 4){
+            userArrayOfArtists.pop();
+        }
     }
     // render the profile page!
     function renderProfile(){
@@ -42,7 +42,7 @@ async function getProfile(req, res){
                 userName: user.name,
                 userPhoto: user.picture,
                 userArtists: userArrayOfArtists,
-                artistIncomplete: artistIncomplete,
+                artistIncomplete: artistIncompleter,
                 hideMe: false
             },
             partials:{
