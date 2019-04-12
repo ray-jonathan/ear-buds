@@ -59,7 +59,7 @@ if(displayedUserInfo) {
         }
     });
 } else {
-    res.redirect('/messages/1')
+    res.redirect('/messages')
 }
 
 
