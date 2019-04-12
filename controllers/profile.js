@@ -43,7 +43,8 @@ async function getProfile(req, res){
                 hideMe: false
             },
             partials:{
-                headPartial: './partial-head'
+                headPartial: './partial-head',
+                navPartial: './partial-nav'
             }
             });
             return;

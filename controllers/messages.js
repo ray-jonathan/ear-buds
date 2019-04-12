@@ -190,7 +190,8 @@ async function getMessages(req, res){
 
         },
         partials:{
-            headPartial: './partial-head'
+            headPartial: './partial-head',
+            navPartial: './partial-nav'
         }
     });
 }
