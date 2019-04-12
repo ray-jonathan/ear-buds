@@ -10,11 +10,14 @@ class Match {
     }
 
 
-    static add(matchData) {
+    static add(object) {
         return db.one(`insert into matches
             (current_user_id, viewed_user_id, liked, blocked)
         values
-            ($1, $2, $3, $4)`, [matchData.current_user_id, matchData.viewed_user_id, matchData.liked, matchedData.blocked])
+            ($1, $2, $3, $4) returning *`, [object.current_user_id, object.viewed_user_id, object.liked, object.blocked])
+                .then((data) => {
+                    return new Match(data.id, data.currentUserId, data.viewedUserId, data.liked, data.blocked)
+                })
     }
 
     static getAllUsers(user) {
@@ -23,6 +26,9 @@ class Match {
     
     static getUser(user){
         return db.one(`select * from users where id=$1`, [user])
+            .catch(() => {
+                return null;
+            })
     }
 
     static getAllUsersId(user) {

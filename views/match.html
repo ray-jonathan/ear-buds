@@ -19,10 +19,10 @@ ${headPartial}
         <h3>${displayedUser.name}</h3>
     </div>
     <div class="d-flex justify-content-center" >
-        <div class="card-group" style="min-width:200px; max-width: 600px" >
+        <div class="card-group" style="width: 50vw;" >
             ${userArtists.map((Artist) =>  `
-                <div class="card bg-dark text-white d-flex" style="min-width: 50%; max-width: 50%;">
-                    <div class="picture-frame" style="width:100%;height: height: 225px">
+                <div class="card bg-dark text-white d-flex" style="min-width: 50%; max-width: 50%; height: 30vh;">
+                    <div class="picture-frame" style="width:100%; height: 100%;">
                         <img src="${Artist.artist_picture}" class="card-img-top" alt="..." style="width:100%;height:100%;object-fit:cover;">
                     </div>
                     <div class="card-img-overlay">
@@ -37,10 +37,10 @@ ${headPartial}
         </div>
     </div>
 
-    <form action="/match" method="POST">
-        <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-danger d-flex justify-content-center" style="width: 300px;height: 50px;">Skip</button>
-            <button type="submit" class="btn btn-success d-flex justify-content-center" style="width: 300px;height: 50px;">Connect</button>
+    <form action="/match" method="POST" class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center btn-group" style="width:50vw; min-height: 5vw">
+            <button type="submit" name="buttonclicked" value="False" class="btn btn-light d-flex justify-content-center" >Skip</button>
+            <button type="submit" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >Connect</button>
         </div>
     </form>
 

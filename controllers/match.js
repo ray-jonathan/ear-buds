@@ -3,6 +3,8 @@
 const  Match = require('../models/match');
 const Artists = require('../models/artists');
 const Profile = require('../models/profile');
+const Message = require('../models/messages');
+const moment = require('moment');
 
 
 async function giveTheCardsInfo(userId) {
@@ -34,16 +36,15 @@ async function giveTheCardsInfo(userId) {
 async function getMatch(req, res){
     const userId = req.session.userid 
     const idOfCard = await giveTheCardsInfo(userId)
-    console.log(idOfCard)
+    // console.log(idOfCard)
 
     const displayedUserInfo = await Match.getUser(idOfCard);
-    console.log(displayedUserInfo)
+    // console.log(displayedUserInfo)
     
     
     const userArrayOfArtists = await Artists.getArtists(idOfCard);
 
-
-
+if(displayedUserInfo) {
     res.render('match.html', {
         locals: { 
             user: req.session.passport.user,
@@ -57,17 +58,51 @@ async function getMatch(req, res){
             navPartial: './partial-nav'
         }
     });
+} else {
+    res.redirect('/messages')
+}
 
 
 }
 
 async function addMatch(req,res) {
-    console.log('we made it here')
+    // console.log('we made it here')
     const userId = req.session.userid 
-    console.log(userId)
+    // console.log(userId)
     const idOfCard = await giveTheCardsInfo(userId)
     const viewedUserInfo = await Match.getUser(idOfCard)
-    console.log(viewedUserInfo.id)
+    // console.log(viewedUserInfo.id)
+
+    
+    req.body.buttonclicked
+    
+    
+    const addMatch = {
+        current_user_id: userId,
+        viewed_user_id: viewedUserInfo.id,
+        liked: req.body.buttonclicked,
+        blocked: "False"
+    }
+
+
+
+    // console.log('show me it:', req.body.buttonclicked)
+
+    const matchAdd = await Match.add(addMatch)
+
+    console.log(userId)
+    console.log(matchAdd.id)
+    const initialMessage= {
+        matchesId: matchAdd.id,
+        message: 'Hey! I really like your taste in music!',
+        timestamp: moment().format(),
+        userId: userId
+    }
+
+    await Message.addMessage(initialMessage)
+
+    res.redirect('/match')
+
 
 }
 
