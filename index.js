@@ -33,8 +33,7 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = process.env.DB_NAME;
-// console.log(PORT);
-// console.log(DB_HOST);
+
 
 
 passport.serializeUser(function(user, done) {
@@ -54,8 +53,6 @@ passport.use(
             callbackURL: `http://localhost:3007/auth/callback/`
         },
         async function(accessToken, refreshToken, expires_in, profile, done){
-            console.log(profile);
-            console.log('=============');
             // req.session.spotify = profile;
             process.nextTick(function() {
                 // To keep the example simple, the user's spotify profile is returned to
@@ -135,15 +132,11 @@ app.get(
     '/auth/callback',
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     function(req, res) {
-        console.log("====================VVVVVVVVV REQ SESSION VVVVVVVVVVVVVVV");
-        // req.session.passport.user = "It worked.";
         req.session.passport.accessToken = req.session.passport.user[1];
         req.session.passport.user = req.session.passport.user[0];
-        console.log(req.session);
-    req.session.save(()=> {
-        res.redirect('/profile');
-    });
-
+        req.session.save(()=> {
+            res.redirect('/profile');
+        });
     }
 );
 
