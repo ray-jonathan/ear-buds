@@ -7,6 +7,7 @@ const escapeHtml = require('escape-html');
 const moment = require('moment');
 
 
+
 async function getMessages(req, res){
     let requestedUserID;
     if (((req.url).split('/')).length === 3){
@@ -247,7 +248,7 @@ async function getMessages(req, res){
 
 async function addMessage(req, res){
     const requestedUserID = parseInt(((req.url).split('/'))[2]);
-    const userMessage = (req.body.userMessage[1]);
+    const userMessage = escapeHtml(req.body.userMessage[1]);
 
     const matchID = await Match.getMatchIdFromTwoUsers(req.session.userid, requestedUserID);
     const messageObject = {

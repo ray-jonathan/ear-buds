@@ -6,29 +6,40 @@ const escapeHtml = require('escape-html');
 // Need way to get "req.session.searchArtist" in scope so we can run the API call.
 // // Stupid idea, move this function to index.js and require Artists there too. Ugh.
 async function searchArtist(req, res){
-    console.log('Wow!');
+    // console.log('Wow!');
     const searchArtistName = encodeURIComponent(escapeHtml(req.body.searchArtist));
-    console.log("searchArtistName: ", searchArtistName);// req.body.searchArtist needs to be URL-ENCODED
-    console.log("Artist to remove: ", req.body.deleteMe);
-    console.log("Talking to the database: ");
+    // console.log("searchArtistName: ", searchArtistName);// req.body.searchArtist needs to be URL-ENCODED
+    // console.log("Artist to remove: ", req.body.deleteMe);
+    // console.log("Talking to the database: ");
     await Artists.removeArtist(req.body.deleteMe);
-    console.log("Moving onto polling Spotify: ");
+    // console.log("Moving onto polling Spotify: ");
     // console.log("TOKEN",req.session.passport.accessToken);
     const token = req.session.passport.accessToken;
     const header = {headers: {"Authorization" : 'Bearer ' + token}};
     const spotifyResult = await axios.get(`https://api.spotify.com/v1/search?q=${searchArtistName}&type=artist&limit=1`,
     // const spotifyResult = await axios.get(`https://api.spotify.com/v1/search?q=bjork&type=artist&limit=1`,
     header);
-    console.log("Double wow!");
+    // console.log("Double wow!");
     // console.log(spotifyResult.data.artists.items);
     await Artists.add(req.session.userid, spotifyResult);
     res.redirect('/profile');
 }
 
+async function getTop3Artists(req, res, token){
+    const header = {headers: {"Authorization" : 'Bearer ' + token}};
+    const URL = "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=3";
+    const spotifyResult = await axios.get(`${URL}`, header);
+
+    for(let i = 0; i < spotifyResult.data.items.length; i++) { // forEach and map were giving us headache, back to basics
+        await Artists.add(req.session.userid, spotifyResult.data.items[i]);
+    }
+    res.redirect('/profile');
+}
 
 
 module.exports = {
-    searchArtist
+    searchArtist,
+    getTop3Artists
 };
 
 
