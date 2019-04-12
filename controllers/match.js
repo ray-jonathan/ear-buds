@@ -43,6 +43,8 @@ async function getMatch(req, res){
     
     
     const userArrayOfArtists = await Artists.getArtists(idOfCard);
+    // console.log(req.url);
+    const pagePath = (((req.url).split('/')[1]));
 
 if(displayedUserInfo) {
     res.render('match.html', {
@@ -51,7 +53,8 @@ if(displayedUserInfo) {
             // otherUsers: arrayOfAllUsersId,
             userArtists: userArrayOfArtists,
             hideMe: false,
-            displayedUser: displayedUserInfo
+            displayedUser: displayedUserInfo,
+            pagePath: pagePath
         },
         partials:{
             headPartial: './partial-head',
