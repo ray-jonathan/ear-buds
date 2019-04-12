@@ -10,15 +10,17 @@ class Messages {
     }
 
     static getMatchId(user){
-        console.log("user for matchid: ", user);
+        // console.log("user for matchid: ", user);
         return db.any(`select id from matches where ((current_user_id=$1) or (viewed_user_id=$1)) and (liked=True) and (blocked=False)`, [user]);
     }
 
     static addMessage(message){
+        // console.log(message.matchesId);
+        // console.log(typeof message.matchesId);
         return db.one(`insert into messages
         (matches_id, message, timestamp, user_id)
         values
-        ($1, $2, $3, $4)
+        ($1, $2, $3, $4) returning true
         `, [message.matchesId, message.message, message.timestamp, message.userId]);
     }
 
@@ -39,6 +41,18 @@ class Messages {
         return db.one(`select * from messages where matches_id=$1 order by timestamp DESC LIMIT 1`, [matches_id]);
     }
 
+    static getIdsOfUsersSendingMeAMessage(user_id){
+        return db.any(`select * from messages where not user_id=$1`, [user_id])
+        .then(arrayOfMessages => {
+            let arrayOfUsers = [];
+            arrayOfMessages.forEach(message => {
+                console.log(message);
+                arrayOfUsers.push(message.user_id);
+
+            });
+            return arrayOfUsers;
+        })
+    }
 }
 
 module.exports = Messages;

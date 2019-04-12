@@ -53,7 +53,8 @@ async function getMatch(req, res){
             displayedUser: displayedUserInfo
         },
         partials:{
-            headPartial: './partial-head'
+            headPartial: './partial-head',
+            navPartial: './partial-nav'
         }
     });
 
