@@ -1,5 +1,13 @@
 ${headPartial}
 <body>
+${navPartial}
+
+
+
+<!-- INFO BAR PARTS
+Note: 
+    You need to add id="main" to the first div on the page if it isn't there already
+    as well as the script tag at the bottom of the page.-->
 <style>
 /* The side navigation menu */
     .sidenav {
@@ -51,8 +59,6 @@ ${headPartial}
         .sidenav a {font-size: 18px;}
         }
 </style>
-
-
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="#">Confirm your favorite artists!</a>
@@ -61,16 +67,7 @@ ${headPartial}
     <a href="#">Contact</a>
     <p></p>
 </div>
-
-
-
-<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-
-
-
-
-<!-- Use any element to open the sidenav -->
-${navPartial}
+<!-- / INFO BAR PARTS -->
 
 
 
