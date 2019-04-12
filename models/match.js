@@ -14,7 +14,10 @@ class Match {
         return db.one(`insert into matches
             (current_user_id, viewed_user_id, liked, blocked)
         values
-            ($1, $2, $3, $4) returning true`, [object.current_user_id, object.viewed_user_id, object.liked, object.blocked])
+            ($1, $2, $3, $4) returning *`, [object.current_user_id, object.viewed_user_id, object.liked, object.blocked])
+                .then((data) => {
+                    return new Match(data.id, data.currentUserId, data.viewedUserId, data.liked, data.blocked)
+                })
     }
 
     static getAllUsers(user) {

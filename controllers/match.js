@@ -3,6 +3,8 @@
 const  Match = require('../models/match');
 const Artists = require('../models/artists');
 const Profile = require('../models/profile');
+const Message = require('../models/messages');
+const moment = require('moment');
 
 
 async function giveTheCardsInfo(userId) {
@@ -37,7 +39,7 @@ async function getMatch(req, res){
     // console.log(idOfCard)
 
     const displayedUserInfo = await Match.getUser(idOfCard);
-    console.log(displayedUserInfo)
+    // console.log(displayedUserInfo)
     
     
     const userArrayOfArtists = await Artists.getArtists(idOfCard);
@@ -83,9 +85,21 @@ async function addMatch(req,res) {
     }
 
 
+
     // console.log('show me it:', req.body.buttonclicked)
 
-    await Match.add(addMatch)
+    const matchAdd = await Match.add(addMatch)
+
+    console.log(userId)
+    console.log(matchAdd.id)
+    const initialMessage= {
+        matchesId: matchAdd.id,
+        message: 'Hey! I really like your taste in music!',
+        timestamp: moment().format(),
+        userId: userId
+    }
+
+    await Message.addMessage(initialMessage)
 
     res.redirect('/match')
 
