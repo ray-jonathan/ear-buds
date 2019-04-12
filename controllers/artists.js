@@ -29,7 +29,6 @@ async function getTop3Artists(req, res, token){
     const header = {headers: {"Authorization" : 'Bearer ' + token}};
     const URL = "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=3";
     const spotifyResult = await axios.get(`${URL}`, header);
-
     for(let i = 0; i < spotifyResult.data.items.length; i++) { // forEach and map were giving us headache, back to basics
         await Artists.add(req.session.userid, spotifyResult.data.items[i]);
     }
