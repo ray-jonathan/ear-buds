@@ -30,6 +30,10 @@ async function getProfile(req, res){
             userArrayOfArtists.pop();
         }
     }
+
+
+
+
     // render the profile page!
     function renderProfile(){
         res.render('profile.html', {

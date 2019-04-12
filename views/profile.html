@@ -1,51 +1,86 @@
 ${headPartial}
 
-<!-- FORM:  -->
-<!-- Should not be able to submit form until 4 artists are filled out. -->
-<!-- Should be able to remove artists from list. -->
-<!-- Fourth artist should be left blank to encourage user engagement. -->
-
 <body>
     ${navPartial}
-<!-- <p>Profile:
-    Your user id is ${userSpotifyId}
-    <br>
-    hello, ${userName}
-</p>
-<img src="${userPhoto}" alt="Profile Pic">
-<br>
-<a href="./match">match</a>
-<br>
-<a href="./messages">messages</a>
-<br>
-<a href="./logout">logout</a>
-<br>
-<a href="./login">login</a>
-<br>
-<a href="./profile">profile</a> -->
 
-<!-- The class="picture-frame" style situation stands as:-->
-<!-- if there are 4 real artist objects, the overall container is square if the height is 225px. -->
-<!-- if there is even 1 placeholder object, the overall container is not square unless height is 300px -->
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        .aspect-ratio-box {
+            height: 0;
+            overflow: hidden;
+            padding-top: 56.25% ;                        
+            padding-top: 100%;              
+            background: white;
+            position: relative;
+        }
+        .aspect-ratio-box-inside img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: .9;
+        }
+        .aspect-ratio-box:hover img{
+            opacity: 1.0;
+            transform: scale(1.1);
+        }
+        h1 {
+            width:80%;
+            text-align: center;
+            margin:auto;
+        }
+        .liquorcabinet {
+            width : 50%;
+            top :50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            display: grid;
+            grid-template-columns: 50% 50%;
+        }            
+        /* picture frame */            
+        .picture-frame {
+                /* if you set this to a percentage, and drop the height line you loose the square */
+            width:300px; 
+            height:300px;
+            float: left;
+            margin: 10px;
+            border: 2px solid cornflowerblue;            
+            /* centering , but my object-fit below in the img tag with width=height is fixing this too.*/
+            display: flex;
+            justify-content: center;
+            align-items:center;
+        }            
+        .picture-frame img {
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
 
-<div class="d-flex justify-content-center" >
-    <div class="card-group" style="min-width:200px; max-width: 600px" >
+    <div class="liquorcabinet">
         ${userArtists.map((Artist) =>  `
-            <div class="card bg-dark text-white d-flex" style="min-width: 50%; max-width: 50%;">
-                <div class="picture-frame" style="width:100%;height: ${artistIncomplete ? `300px` : `225px`}">
-                    <img src="${Artist.artist_picture}" class="card-img-top" alt="..." style="width:100%;height:100%;object-fit:cover;">
+            <div class="aspect-ratio-box text-white">
+                <div class="aspect-ratio-box-inside">
+                    <img src="${Artist.artist_picture}" alt="Dessert Moon Cocktail">
                 </div>
                 <div class="card-img-overlay">
                     <h5 class="card-title" style="text-shadow: 2px 2px #000000;">${Artist.artist_name}</h5>
                     <div ${hideMe? `hidden`: '' } > 
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-${Artist.id}">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-${Artist.id}" style="background: rgb(21,21,21); border:black;">
                             Edit
                         </button>
                     </div>
-                    <!-- <p class="card-text" style="text-shadow: 1px 1px #000000;">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
                 </div>
             </div>
-            <form action="/profile" method="POST">
+            <form action="/profile" method="POST" style="grid-template-columns: 100%; display:contents">
                 <div class="modal fade" id="modal-${Artist.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -70,13 +105,9 @@ ${headPartial}
                         </div>
                     </div>
                 </div>
-            </form>
+            </form>            
         `).join(' ')}
     </div>
-</div>
-
-
-
 
 </body>
 </html>
