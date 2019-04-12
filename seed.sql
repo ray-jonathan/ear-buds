@@ -34,7 +34,7 @@ insert into matches
 values
     (1, 2, True, False),
     (1, 3, True, False),
-    (2, 3, True, True)
+    (2, 4, True, False)
 ;
 
 insert into messages
@@ -43,5 +43,7 @@ values
     (1, 'Dude, you have some serious musical ADD, but love me some John Mayer', '2017-12-30 21:00:09.622951', 1),
     (1, 'No way man, Vanilla Ice and Teletubbies make a great mashup!', '2017-12-30 23:00:09.622951', 2),
     (3, 'YOURE JON SNOW!', '2017-12-31 23:00:09.622951', 2),
-    (3, 'You know nothing Jon Ray', '2017-12-31 23:04:09.622951', 4)
+    (3, 'You know nothing Jon Ray', '2017-12-31 23:04:09.622951', 4),
+    (2, 'Hi i am dany!', 3),
+    (2, 'hi dany, you rule the kingdom ok?', 1)
 ;
