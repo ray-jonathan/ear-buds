@@ -71,6 +71,16 @@ ${headPartial}
     </style>
 
     <div class="liquorcabinet">
+            <form action="/match" method="POST" class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center btn-group" style="width:100%; min-height: 5vw">
+                    <button type="submit" name="buttonclicked" value="False" class="btn btn-light d-flex justify-content-center" >Skip</button>
+                </div>
+            </form>
+            <form action="/match" method="POST" class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center btn-group" style="width:100%; min-height: 5vw">
+                    <button type="submit" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >Connect</button>
+                </div>
+            </form>
         ${userArtists.map((Artist) =>  `
             <div class="aspect-ratio-box text-white">
                 <div class="aspect-ratio-box-inside">
@@ -83,12 +93,6 @@ ${headPartial}
         `).join(' ')}
     </div>
 
-    <form action="/match" method="POST" class="d-flex justify-content-center">
-        <div class="d-flex justify-content-center btn-group" style="width:50vw; min-height: 5vw">
-            <button type="submit" name="buttonclicked" value="False" class="btn btn-light d-flex justify-content-center" >Skip</button>
-            <button type="submit" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >Connect</button>
-        </div>
-    </form>
 
 
 </body>
