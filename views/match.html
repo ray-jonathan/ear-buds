@@ -3,8 +3,6 @@ ${headPartial}
 <!-- NOTE: -->
 <!-- Page should reload for each match or, if grabbing a stack of users, at the end of the stack to allow update to DB -->
 
-
-
 <body>
     ${navPartial}
 
@@ -71,11 +69,16 @@ ${headPartial}
     </style>
 
 
+    <h2 class="d-flex justify-content-center">
+        ${displayedUser.name}
+    </h2>
+
+
     <div class="row d-flex align-items-center justify-content-center ">
         <div class="col-sm-3.5">
                 <form action="/match" method="POST" class="d-flex justify-content-center">
                     <div class="d-flex justify-content-center btn-group">
-                        <button style="width:15vw;" type="submit" style="width:50%;" name="buttonclicked" value="False" class="btn btn-light d-flex justify-content-center" >Skip</button>
+                        <button style="width:15vw;" type="submit" name="buttonclicked" value="False" class="btn btn-light d-flex justify-content-center" >Skip</button>
                     </div>
                 </form>
         </div>
@@ -96,7 +99,7 @@ ${headPartial}
         <div class="col-sm-3.5">
                 <form action="/match" method="POST" class="d-flex justify-content-center">
                     <div class="d-flex justify-content-center btn-group">
-                        <button style="width:15vw;" type="submit" style="width:50%;" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >Connect</button>
+                        <button style="width:15vw;" type="submit" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >Connect</button>
                     </div>
                 </form>
         </div>
