@@ -4,7 +4,8 @@ values
     (125272261, 'Matt Raines', 'https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/32948279_4020145898250_3548414607435497472_n.jpg?_nc_cat=106&_nc_ht=scontent.xx&oh=396bbd840a2f2bb10191c62193ef0eae&oe=5D3612B4'),
     ('jonathanray17', 'Jonathan Ray', 'https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/29597401_10160531264790500_2627134889546611401_n.jpg?_nc_cat=111&_nc_ht=scontent.xx&oh=d398bedbee5ae637db1e55571a28bd56&oe=5D04036B'),
     ('fakeUser1', 'Daenerys Targaryen', 'https://imgix.bustle.com/2017/5/26/93eccbe0-35a8-4eb0-a3c4-270c55105c2e.jpg?w=970&h=546&fit=crop&crop=faces&auto=format&q=70'),
-    ('fakeUser2', 'Jon Snow', 'https://fsmedia.imgix.net/05/b0/0b/43/56f3/4497/8d96/3a6602bd5e28/jon-snow-has-a-bright-future-as-long-as-hes-chill-with-dating-his-aunt.jpeg?rect=0%2C0%2C940%2C471&auto=format%2Ccompress&dpr=2&w=650')
+    ('fakeUser2', 'Jon Snow', 'https://fsmedia.imgix.net/05/b0/0b/43/56f3/4497/8d96/3a6602bd5e28/jon-snow-has-a-bright-future-as-long-as-hes-chill-with-dating-his-aunt.jpeg?rect=0%2C0%2C940%2C471&auto=format%2Ccompress&dpr=2&w=650'),
+    ('jjmurphy8', 'Joe Murphy', 'http://beverlycove.org/wp-content/uploads/2016/07/no-profile-male.jpg')
 ;
 
 insert into artists

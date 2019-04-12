@@ -65,11 +65,11 @@ class Match {
 
 async function quickTest(){
     const matchID = await Match.getMatchIdFromTwoUsers(1, 2);
-    console.log("-----------");
-    console.log("user1: ",1);
-    console.log("user2: ",2);
-    console.log("matchID: ",matchID);
-    console.log("-----------");
+    // console.log("-----------");
+    // console.log("user1: ",1);
+    // console.log("user2: ",2);
+    // console.log("matchID: ",matchID);
+    // console.log("-----------");
     // const value = await Match.getMatchIdFromTwoUsers(2, 1);
     // console.log(value);
 }
