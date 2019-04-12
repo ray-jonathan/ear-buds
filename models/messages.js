@@ -46,7 +46,7 @@ class Messages {
         .then(arrayOfMessages => {
             let arrayOfUsers = [];
             arrayOfMessages.forEach(message => {
-                console.log(message);
+                // console.log(message);
                 arrayOfUsers.push(message.user_id);
 
             });
