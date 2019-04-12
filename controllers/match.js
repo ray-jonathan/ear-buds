@@ -37,13 +37,12 @@ async function getMatch(req, res){
     // console.log(idOfCard)
 
     const displayedUserInfo = await Match.getUser(idOfCard);
-    // console.log(displayedUserInfo)
+    console.log(displayedUserInfo)
     
     
     const userArrayOfArtists = await Artists.getArtists(idOfCard);
 
-
-
+if(displayedUserInfo) {
     res.render('match.html', {
         locals: { 
             user: req.session.passport.user,
@@ -57,6 +56,9 @@ async function getMatch(req, res){
             navPartial: './partial-nav'
         }
     });
+} else {
+    res.redirect('/messages')
+}
 
 
 }
@@ -84,7 +86,9 @@ async function addMatch(req,res) {
     // console.log('show me it:', req.body.buttonclicked)
 
     await Match.add(addMatch)
+
     res.redirect('/match')
+
 
 }
 

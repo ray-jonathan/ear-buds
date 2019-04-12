@@ -23,6 +23,9 @@ class Match {
     
     static getUser(user){
         return db.one(`select * from users where id=$1`, [user])
+            .catch(() => {
+                return null;
+            })
     }
 
     static getAllUsersId(user) {
