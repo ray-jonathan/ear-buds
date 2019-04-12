@@ -1,5 +1,6 @@
 const db = require('./conn');
 const moment = require('moment');
+const axios = require('axios');
 
 class Artists {
     constructor(id, user_id, artist_name, artist_picture='http://secure.hmepowerweb.com/Resources/Images/NoImageAvailableLarge.jpg'){
@@ -18,14 +19,30 @@ class Artists {
     }
 
 
-    static add(userID, spotifyResult){
+    static add1(userID, spotifyResult){
         return db.one(`insert into artists 
         (user_id, artist_name, artist_picture)
         values
         ($1, $2, $3)
-
         returning true`, [userID, spotifyResult.data.artists.items[0].name, spotifyResult.data.artists.items[0].images[2].url]);
+    }
 
+    static add3(userID, spotifyResult){
+        console.log("userID ",userID);
+        return db.any(`insert into artists 
+        (user_id, artist_name, artist_picture)
+        values
+        ($1, $2, $3),
+        ($1, $4, $5),
+        ($1, $6, $7)
+        returning true`, 
+        [userID, 
+            spotifyResult[0].name, spotifyResult[0].images[2].url, 
+            spotifyResult[1].name, spotifyResult[1].images[2].url, 
+            spotifyResult[2].name, spotifyResult[2].images[2].url
+        ]).catch((error) => {
+            console.log('[DB ERROR]: ', error.message || error);
+        });
     }
 
     static getArtists(user_id){
@@ -40,6 +57,9 @@ class Artists {
         // });
     }
 
+
+
+
     static removeArtist(id){
         console.log("ID to be deleted: ", id);
         if(!(id === "null")){
@@ -47,7 +67,6 @@ class Artists {
             return db.one(`delete from artists where id=$1 returning true`, [id]);
         }
         else{
-            console.log("doing nothing...");
             return;
         }
     }

@@ -21,17 +21,20 @@ async function searchArtist(req, res){
     header);
     // console.log("Double wow!");
     // console.log(spotifyResult.data.artists.items);
-    await Artists.add(req.session.userid, spotifyResult);
+    await Artists.add1(req.session.userid, spotifyResult);
     res.redirect('/profile');
 }
 
 async function getTop3Artists(req, res, token){
+    console.log("req.session.userid  ", req.session.userid);
     const header = {headers: {"Authorization" : 'Bearer ' + token}};
     const URL = "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=3";
     const spotifyResult = await axios.get(`${URL}`, header);
-    for(let i = 0; i < spotifyResult.data.items.length; i++) { // forEach and map were giving us headache, back to basics
-        await Artists.add(req.session.userid, spotifyResult.data.items[i]);
-    }
+    // console.log(spotifyResult.data);
+    // for(let i = 0; i < spotifyResult.data.items.length; i++) { // forEach and map were giving us headache, back to basics
+    //     console.log(req.session.userid, spotifyResult.data.items[i]);
+    // }
+    await Artists.add3(req.session.userid, spotifyResult.data.items);
     res.redirect('/profile');
 }
 
