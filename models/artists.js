@@ -1,4 +1,5 @@
 const db = require('./conn');
+const moment = require('moment');
 
 class Artists {
     constructor(id, user_id, artist_name, artist_picture='http://secure.hmepowerweb.com/Resources/Images/NoImageAvailableLarge.jpg'){
@@ -8,7 +9,7 @@ class Artists {
         this.artistPicture = artist_picture;
     }
 
-    static addFromSearch(artist){
+    static addFromSearch(user){
         return db.one(`insert into artists 
         (spotify_id, name, picture)
         values

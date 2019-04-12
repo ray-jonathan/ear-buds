@@ -10,15 +10,17 @@ class Messages {
     }
 
     static getMatchId(user){
-        console.log("user for matchid: ", user);
+        // console.log("user for matchid: ", user);
         return db.any(`select id from matches where ((current_user_id=$1) or (viewed_user_id=$1)) and (liked=True) and (blocked=False)`, [user]);
     }
 
     static addMessage(message){
+        // console.log(message.matchesId);
+        // console.log(typeof message.matchesId);
         return db.one(`insert into messages
         (matches_id, message, timestamp, user_id)
         values
-        ($1, $2, $3, $4)
+        ($1, $2, $3, $4) returning true
         `, [message.matchesId, message.message, message.timestamp, message.userId]);
     }
 

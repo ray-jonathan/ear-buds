@@ -2,6 +2,12 @@
 const  Message = require('../models/messages');
 const Profile = require('../models/profile');
 const Match = require('../models/match');
+const axios = require('axios');
+const escapeHtml = require('escape-html');
+const moment = require('moment');
+const { Client } = require('pg');
+const client = new Client();
+
 
 async function getMessages(req, res){
     // const matches = await Message.getMatches(req.session.passport.user.id)
@@ -45,9 +51,9 @@ async function getMessages(req, res){
         const aUser = await Profile.getUserById(arrayOfOtherPeopleIds[i]);
         arrayOfOtherPeople.push(aUser);
     }
-    console.log('');
-    console.log(arrayOfOtherPeople);
-    console.log('');
+    // console.log('');
+    // console.log(arrayOfOtherPeople);
+    // console.log('');
 
     let usersMatches;
     if(requestedUserID){
@@ -55,18 +61,18 @@ async function getMessages(req, res){
     }else{
         usersMatches = await Match.getMatchesThatUserIsIn(mostRecent.user_id);
     }
-    console.log('');
-    console.log("usersMatches ",usersMatches);
-    console.log('');
+    // console.log('');
+    // console.log("usersMatches ",usersMatches);
+    // console.log('');
 
 
 
 
-    console.log("length", matchIdsForCurrentUser.length);
+    // console.log("length", matchIdsForCurrentUser.length);
     const conversationMatchId = [];
     for(let i = 0; i < matchIdsForCurrentUser.length; i++) { // forEach and map were giving us headache, back to basics
-        console.log(i);
-        console.log("lookie here: ", matchIdsForCurrentUser[i].id);
+        // console.log(i);
+        // console.log("lookie here: ", matchIdsForCurrentUser[i].id);
         let aMatch = await Match.getMatchById(matchIdsForCurrentUser[i].id);
         // let aMatch = await Match.getMatchById(usersMatches);
         if((theUser.id === aMatch.viewed_user_id)){
@@ -74,9 +80,9 @@ async function getMessages(req, res){
         }
         // we want to push the other user's id # into the array
     }
-    console.log('');
-    console.log("conversationMatchId ",conversationMatchId);
-    console.log('');
+    // console.log('');
+    // console.log("conversationMatchId ",conversationMatchId);
+    // console.log('');
 
 
     let aUserId;
@@ -87,9 +93,9 @@ async function getMessages(req, res){
         mostRecentMessage = await Message.getMostRecentMessage(matchIdsForCurrentUser[0].id);
         aUserId = mostRecentMessage.user_id;
     }
-    console.log('');
-    console.log("aUserId: ",aUserId);
-    console.log('');
+    // console.log('');
+    // console.log("aUserId: ",aUserId);
+    // console.log('');
 
 
 
@@ -99,9 +105,9 @@ async function getMessages(req, res){
 
     const aMatchIdObject = await Message.getMatchId(aUserId);
     const aMatchId = aMatchIdObject[0].id;
-    console.log('');
-    console.log("aMatchId: ",aMatchId);
-    console.log('');
+    // console.log('');
+    // console.log("aMatchId: ",aMatchId);
+    // console.log('');
 
 
 
@@ -117,9 +123,9 @@ async function getMessages(req, res){
     // }else{
     // const wholeConversation = await Message.getConversationByMatchId(conversationMatchId[0]);
     // }
-    console.log('');
-    console.log("wholeConversation: ",wholeConversation);
-    console.log('');
+    // console.log('');
+    // console.log("wholeConversation: ",wholeConversation);
+    // console.log('');
 
     // let resquestedUser;
     // if(requestedUserID){
@@ -129,7 +135,7 @@ async function getMessages(req, res){
     // }
     const resquestedUser = await Profile.getUserById(aUserId);
 
-    console.log("resquestedUser: ", resquestedUser);
+    // console.log("resquestedUser: ", resquestedUser);
 
     res.render('./messages.html', {
         locals: { 
@@ -151,8 +157,84 @@ async function getMessages(req, res){
     });
 }
 
+async function addMessage(req, res){
+    const requestedUserID = parseInt(((req.url).split('/'))[2]);
+    // console.log("requestedUserID is a", typeof requestedUserID);
+    const userMessage = (req.body.userMessage[1]);
+
+    const matchID = await Match.getMatchIdFromTwoUsers(req.session.userid, requestedUserID);
+    // console.log("============");
+    // console.log("user1: ",typeof req.session.userid);
+    // console.log("user2: ",typeof requestedUserID);
+    // console.log("matchID: ",matchID);
+    // console.log("============");
+    // await client.connect();
+    // const result = await client.query('SELECT $1::timestamp as message', [moment().format()]);
+    // timestamp = (result.rows[0].message); // Hello world!
+    // await client.end();
+
+    const messageObject = {
+        matchesId : matchID, 
+        message : userMessage, 
+        userId : req.session.userid,
+        timestamp: moment().format()};
+    
+    // console.log(messageObject.timestamp);
+
+    await Message.addMessage(messageObject);
+    console.log("Nope");
+    console.log(req.session.userid);
+
+
+
+    // await client.connect()
+    // const result = await client.query('SELECT $1::timestamp as message', [moment().format()])
+    // timestamp = (result.rows[0].message) // Hello world!
+    // await client.end()
+
+
+
+    // console.log("made it this far");
+
+
+
+    // await client.connect();
+
+    // const createTableText = `
+    // CREATE TEMP TABLE dates(
+    //     date_col DATE,
+    //     timestamp_col TIMESTAMP,
+    //     timestamptz_col TIMESTAMPTZ,
+    // );
+    // `;
+    // // create our temp table
+    // // await client.query(createTableText);
+    // // insert the current time into it
+    // const now = new Date();
+    // const insertText = 'INSERT INTO dates(date_col, timestamp_col, timestamtz_col';
+    // await client.query(insertText, [now, now, now]);
+    // console.log("but not this far");
+    
+    // // read the row back out
+    // const result = await client.query('SELECT * FROM dates');
+    // await client.end();
+    // console.log(result.rows);
+
+
+
+
+
+
+    res.redirect('/messages');
+
+}
+
+
+
+
 module.exports = {
-    getMessages
+    getMessages,
+    addMessage
 };
 
 // // DB FRAMEWORK // //
