@@ -34,10 +34,10 @@ async function giveTheCardsInfo(userId) {
 async function getMatch(req, res){
     const userId = req.session.userid 
     const idOfCard = await giveTheCardsInfo(userId)
-    console.log(idOfCard)
+    // console.log(idOfCard)
 
     const displayedUserInfo = await Match.getUser(idOfCard);
-    console.log(displayedUserInfo)
+    // console.log(displayedUserInfo)
     
     
     const userArrayOfArtists = await Artists.getArtists(idOfCard);
@@ -62,12 +62,29 @@ async function getMatch(req, res){
 }
 
 async function addMatch(req,res) {
-    console.log('we made it here')
+    // console.log('we made it here')
     const userId = req.session.userid 
-    console.log(userId)
+    // console.log(userId)
     const idOfCard = await giveTheCardsInfo(userId)
     const viewedUserInfo = await Match.getUser(idOfCard)
-    console.log(viewedUserInfo.id)
+    // console.log(viewedUserInfo.id)
+
+    
+    req.body.buttonclicked
+    
+    
+    const addMatch = {
+        current_user_id: userId,
+        viewed_user_id: viewedUserInfo.id,
+        liked: req.body.buttonclicked,
+        blocked: "False"
+    }
+
+
+    // console.log('show me it:', req.body.buttonclicked)
+
+    await Match.add(addMatch)
+    res.redirect('/match')
 
 }
 
