@@ -10,7 +10,7 @@ ${headPartial}
 
     <style>
         body {
-            display: flex;
+            /* display: flex; */
             justify-content: center;
             flex-direction: column;
             align-items: center;
@@ -42,8 +42,8 @@ ${headPartial}
             margin:auto;
         }
         .liquorcabinet {
-            width : 50%;
-            top :50px;
+            width : 100%;
+            /* top :50px; */
             display: flex;
             flex-direction: row;
             justify-content: space-around;
@@ -70,29 +70,38 @@ ${headPartial}
         }
     </style>
 
-    <div class="liquorcabinet">
-            <form action="/match" method="POST" class="d-flex justify-content-center">
-                <div class="d-flex justify-content-center btn-group" style="width:100%; min-height: 5vw">
-                    <button type="submit" name="buttonclicked" value="False" class="btn btn-light d-flex justify-content-center" >Skip</button>
-                </div>
-            </form>
-            <form action="/match" method="POST" class="d-flex justify-content-center">
-                <div class="d-flex justify-content-center btn-group" style="width:100%; min-height: 5vw">
-                    <button type="submit" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >Connect</button>
-                </div>
-            </form>
-        ${userArtists.map((Artist) =>  `
-            <div class="aspect-ratio-box text-white">
-                <div class="aspect-ratio-box-inside">
-                    <img src="${Artist.artist_picture}" alt="Artists Picture">
-                </div>
-                <div class="card-img-overlay">
-                    <h5 class="card-title" style="text-shadow: 2px 2px #000000;">${Artist.artist_name}</h5>
-                </div>
-            </div>
-        `).join(' ')}
-    </div>
 
+    <div class="row d-flex align-items-center justify-content-center ">
+        <div class="col-md-3.5">
+                <form action="/match" method="POST" class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center btn-group">
+                        <button style="width:15vw;" type="submit" style="width:50%;" name="buttonclicked" value="False" class="btn btn-light d-flex justify-content-center" >Skip</button>
+                    </div>
+                </form>
+        </div>
+        <div class="col-md-5">
+                <div class="liquorcabinet">
+                        ${userArtists.map((Artist) =>  `
+                            <div class="aspect-ratio-box text-white">
+                                <div class="aspect-ratio-box-inside">
+                                    <img src="${Artist.artist_picture}" alt="Artists Picture">
+                                </div>
+                                <div class="card-img-overlay">
+                                    <h5 class="card-title" style="text-shadow: 2px 2px #000000;">${Artist.artist_name}</h5>
+                                </div>
+                            </div>
+                            `).join(' ')}
+                        </div>
+        </div>
+        <div class="col-md-3.5">
+                <form action="/match" method="POST" class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center btn-group">
+                        <button style="width:15vw;" type="submit" style="width:50%;" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >Connect</button>
+                    </div>
+                </form>
+        </div>
+
+    </div>
 
 
 </body>
