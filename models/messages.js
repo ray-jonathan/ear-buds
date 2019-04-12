@@ -41,6 +41,18 @@ class Messages {
         return db.one(`select * from messages where matches_id=$1 order by timestamp DESC LIMIT 1`, [matches_id]);
     }
 
+    static getIdsOfUsersSendingMeAMessage(user_id){
+        return db.any(`select * from messages where not user_id=$1`, [user_id])
+        .then(arrayOfMessages => {
+            let arrayOfUsers = [];
+            arrayOfMessages.forEach(message => {
+                console.log(message);
+                arrayOfUsers.push(message.user_id);
+
+            });
+            return arrayOfUsers;
+        })
+    }
 }
 
 module.exports = Messages;

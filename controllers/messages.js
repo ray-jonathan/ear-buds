@@ -84,14 +84,52 @@ async function getMessages(req, res){
     // console.log("conversationMatchId ",conversationMatchId);
     // console.log('');
 
+    console.log("USER MATCHES",usersMatches);
+    // console.log(req.session.userid);
+    const value = await Message.getIdsOfUsersSendingMeAMessage(req.session.userid);
+    let metaConvoArray = [];
+
+    for(let i = 0; i < value.length; i++) { // forEach and map were giving us headache, back to basics
+    // value.forEach(async (useriD) => {
+        const matchid = await Match.getMatchIdFromTwoUsers(req.session.userid, value[i]);
+        // const matchid = await Match.getMatchIdFromTwoUsers(req.session.userid, useriD);
+        if(matchid > 0){
+        convoArray = await Message.getConversationByMatchId(matchid);
+        console.log("convoArray",convoArray);
+        metaConvoArray.push(convoArray);
+        }
+    }
+    let lastMetaConvoArray = [];
+    for(let i = 0; i < metaConvoArray.length; i++) { // forEach and map were giving us headache, back to basics
+        const convo = metaConvoArray[i];
+        const lastMessage = convo[(convo.length)-1];
+        lastMetaConvoArray.push(lastMessage);
+    }
+    console.log("lastMetaConvoArray",lastMetaConvoArray);
+
+    lastMetaConvoArray.sort(function(a, b) {
+        return b.timestamp - a.timestamp;
+    });
+
+    console.log("lastMetaConvoArray", lastMetaConvoArray);
+
+
+
+
 
     let aUserId;
     let mostRecentMessage;
     if(requestedUserID){
         aUserId =  (requestedUserID);
     }else{
-        mostRecentMessage = await Message.getMostRecentMessage(matchIdsForCurrentUser[0].id);
-        aUserId = mostRecentMessage.user_id;
+        // aUserId should be the last person to have sent a message, else no messages, the last person to match
+        
+        mostRecentMessage = lastMetaConvoArray[0];
+        const recentConvoMatchArray = await Match.getMatchById(mostRecentMessage.matches_id)
+        const otherPesonInRecentConvo = (req.session.userid === recentConvoMatchArray.current_user_id)? recentConvoMatchArray.viewed_user_id : recentConvoMatchArray.current_user_id;
+        // console.log("otherPesonInRecentConvo", otherPesonInRecentConvo);
+        // mostRecentMessage = await Message.getMostRecentMessage(matchIdsForCurrentUser[0].id);
+        aUserId = otherPesonInRecentConvo;
     }
     // console.log('');
     // console.log("aUserId: ",aUserId);
@@ -136,8 +174,8 @@ async function getMessages(req, res){
     const resquestedUser = await Profile.getUserById(aUserId);
 
     // console.log("resquestedUser: ", resquestedUser);
-
-    res.render('./messages.html', {
+    console.log(resquestedUser.name);
+    res.render('./messages', {
         locals: { 
             // user: req.session.passport.user
             // need to send the selecter conversation's complete info
@@ -159,19 +197,10 @@ async function getMessages(req, res){
 
 async function addMessage(req, res){
     const requestedUserID = parseInt(((req.url).split('/'))[2]);
-    // console.log("requestedUserID is a", typeof requestedUserID);
+
     const userMessage = (req.body.userMessage[1]);
 
     const matchID = await Match.getMatchIdFromTwoUsers(req.session.userid, requestedUserID);
-    // console.log("============");
-    // console.log("user1: ",typeof req.session.userid);
-    // console.log("user2: ",typeof requestedUserID);
-    // console.log("matchID: ",matchID);
-    // console.log("============");
-    // await client.connect();
-    // const result = await client.query('SELECT $1::timestamp as message', [moment().format()]);
-    // timestamp = (result.rows[0].message); // Hello world!
-    // await client.end();
 
     const messageObject = {
         matchesId : matchID, 
@@ -179,52 +208,7 @@ async function addMessage(req, res){
         userId : req.session.userid,
         timestamp: moment().format()};
     
-    // console.log(messageObject.timestamp);
-
     await Message.addMessage(messageObject);
-    console.log("Nope");
-    console.log(req.session.userid);
-
-
-
-    // await client.connect()
-    // const result = await client.query('SELECT $1::timestamp as message', [moment().format()])
-    // timestamp = (result.rows[0].message) // Hello world!
-    // await client.end()
-
-
-
-    // console.log("made it this far");
-
-
-
-    // await client.connect();
-
-    // const createTableText = `
-    // CREATE TEMP TABLE dates(
-    //     date_col DATE,
-    //     timestamp_col TIMESTAMP,
-    //     timestamptz_col TIMESTAMPTZ,
-    // );
-    // `;
-    // // create our temp table
-    // // await client.query(createTableText);
-    // // insert the current time into it
-    // const now = new Date();
-    // const insertText = 'INSERT INTO dates(date_col, timestamp_col, timestamtz_col';
-    // await client.query(insertText, [now, now, now]);
-    // console.log("but not this far");
-    
-    // // read the row back out
-    // const result = await client.query('SELECT * FROM dates');
-    // await client.end();
-    // console.log(result.rows);
-
-
-
-
-
-
     res.redirect('/messages');
 
 }
