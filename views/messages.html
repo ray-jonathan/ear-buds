@@ -702,14 +702,7 @@
         <ul>
             ${otherUsers.map((otherUser) =>  `
 
-            <li class="contact" ${
-              
-              
-              
-              resquestedUser.id === otherUser.id ? `style="background: rgba(256, 256, 256, 0.1)"` :`style=""`
-            
-            
-            }>
+            <li class="contact" ${resquestedUser.id === otherUser.id ? `style="background: rgba(256, 256, 256, 0.1)"` :`style=""`}>
                   <a href="/messages/${otherUser.id}" style="text-decoration: none; color: white;">
                   <div class="wrap">
                     <span class="contact-status busy"></span>

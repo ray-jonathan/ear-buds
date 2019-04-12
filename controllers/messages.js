@@ -221,6 +221,7 @@ async function getMessages(req, res){
     // console.log("resquestedUser.id ",resquestedUser.id);
     // console.log("resquestedUser: ", resquestedUser);
     // console.log(resquestedUser.name);
+    const pagePath = (((req.url).split('/')[1]));
 
     res.render('./messages', {
         locals: { 
@@ -232,7 +233,8 @@ async function getMessages(req, res){
             user: theUser,
             otherUsers: arrayOfOtherPeople,
             wholeConversation: wholeConvo,
-            resquestedUser: resquestedUser
+            resquestedUser: resquestedUser,
+            pagePath: pagePath
             
 
         },

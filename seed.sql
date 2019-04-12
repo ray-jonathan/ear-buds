@@ -44,6 +44,6 @@ values
     (1, 'No way man, Vanilla Ice and Teletubbies make a great mashup!', '2017-12-30 23:00:09.622951', 2),
     (3, 'YOURE JON SNOW!', '2017-12-31 23:00:09.622951', 2),
     (3, 'You know nothing Jon Ray', '2017-12-31 23:04:09.622951', 4),
-    (2, 'Hi i am dany!', 3),
-    (2, 'hi dany, you rule the kingdom ok?', 1)
+    (2, 'Hi i am dany!','2018-12-31 23:04:09.622951', 3),
+    (2, 'hi dany, you rule the kingdom ok?','2018-11-30 23:04:09.622951', 1)
 ;

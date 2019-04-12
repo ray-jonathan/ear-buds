@@ -5,10 +5,11 @@
                 <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="font-family: 'Montserrat', sans-serif; margin:5px;">
-                <a style="color: aliceblue; font-weight: 60; margin:15px;" href="/profile">PROFILE</a>
-                <a style="color: aliceblue; font-weight: 600; margin:15px;" href="/match">MATCH</a>
-                <a style="color: aliceblue; font-weight: 600; margin:15px;" href="/messages">MESSAGES</a>
-                <a style="color: aliceblue; font-weight: 600; margin:15px;" href="/logout">LOGOUT</a>
+                <a style="color: aliceblue; ${ pagePath === `profile` ? `font-weight: 60` : `font-weight: 600`};  margin:15px; text-decoration: none;" href="/profile">PROFILE</a>
+                <a style="color: aliceblue; ${ pagePath === `match` ? `font-weight: 60` : `font-weight: 600`};  margin:15px; text-decoration: none;" href="/match">MATCH</a>
+                <a style="color: aliceblue; ${ pagePath === `messages` ? `font-weight: 60` : `font-weight: 600`};  margin:15px; text-decoration: none;" href="/messages">MESSAGES</a>
+                <a style="color: aliceblue; font-weight: 600; margin:15px; text-decoration: none;" href="/logout">LOGOUT</a>
+                <a style="color: aliceblue; font-weight: 600; margin:15px; text-decoration: none;" href="javascript:void(0)" onclick="openNav()" >INFO</a>
         </div>
 </nav>
 <style>
@@ -19,4 +20,5 @@
         background-position: center;
         }
 </style>
+
 

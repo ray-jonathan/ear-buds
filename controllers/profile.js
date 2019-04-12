@@ -32,7 +32,7 @@ async function getProfile(req, res){
     }
 
 
-
+    const pagePath = (((req.url).split('/')[1]));
 
     // render the profile page!
     function renderProfile(){
@@ -44,7 +44,9 @@ async function getProfile(req, res){
                 userPhoto: user.picture,
                 userArtists: userArrayOfArtists,
                 artistIncomplete: artistIncompleter,
-                hideMe: false
+                hideMe: false,
+                firstVist: firstVisitBool.exists,
+                pagePath: pagePath
             },
             partials:{
                 headPartial: './partial-head',
