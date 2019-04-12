@@ -702,9 +702,15 @@
         <ul>
             ${otherUsers.map((otherUser) =>  `
 
-
-              <li class="contact">
-                  <a href="/messages/${otherUser.id}" style="text-decoration: none; color: white">
+            <li class="contact" ${
+              
+              
+              
+              resquestedUser.id === otherUser.id ? `style="background: rgba(256, 256, 256, 0.1)"` :`style=""`
+            
+            
+            }>
+                  <a href="/messages/${otherUser.id}" style="text-decoration: none; color: white;">
                   <div class="wrap">
                     <span class="contact-status busy"></span>
                     <img src="${otherUser.picture}" alt="" />
@@ -749,8 +755,8 @@
 
         </ul>
       </div>
-      <form action="${ wholeConversation[0].user_id? `/messages/${wholeConversation[0].user_id}` : `/messages`  }" method="POST">
-        <form action="${ wholeConversation[0].user_id? `/messages/${wholeConversation[0].user_id}` : `/messages`  }" method="POST">
+      <form action="${ resquestedUser.id? `/messages/${resquestedUser.id}` : `/messages`  }" method="POST">
+        <!-- <form action="${ wholeConversation[0].user_id? `/messages/${wholeConversation[0].user_id}` : `/messages`  }" method="POST"> -->
         <div class="message-input">
           <div class="wrap">
             <input type="search" hidden name="userMessage" id="userMessage" placeholder="BAD your message..." />
@@ -760,7 +766,7 @@
           <button type="submit" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
           </div>
         </div>
-        </form>
+        <!-- </form> -->
       </form>
     </div>
   </div>

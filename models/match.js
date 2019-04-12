@@ -40,20 +40,28 @@ class Match {
     }
 
     static getMatchIdFromTwoUsers(user1, user2){
+        // console.log("user1 is: ", user1);
+        // console.log("user2 is: ", user2);
         return db.any(`select * from matches where (current_user_id=$1) or (viewed_user_id=$1)`, [user1])
             .then((allUser1MatchesArray)=>{
+                // console.log("allUser1MatchesArray", allUser1MatchesArray);
+                // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                 let resultArray = [];
-                allUser1MatchesArray.forEach((matchObject)=>{
-                    // console.log(matchObject);
-                    if((matchObject.current_user_id === user2)||(matchObject.viewed_user_id === user2)){
-                        // console.log("yes!");
-                        resultArray.push(matchObject.id);
-                    }
-                });
-                if(resultArray.length < 1){
+                // allUser1MatchesArray.forEach((matchObject)=>{
+                for(let i = 0; i < allUser1MatchesArray.length; i++) { // forEach and map were giving us headache, back to basics
+                    // console.log("I happened");
+                    // console.log(allUser1MatchesArray[i]);
+                    if((allUser1MatchesArray[i].current_user_id === user2)||(allUser1MatchesArray[i].viewed_user_id === user2)){
+                        // console.log("here dude");
+                        resultArray.push(allUser1MatchesArray[i].id);
+                        break;
+                    }       
+                }
+                if(resultArray.length === 0){
                     resultArray.push(-1);
-                } 
-                return resultArray[0];
+                }
+                // console.log("resultArray ", resultArray);
+                return resultArray;
             });
     }
 
@@ -64,21 +72,19 @@ class Match {
     static getMatchById(id) {
         return db.one(`select * from matches where id=$1`, [id]);
     }
-
-
 }
 
 
-async function quickTest(){
-    const matchID = await Match.getMatchIdFromTwoUsers(1, 2);
-    // console.log("-----------");
-    // console.log("user1: ",1);
-    // console.log("user2: ",2);
-    // console.log("matchID: ",matchID);
-    // console.log("-----------");
-    // const value = await Match.getMatchIdFromTwoUsers(2, 1);
-    // console.log(value);
-}
-quickTest();
+// async function quickTest(){
+//     const matchID = await Match.getMatchIdFromTwoUsers(1, 2);
+//     // console.log("-----------");
+//     // console.log("user1: ",1);
+//     // console.log("user2: ",2);
+//     // console.log("matchID: ",matchID);
+//     // console.log("-----------");
+//     // const value = await Match.getMatchIdFromTwoUsers(2, 1);
+//     // console.log(value);
+// }
+// quickTest();
 
 module.exports= Match;
