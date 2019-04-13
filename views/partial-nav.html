@@ -1,22 +1,29 @@
-
 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background: #121212 !important; width:100%;">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="font-family: 'Montserrat', sans-serif; margin:5px;">
-                <a style=" ${ pagePath === `profile` ? `font-weight: 60; color: #2ab659;` : `font-weight: 600; color: #FFFFFF;`}  margin:15px; text-decoration: none;" href="/profile">PROFILE</a>
-                <a style=" ${ pagePath === `match` ? `font-weight: 60; color: #2ab659;` : `font-weight: 600; color: #FFFFFF;`}  margin:15px; text-decoration: none;" href="/match">MATCH</a>
-                <a style=" ${ pagePath === `messages` ? `font-weight: 60; color: #2ab659;` : `font-weight: 600; color: #FFFFFF;`}  margin:15px; text-decoration: none;" href="/messages">MESSAGES</a>
-                <a style="color: aliceblue; font-weight: 600; margin:15px; text-decoration: none;" href="/logout">LOGOUT</a>
-                <a style="color: aliceblue; font-weight: 600; margin:15px; text-decoration: none;" href="javascript:void(0)" onclick="openNav()" >INFO</a>
+                <a class="profile" style=" ${ pagePath === `profile` ? `font-weight: lighter; color: #2ab659;` : `font-weightbold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/profile">PROFILE</a>
+                <a class="match" style=" ${ pagePath === `match` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/match">MATCH</a>
+                <a class="messages" style=" ${ pagePath === `messages` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/messages">MESSAGES</a>
+                <a class="info" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="javascript:void(0)" onclick="openNav()" >INFO</a>
+                <a class="logout" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="/logout">LOGOUT</a>
         </div>
 </nav>
 <style>
-.square {
-        width: 100%;
-        padding-bottom: 100%;
-        background-size: cover;
-        background-position: center;
+        .square {
+                width: 100%;
+                padding-bottom: 100%;
+                background-size: cover;
+                background-position: center;
+                }
+        .profile:hover, .match:hover, .messages:hover, .info:hover {
+                color: #FFFFFF !important;
+                font-weight: 900;
+        }
+        .logout:hover {
+                color: #B52D2A !important;
+                font-weight: bold;
         }
 </style>
