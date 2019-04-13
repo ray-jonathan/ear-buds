@@ -1,5 +1,5 @@
 ${headPartial}
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <body>
     ${navPartial}
   <div class="body1">
@@ -61,21 +61,30 @@ ${headPartial}
 
         </ul>
       </div>
-      <form action="${ resquestedUser.id? `/messages/${resquestedUser.id}` : `/messages`  }" method="POST">
-        <!-- <form action="${ wholeConversation[0].user_id? `/messages/${wholeConversation[0].user_id}` : `/messages`  }" method="POST"> -->
+      <!-- <form action="${ wholeConversation[0].user_id? `/messages/${wholeConversation[0].user_id}` : `/messages`  }" method="POST"> -->
         <div class="message-input">
           <div class="wrap">
+              <form action="${ resquestedUser.id? `/messages/${resquestedUser.id}` : `/messages`  }" method="POST">
             <input type="search" hidden name="userMessage" id="userMessage" placeholder="BAD your message..." />
-            <!-- <i class="fa fa-paperclip attachment" aria-hidden="true"></i> -->
-          <!-- <button type="submit" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button> -->
+
+              <i id="refresh" class="fas fa-sync-alt attachment" aria-hidden="true"></i>
+
             <input type="search" name="userMessage" id="searchArtist" placeholder="Write your message...">
           <button type="submit" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+        </form>
           </div>
         </div>
         <!-- </form> -->
-      </form>
     </div>
   </div>
+
+  <script>
+  const refresh = document.getElementById('refresh')
+  refresh.addEventListener('click', ()=>{
+    location.reload();
+  })
+  </script>
+
 <!-- <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='https://code.jquery.com/jquery-2.2.4.min.js'></script> -->
   <script >
     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
