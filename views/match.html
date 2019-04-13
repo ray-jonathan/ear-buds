@@ -157,9 +157,20 @@ ${navPartial}
                 <div class="liquorcabinet">
                         ${userArtists.map((Artist) =>  `
                             <div class="aspect-ratio-box text-white" id="${Artist.id}">
-                                <div class="aspect-ratio-box-inside">
-                                    <img src="${Artist.artist_picture}" alt="${Artist.artist_name}'s picture">
+                                <div class="aspect-ratio-box-inside" style=" z-index:0;">
+                                    <img style=""src="${Artist.artist_picture}" alt="${Artist.artist_name}'s picture">
+                                
                                 </div>
+                                <div style="display: flex;justify-content:center;align-items: center;">
+                                        <div class="play" style="
+                                            width: 0;
+                                            height: 0;
+                                            z-index: 9999999999;
+                                            border-top: 8px solid transparent;
+                                            border-left: 12px solid #000;
+                                            border-bottom: 8px solid transparent;">
+                                        </div>
+                                    </div>
                                 <div class="card-img-overlay">
                                     <h5 class="card-title" style="text-shadow: 2px 2px #000000;">${Artist.artist_name}</h5>
                                 </div>
@@ -187,6 +198,8 @@ ${navPartial}
 
     </div>
 </div>
+
+
 
 <script>
     /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
