@@ -202,40 +202,7 @@ ${navPartial}
     }
 </script>
 
-<!-- <script>
-    const main = document.querySelector('html');
-    if(main.length > 0){
-        main.addEventListener('click', ()=>{
-            (typeof audioObject !== 'undefined')? audioObject.pause() : console.log('No music?'); ;
-        })
-    }
-</script> -->
-
-<!-- <script>
-// const main = document.querySelectorAll('img');
-// console.log(main);
-// element = main;
-function hideOnClickOutside(element) {
-    const outsideClickListener = event => {
-        if (!element.contains(event.target) && isVisible(element)) { // or use: event.target.closest(selector) === null
-            element.style.display = 'none'
-            console.log("did a thing");
-            removeClickListener()
-        }
-    }
-
-    const removeClickListener = () => {
-        document.removeEventListener('click', outsideClickListener)
-    }
-
-    document.addEventListener('click', outsideClickListener)
-}
-
-const isVisible = elem => !!elem && !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length ) // source (2018-03-11): https://github.com/jquery/jquery/blob/master/src/css/hiddenVisibleSelectors.js 
-</script> -->
-
 <script>
-
 $(document.body).click( function(e) {
     console.log(e);
     (typeof audioObject !== 'undefined')?  audioObject.pause() : console.log('No music?'); ;
@@ -244,40 +211,7 @@ $(document.body).click( function(e) {
 $(".liquorcabinet").click( function(e) {
     e.stopPropagation(); // this stops the event from bubbling up to the body
 });
-
 </script>
 
-
-<!-- <script>
-    // audioObject = new Audio("https://p.scdn.co/mp3-preview/7361f3ea9a05768f6e2296574c81f452917840b3?cid=2067bcdc63ad4e1c84da9bb8f98c4e56");
-    // audioObject.play()
-    results.addEventListener('click', function (e) {
-        var target = e.target;
-        if (target !== null && target.classList.contains('cover')) {
-            if (target.classList.contains(playingCssClass)) {
-                audioObject.pause();
-            } else {
-                if (audioObject) {
-                    audioObject.pause();
-                }
-                fetchTracks(target.getAttribute('data-album-id'), function (data) {
-                    audioObject = new Audio("PREVIEW_URL_HERE");
-                    audioObject.play();
-                    target.classList.add(playingCssClass);
-                    audioObject.addEventListener('ended', function () {
-                        target.classList.remove(playingCssClass);
-                    });
-                    audioObject.addEventListener('pause', function () {
-                        target.classList.remove(playingCssClass);
-                    });
-                });
-            }
-        }
-    });
-</script> -->
-
 </body>
-
-
-
 </html>
