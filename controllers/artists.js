@@ -16,12 +16,18 @@ async function searchArtist(req, res){
     // console.log("TOKEN",req.session.passport.accessToken);
     const token = req.session.passport.accessToken;
     const header = {headers: {"Authorization" : 'Bearer ' + token}};
-    const spotifyResult = await axios.get(`https://api.spotify.com/v1/search?q=${searchArtistName}&type=artist&limit=1`,
-    // const spotifyResult = await axios.get(`https://api.spotify.com/v1/search?q=bjork&type=artist&limit=1`,
-    header);
+    // console.log(token);
+    const spotifyResult = await axios.get(`https://api.spotify.com/v1/search?q=${searchArtistName}&type=artist&limit=1`, header);
+    console.log(" ");
+    console.log(spotifyResult.data.artists.items[0].id);
+    console.log(" ");
+    const artistID = spotifyResult.data.artists.items[0].id;
+    const topTracks = await axios.get(`https://api.spotify.com/v1/artists/${artistID}/top-tracks?country=US`, header);
+    console.log(topTracks);
+    const artist_track_url = topTracks.data.tracks[0].preview_url;
     // console.log("Double wow!");
     // console.log(spotifyResult.data.artists.items);
-    await Artists.add1(req.session.userid, spotifyResult);
+    await Artists.add1(req.session.userid, spotifyResult, artist_track_url);
     res.redirect('/profile');
 }
 
@@ -34,7 +40,17 @@ async function getTop3Artists(req, res, next, token){
     // for(let i = 0; i < spotifyResult.data.items.length; i++) { // forEach and map were giving us headache, back to basics
     //     console.log(req.session.userid, spotifyResult.data.items[i]);
     // }
-    await Artists.add3(req.session.userid, spotifyResult.data.items);
+
+    let previewURLArray = [];
+    for(let i = 0; i < 3; i++) { // forEach and map were giving us headache, back to basics
+        let artistID = spotifyResult.data.items[i].id;
+        const topTracks = await axios.get(`https://api.spotify.com/v1/artists/${artistID}/top-tracks?country=US`, header);
+        const artist_track_url = topTracks.data.tracks[0].preview_url;
+        previewURLArray.push(artist_track_url);
+    }
+    console.log(previewURLArray);
+
+    await Artists.add3(req.session.userid, spotifyResult.data.items, previewURLArray);
     // res.redirect('/profile');
     return;
 }
