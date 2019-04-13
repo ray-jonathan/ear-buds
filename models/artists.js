@@ -26,9 +26,16 @@ class Artists {
         ($1, $2, $3)
         returning true`, [userID, spotifyResult.data.artists.items[0].name, spotifyResult.data.artists.items[0].images[2].url]);
     }
+    
+    static add1recent(userID, spotifyResult){
+        return db.one(`insert into artists 
+        (user_id, artist_name, artist_picture)
+        values
+        ($1, $2, $3)
+        returning true`, [userID, spotifyResult.track.artists[0].name, spotifyResult.track.album.images[2].url]);
+    }
 
     static add3(userID, spotifyResult){
-        console.log("userID ",userID);
         return db.any(`insert into artists 
         (user_id, artist_name, artist_picture)
         values

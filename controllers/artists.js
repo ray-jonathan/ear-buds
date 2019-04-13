@@ -25,8 +25,8 @@ async function searchArtist(req, res){
     res.redirect('/profile');
 }
 
-async function getTop3Artists(req, res, token){
-    console.log("req.session.userid  ", req.session.userid);
+async function getTop3Artists(req, res, next, token){
+    // console.log("req.session.userid  ", req.session.userid);
     const header = {headers: {"Authorization" : 'Bearer ' + token}};
     const URL = "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=3";
     const spotifyResult = await axios.get(`${URL}`, header);
@@ -35,13 +35,28 @@ async function getTop3Artists(req, res, token){
     //     console.log(req.session.userid, spotifyResult.data.items[i]);
     // }
     await Artists.add3(req.session.userid, spotifyResult.data.items);
-    res.redirect('/profile');
+    // res.redirect('/profile');
+    return;
+}
+
+async function getRecentlyPlayed(req, res, next, token){
+    const header = {headers: {"Authorization" : 'Bearer ' + token}};
+    const URL = "https://api.spotify.com/v1/me/player/recently-played?type=track&limit=1";
+    const spotifyResult = await axios.get(`${URL}`, header);
+    // console.log(spotifyResult.data);
+    // for(let i = 0; i < spotifyResult.data.items.length; i++) { // forEach and map were giving us headache, back to basics
+    //     console.log(req.session.userid, spotifyResult.data.items[i]);
+    // }
+    await Artists.add1recent(req.session.userid, spotifyResult.data.items[0]);
+    // res.redirect('/profile');
+    return;
 }
 
 
 module.exports = {
     searchArtist,
-    getTop3Artists
+    getTop3Artists,
+    getRecentlyPlayed
 };
 
 
