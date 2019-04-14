@@ -9,6 +9,9 @@ const moment = require('moment');
 
 
 async function getMessages(req, res){
+    // const updateTime = await Profile.lastVist(req.session.userid);
+    await Profile.lastVist(req.session.userid);
+    // console.log("Able to update last vist time: ", updateTime.bool);
     // // Prevent user from loading page if they have no matches or no unblocked matches
     const matchesList = await Match.getMatchesThatUserIsIn(req.session.userid);
     console.log(matchesList);
