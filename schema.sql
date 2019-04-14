@@ -14,8 +14,7 @@ create table users (
     id serial primary key,
     spotify_id varchar (200),
     name varchar (200),
-    picture varchar (500),
-    last_vist TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    picture varchar (500)
 );
 
 create table artists (
