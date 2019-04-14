@@ -1,23 +1,20 @@
 const db = require('./conn');
-const moment = require('moment');
 
 class Profile {
-    constructor(id, spotify_id, name, picture='http://beverlycove.org/wp-content/uploads/2016/07/no-profile-male.jpg', last_vist){
+    constructor(id, spotify_id, name, picture='http://beverlycove.org/wp-content/uploads/2016/07/no-profile-male.jpg'){
         this.id = id;
         this.spotifyId = spotify_id;
         this.name = name;
         this.picture = picture;
-        this.lastVist = last_vist;
     }
 
     static add(user){
         const photo = user.photos[0]? user.photos[0] : 'http://beverlycove.org/wp-content/uploads/2016/07/no-profile-male.jpg';
-        const now = moment().format();
         return db.one(`insert into users 
-        (spotify_id, name, picture, last_vist)
+        (spotify_id, name, picture)
         values
-        ($1,$2,$3,$4)
-        returning true`,[user.id, user.displayName, photo, now]);
+        ($1,$2,$3)
+        returning true`,[user.id, user.displayName, photo]);
     }
 
     static checkSpotifyID(spotifyId){
@@ -43,11 +40,6 @@ class Profile {
     // })
     static getUserById(id){
         return db.one(`select * from users where id=$1`, [id]);
-    }
-
-    static lastVist(id){
-        const now = moment().format();
-        return db.one(`update only users set last_vist = $1 where id=$2 returning true;`, [now, id]);
     }
 
 }
