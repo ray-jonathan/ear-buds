@@ -1,10 +1,11 @@
 <style>
 .picture-frame1 {
         /* if you set this to a percentage, and drop the height line you loose the square */
-        width:20px; 
-        height:20px;
+        width:30px; 
+        height:30px;
         float: left;
-        margin: 10px;
+        margin-left: 10px;
+        margin-bottom: 5px;
 
         /* centering , but my object-fit below in the img tag with width=height is fixing this too.*/
         display: flex;
@@ -24,14 +25,14 @@
                 <span class="navbar-toggler-icon"></span>
         </button>
         <div class="picture-frame1">
-                <img src="./assets/earbuds1.png" alt="" >
+                <img src="./assets/earbudsInvert.png" alt="" >
         </div>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="font-family: 'Montserrat', sans-serif; margin:5px;">
-                <a class="profile" style=" ${ pagePath === `profile` ? `font-weight: lighter; color: #2ab659;` : `font-weightbold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/profile">PROFILE</a>
-                <a class="match" style=" ${ pagePath === `match` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/match">MATCH</a>
-                <a class="messages" style=" ${ pagePath === `messages` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/messages">MESSAGES</a>
-                <a class="info" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="javascript:void(0)" onclick="openNav()" >INFO</a>
-                <a class="logout" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="/logout">LOGOUT</a>
+                <a class="profile" style=" ${ pagePath === `profile` ? `font-weight: lighter; color: #2ab659;` : `font-weightbold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/profile">profile</a>
+                <a class="match" style=" ${ pagePath === `match` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/match">match</a>
+                <a class="messages" style=" ${ pagePath === `messages` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/messages">messages</a>
+                <a class="info" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="javascript:void(0)" onclick="openNav()" >info</a>
+                <a class="logout" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="/logout">logout</a>
         </div>
 </nav>
 <style>
