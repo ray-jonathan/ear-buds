@@ -35,13 +35,17 @@ ${headPartial}
                       <p class="name">${otherUser.name}</p>
                       <p class="preview"></p>
                     </div>
+                    </a>
                     <form action="/messages" method="POST">
                     <div style="position:absolute;right:0;top:25%;">
-                      <i class="fas fa-ban"></i>
+                      <input hidden name="blockUser" value="${otherUser.id}">
+                      <button  type="submit" style="background: none;padding: 0px;border: none;">
+                        <i class="fas fa-ban"></i>
+                      </button>
                     </div>
                     </form>
                   </div>
-                </a>
+                <!-- </a> -->
               </li>
 
 
@@ -94,7 +98,7 @@ ${headPartial}
     </div>
   </div>
 
-  <script>
+  <script> // for the refresh button
   const refresh = document.getElementById('refresh')
   refresh.addEventListener('click', ()=>{
     location.reload();

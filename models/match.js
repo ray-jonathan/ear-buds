@@ -72,6 +72,10 @@ class Match {
     static getMatchById(id) {
         return db.one(`select * from matches where id=$1`, [id]);
     }
+
+    static blockUser(id) {
+        return db.one(`update only matches set blocked = $1 where id=$2 returning true;`, ['TRUE', id]);
+    }
 }
 
 

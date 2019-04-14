@@ -260,6 +260,14 @@ async function getMessages(req, res){
 }
 
 async function addMessage(req, res){
+    if (req.body.blockUser){ // blocking users
+        const userToBlock = parseInt(req.body.blockUser);
+        const myself = parseInt(req.session.userid);
+        const matchID = await Match.getMatchIdFromTwoUsers(myself, userToBlock);
+        await Match.blockUser(matchID[0]);
+        res.redirect('/messages');
+    }
+
     const requestedUserID = parseInt(((req.url).split('/'))[2]);
     const userMessage = escapeHtml(req.body.userMessage[1]);
 
