@@ -9,6 +9,9 @@ const moment = require('moment');
 
 
 async function getMessages(req, res){
+    // const updateTime = await Profile.lastVist(req.session.userid);
+    await Profile.lastVist(req.session.userid);
+    // console.log("Able to update last vist time: ", updateTime.bool);
     let requestedUserID;
     if (((req.url).split('/')).length === 3){
         requestedUserID = (((req.url).split('/'))[2]);
