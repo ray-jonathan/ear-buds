@@ -25,6 +25,9 @@ async function getMessages(req, res){
     let requestedUserID;
     if (((req.url).split('/')).length === 3){
         requestedUserID = (((req.url).split('/'))[2]);
+        if (!(requestedUserID)){
+            res.redirect('/messages');
+        }
         const matchID = await Match.getMatchIdFromTwoUsers(requestedUserID, req.session.userid);
         if(matchID[0] < 0){
             res.redirect('/messages');
