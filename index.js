@@ -3,6 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const app = express();
 const passport = require('passport');
+const refresh = require('passport-oauth2-refresh'); // NEW
 const SpotifyStrategy = require('passport-spotify').Strategy;
 const FileStore = require('session-file-store')(session);
 const es6Renderer = require('express-es6-template-engine');
@@ -51,6 +52,7 @@ passport.use(
             clientID: CLIENT_ID,
             clientSecret: CLIENT_SECRET,
             callbackURL: `http://localhost:3007/auth/callback/`
+            // ,passReqToCallback: true // will pass the req body thru to the callback
         },
         async function(accessToken, refreshToken, expires_in, profile, done){
             // req.session.spotify = profile;
@@ -60,7 +62,30 @@ passport.use(
                 // to associate the spotify account with a user record in your database,
                 // and return that user instead.
                 // console.log("============= TOKENS, EXPIRY =============");
-                const scaryArray = [profile, accessToken];
+                const scaryArray = [profile, accessToken, refreshToken];
+                // console.log("acc: ", accessToken, "// ref: ", refreshToken, "// exp: ", expires_in);
+                return done(null, scaryArray);
+            });
+        }
+    )
+);
+refresh.use(
+    new SpotifyStrategy(
+        {
+            clientID: CLIENT_ID,
+            clientSecret: CLIENT_SECRET,
+            callbackURL: `http://localhost:3007/auth/callback/`
+            // ,passReqToCallback: true // will pass the req body thru to the callback
+        },
+        async function(accessToken, refreshToken, expires_in, profile, done){
+            // req.session.spotify = profile;
+            process.nextTick(function() {
+                // To keep the example simple, the user's spotify profile is returned to
+                // represent the logged-in user. In a typical application, you would want
+                // to associate the spotify account with a user record in your database,
+                // and return that user instead.
+                // console.log("============= TOKENS, EXPIRY =============");
+                const scaryArray = [profile, accessToken, refreshToken];
                 // console.log("acc: ", accessToken, "// ref: ", refreshToken, "// exp: ", expires_in);
                 return done(null, scaryArray);
             });
@@ -82,6 +107,7 @@ app.use((req, res, next) => {
         res.render('login', {
             partials:{
                 headPartial: './partial-head'
+                // ,navPartial: './partial-nav'
             }
         });
     }
@@ -89,6 +115,16 @@ app.use((req, res, next) => {
         next();
     }
 });
+
+refresh.requestNewAccessToken('facebook', 'some_refresh_token', function(err, accessToken, refreshToken) {
+    // You have a new access token, store it in the user object,
+    // or use it to make a new request.
+    // `refreshToken` may or may not exist, depending on the strategy you are using.
+    // You probably don't need it anyway, as according to the OAuth 2.0 spec,
+    // it should be the same as the initial refresh token.
+    console.log("Here's the inside");
+});
+
 
 app.get('/', function (req, res) {
     res.redirect('/match');
@@ -133,6 +169,7 @@ app.get(
     passport.authenticate('spotify', { failureRedirect: '/login' }),
     function(req, res) {
         req.session.passport.accessToken = req.session.passport.user[1];
+        req.session.passport.refreshToken = req.session.passport.user[2];
         req.session.passport.user = req.session.passport.user[0];
         req.session.save(()=> {
             res.redirect('/profile');
