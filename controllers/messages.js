@@ -14,9 +14,9 @@ async function getMessages(req, res){
     // console.log("Able to update last vist time: ", updateTime.bool);
     // // Prevent user from loading page if they have no matches or no unblocked matches
     const matchesList = await Match.getMatchesThatUserIsIn(req.session.userid);
-    console.log(matchesList);
+    // console.log(matchesList);
     const notBlocked = matchesList.filter(matchObject => { return matchObject.blocked !== true;});
-    console.log("We good here 1");
+    // console.log("We good here 1");
     if (notBlocked.length < 1){
         res.redirect('/match');
     }
@@ -25,13 +25,27 @@ async function getMessages(req, res){
     let requestedUserID;
     if (((req.url).split('/')).length === 3){
         requestedUserID = (((req.url).split('/'))[2]);
+        if (!(requestedUserID)){
+            res.redirect('/messages');
+        }
+        const matchID = await Match.getMatchIdFromTwoUsers(requestedUserID, req.session.userid);
+        if(matchID[0] < 0){
+            res.redirect('/messages');
+        }
+        const matchObject = await Match.getMatchById(matchID[0]);
+        if (matchObject.blocked === true){
+            res.redirect('/messages');
+        }
     }
     else{ // URL path is set to /messages
         // get all of a user's matches
-        arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
-        // console.log("arrayOfMatchObjects", arrayOfMatchObjects);
+        let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
+        // filter out the blocked folks
+        arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
+            return (matchObject.blocked !== true);
+        });
         // make an array of the match ids
-        const arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
+        let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
             return matchObject.id;
         });
         // get all the messages that have those match ids
@@ -260,6 +274,14 @@ async function getMessages(req, res){
 }
 
 async function addMessage(req, res){
+    if (req.body.blockUser){ // blocking users
+        const userToBlock = parseInt(req.body.blockUser);
+        const myself = parseInt(req.session.userid);
+        const matchID = await Match.getMatchIdFromTwoUsers(myself, userToBlock);
+        await Match.blockUser(matchID[0]);
+        res.redirect('/messages');
+    }
+
     const requestedUserID = parseInt(((req.url).split('/'))[2]);
     const userMessage = escapeHtml(req.body.userMessage[1]);
 
