@@ -9,6 +9,16 @@ const moment = require('moment');
 
 
 async function getMessages(req, res){
+    // // Prevent user from loading page if they have no matches or no unblocked matches
+    const matchesList = await Match.getMatchesThatUserIsIn(req.session.userid);
+    console.log(matchesList);
+    const notBlocked = matchesList.filter(matchObject => { return matchObject.blocked !== true;});
+    console.log("We good here 1");
+    if (notBlocked.length < 1){
+        res.redirect('/match');
+    }
+
+    ////////////////////////////////////////////////////
     let requestedUserID;
     if (((req.url).split('/')).length === 3){
         requestedUserID = (((req.url).split('/'))[2]);
