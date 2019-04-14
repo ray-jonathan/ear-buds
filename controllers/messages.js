@@ -14,9 +14,9 @@ async function getMessages(req, res){
     // console.log("Able to update last vist time: ", updateTime.bool);
     // // Prevent user from loading page if they have no matches or no unblocked matches
     const matchesList = await Match.getMatchesThatUserIsIn(req.session.userid);
-    console.log(matchesList);
+    // console.log(matchesList);
     const notBlocked = matchesList.filter(matchObject => { return matchObject.blocked !== true;});
-    console.log("We good here 1");
+    // console.log("We good here 1");
     if (notBlocked.length < 1){
         res.redirect('/match');
     }

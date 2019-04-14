@@ -12,6 +12,22 @@ ${headPartial}
     padding-top: -25%;
     transform: scale(0.9) !important;
   }
+  .picture-frame {
+    /* if you set this to a percentage, and drop the height line you loose the square */
+    width:40px; 
+    height:40px;
+    float: left;
+    /* margin: 10px; */
+    /* border: 2px solid cornflowerblue; */
+    /* centering , but my object-fit below in the img tag with width=height is fixing this too.*/
+    /* display: flex; */
+    justify-content: center;
+    align-items:center;
+  }            
+  .picture-frame img {
+    height: 100%;
+    object-fit: cover;
+  }
   </style>
   <div class="body1">
   <div id="frame">
@@ -30,9 +46,12 @@ ${headPartial}
                   <a href="/messages/${otherUser.id}" style="text-decoration: none; color: white;">
                   <div class="wrap">
                     <span class="contact-status busy"></span>
-                    <img src="${otherUser.picture}" alt="" />
-                    <div style="" class="meta">
-                      <p class="name">${otherUser.name}</p>
+                    <div class="picture-frame">
+
+                      <img src="${otherUser.picture}" alt="" />
+                    </div>
+                    <div class="meta">
+                      <p style="display:inline-block; margin-top:3%; padding-left:3%" class="name">${otherUser.name}</p>
                       <p class="preview"></p>
                     </div>
                     </a>
@@ -57,8 +76,10 @@ ${headPartial}
     </div>
     <div class="content" >
       <div class="contact-profile" >
-        <img src="${resquestedUser.picture}" alt="" />
-        <p>${resquestedUser.name}</p>
+        <div class="picture-frame" style= " height:40px; width:50px;">
+          <img  src="${resquestedUser.picture}" alt="" />
+        </div>
+        <p style="position: relative; padding-left: 20px; ">${resquestedUser.name}</p>
       </div>
       <div class="messages">
         <ul>
@@ -69,8 +90,10 @@ ${headPartial}
           ${wholeConversation.map((message) =>  `
 
             <li class="${user.id === message.user_id? `replies`: `sent`}">
-              <img src="${user.id === message.user_id ? `${user.picture}`: `${resquestedUser.picture}`}" alt="" />
-              <p>${message.message}</p>
+              <div class="picture-frame" style= "height:20px; width:20px; float:${user.id === message.user_id ? `right`: `left`} !important;">
+                <img src="${user.id === message.user_id ? `${user.picture}`: `${resquestedUser.picture}`}" alt="" />
+              </div>
+              <p style="margin:5px">${message.message}</p>
             </li>
           
           `).join(' ')}
