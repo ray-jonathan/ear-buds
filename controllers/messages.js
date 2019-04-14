@@ -68,7 +68,7 @@ async function getMessages(req, res){
         });
         if(!(niftyNewArray[0])){
             console.log("Safely aborting!");
-            // res.redirect('/profile');
+            res.redirect('/profile');
         }
         const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
         // use that match_id to find the users in the matches table by that id
