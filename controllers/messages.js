@@ -25,13 +25,24 @@ async function getMessages(req, res){
     let requestedUserID;
     if (((req.url).split('/')).length === 3){
         requestedUserID = (((req.url).split('/'))[2]);
+        const matchID = await Match.getMatchIdFromTwoUsers(requestedUserID, req.session.userid);
+        if(matchID[0] < 0){
+            res.redirect('/messages');
+        }
+        const matchObject = await Match.getMatchById(matchID[0]);
+        if (matchObject.blocked === true){
+            res.redirect('/messages');
+        }
     }
     else{ // URL path is set to /messages
         // get all of a user's matches
-        arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
-        // console.log("arrayOfMatchObjects", arrayOfMatchObjects);
+        let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
+        // filter out the blocked folks
+        arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
+            return (matchObject.blocked !== true);
+        });
         // make an array of the match ids
-        const arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
+        let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
             return matchObject.id;
         });
         // get all the messages that have those match ids
