@@ -2,16 +2,27 @@
 
 const  Profile = require('../models/profile');
 const  Artists = require('../models/artists');
+const {
+    getTop3Artists,
+    getRecentlyPlayed
+    } = require('../controllers/artists');
 
-async function getProfile(req, res){
+async function getProfile(req, res, next){
     const firstVisitBool = await Profile.checkSpotifyID(req.session.passport.user.id);
+    let user;
     if (!(firstVisitBool.exists)){
         await Profile.add(req.session.passport.user);
+        user = await Profile.getBySpotifyId(req.session.passport.user.id);
+        req.session.userid = user.id;
+        await getTop3Artists(req, res, next, req.session.passport.accessToken);
+        await getRecentlyPlayed(req, res, next, req.session.passport.accessToken);
+    }else{
+        user = await Profile.getBySpotifyId(req.session.passport.user.id);
+        req.session.userid = user.id;
     }
+    // console.log(thing);
     // by this time, the user is for sure in the db
-    const user = await Profile.getBySpotifyId(req.session.passport.user.id);
     const userArrayOfArtists = await Artists.getArtists(user.id);
-    req.session.userid = user.id;
     const emptyObject = {
         id: '',
         user_id: '',

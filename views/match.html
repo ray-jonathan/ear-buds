@@ -76,7 +76,7 @@ ${navPartial}
 
 
 
-<div class="container" id="main">
+<div class="container">
     <style>
         body {
             /* display: flex; */
@@ -156,14 +156,35 @@ ${navPartial}
         <div class="col-sm-6">
                 <div class="liquorcabinet">
                         ${userArtists.map((Artist) =>  `
-                            <div class="aspect-ratio-box text-white">
-                                <div class="aspect-ratio-box-inside">
-                                    <img src="${Artist.artist_picture}" alt="Artists Picture">
+                            <div class="aspect-ratio-box text-white" id="${Artist.id}">
+                                <div class="aspect-ratio-box-inside" style=" z-index:0;">
+                                    <img style=""src="${Artist.artist_picture}" alt="${Artist.artist_name}'s picture">
+                                
                                 </div>
+                                <div style="display: flex;justify-content:center;align-items: center;">
+                                        <div class="play" style="
+                                            width: 0;
+                                            height: 0;
+                                            z-index: 9999999999;
+                                            border-top: 8px solid transparent;
+                                            border-left: 12px solid #000;
+                                            border-bottom: 8px solid transparent;">
+                                        </div>
+                                    </div>
                                 <div class="card-img-overlay">
                                     <h5 class="card-title" style="text-shadow: 2px 2px #000000;">${Artist.artist_name}</h5>
                                 </div>
                             </div>
+                            <script>
+                                artistID = document.getElementById('${Artist.id}');
+                                artistID.addEventListener('click', (e)=>{
+                                    console.log("You clicked on ${Artist.artist_name}!");
+                                    console.log("${Artist.artist_track_url}");
+                                    (typeof audioObject !== 'undefined')? audioObject.pause() : console.log('nothing playing'); ;
+                                    audioObject = new Audio("${Artist.artist_track_url}");
+                                    audioObject.play();
+                                })
+                            </script>
                             `).join(' ')}
                         </div>
         </div>
@@ -178,6 +199,8 @@ ${navPartial}
     </div>
 </div>
 
+
+
 <script>
     /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
     function openNav() {
@@ -191,8 +214,17 @@ ${navPartial}
         document.getElementById("main").style.marginLeft = "0";
     }
 </script>
+
+<script>
+$(document.body).click( function(e) {
+    console.log(e);
+    (typeof audioObject !== 'undefined')?  audioObject.pause() : console.log('No music?'); ;
+});
+
+$(".liquorcabinet").click( function(e) {
+    e.stopPropagation(); // this stops the event from bubbling up to the body
+});
+</script>
+
 </body>
-
-
-
 </html>

@@ -5,7 +5,7 @@ const DB_NAME = process.env.DB_NAME;
 // call it immediately, which gives us a configured database connector
 const pgp = require('pg-promise')({
     query: e => {
-    //   console.log('QUERY: ', e.query);
+        // console.log('QUERY: ', e.query);
     }  
 });
 // next, define the connections options

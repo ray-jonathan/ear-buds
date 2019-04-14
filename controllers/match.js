@@ -43,7 +43,7 @@ async function getMatch(req, res){
     
     
     const userArrayOfArtists = await Artists.getArtists(idOfCard);
-    // console.log(req.url);
+    // console.log(userArrayOfArtists);
     const pagePath = (((req.url).split('/')[1]));
 
 if(displayedUserInfo) {
