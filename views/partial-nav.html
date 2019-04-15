@@ -33,7 +33,7 @@
                 <a class="profile" style=" ${ pagePath === `profile` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/profile">profile</a>
                 <a class="match" style=" ${ pagePath === `match` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/match">match</a>
                 <a class="messages ${messageNotification === true? `data-notifications ` : `` }" style="display:inline-block !important; ${ pagePath === `messages` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/messages">messages</a>
-                <a class="info" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="javascript:void(0)" onclick="openNav()" >info</a>
+                <a class="info" style="${ pagePath === `messages` ? `font-weight: bold; color: rgb(109,109,109); text-decoration: line-through !important;` : `font-weight: bold; color: rgb(179,179,179);`} font-weight: bold; margin:15px;" ${ pagePath !== `messages` ? `href="javascript:void(0)"` : `` } onclick="openNav()" >info</a>
                 <a class="logout" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="/logout">logout</a>
         </div>
 </nav>
@@ -44,10 +44,20 @@
                 background-size: cover;
                 background-position: center;
                 }
-        .profile:hover, .match:hover, .messages:hover, .info:hover {
+        ${ pagePath !== `messages` ? 
+        `.profile:hover, .match:hover, .messages:hover, .info:hover {
                 color: #FFFFFF !important;
                 font-weight: 900 !important;
-        }
+        }` :
+        `.profile:hover, .match:hover, .messages:hover {
+                color: #FFFFFF !important;
+                font-weight: 900 !important;
+        }` }
+        ${ pagePath === `messages` ? `.info{
+                font-weight: bold !important; 
+                color: rgb(109,109,109) !important; 
+                text-decoration: line-through !important;
+        }`: ``}
         .logout:hover {
                 color: #B52D2A !important;
                 font-weight: bold;
