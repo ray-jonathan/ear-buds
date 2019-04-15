@@ -61,10 +61,12 @@ Note:
 </style>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">Confirm your favorite artists!</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
+    <h1 style="font-size: 2rem">Update your favorite artists!</h1>
+    <br>
+    <h1 style="font-size: 1.5rem; color:gainsboro">${userName}</h1>
+    <div class="picture-frame">
+        <img src="${userPhoto}" alt="">
+    </div>
     <p></p>
 </div>
 <!-- / INFO BAR PARTS -->
@@ -121,7 +123,7 @@ Note:
             height:300px;
             float: left;
             margin: 10px;
-            border: 2px solid cornflowerblue;            
+            /* border: 2px solid cornflowerblue;             */
             /* centering , but my object-fit below in the img tag with width=height is fixing this too.*/
             display: flex;
             justify-content: center;
