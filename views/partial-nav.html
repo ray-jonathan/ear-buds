@@ -32,7 +32,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="font-family: 'Montserrat', sans-serif; margin:5px;">
                 <a class="profile" style=" ${ pagePath === `profile` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/profile">profile</a>
                 <a class="match" style=" ${ pagePath === `match` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/match">match</a>
-                <a class="messages" style=" ${ pagePath === `messages` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/messages">messages</a>
+                <a class="messages" style="${messageNotification === true? `border: solid red 2px ; ` : `border: solid blue 2px ; ` } ${ pagePath === `messages` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/messages">messages</a>
                 <a class="info" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="javascript:void(0)" onclick="openNav()" >info</a>
                 <a class="logout" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="/logout">logout</a>
         </div>
