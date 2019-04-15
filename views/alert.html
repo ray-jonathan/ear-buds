@@ -12,9 +12,9 @@ ${navPartial}
                 <div class="modal-body">
                     <br />
                     <br />
-                    <p style="text-align: center">There are currently no more users to check out!</p>
+                    <p style="text-align: center">${message1}</p>
                     <br />
-                    <p style="text-align: center">You are being automatically redirected to Messages now!</p>
+                    <p style="text-align: center">${message2}</p>
                     <br />
                     <br />
                 </div>
@@ -28,7 +28,7 @@ ${navPartial}
         $('#myModal').modal('show');
     }, 0);
     setTimeout(() => {
-        window.location = "/messages";
+        window.location = "${goTo}";
     }, 2000)
 
 </script>

@@ -45,6 +45,9 @@ async function getMatch(req, res){
     const userArrayOfArtists = await Artists.getArtists(idOfCard);
     // console.log(userArrayOfArtists);
     const pagePath = (((req.url).split('/')[1]));
+    const goTo = '/messages';
+    const message1 = 'There are currently no more users to check out!';
+    const message2 = 'You are being automatically redirected to Messages now!';
 
 if(displayedUserInfo) {
     res.render('match.html', {
@@ -64,7 +67,10 @@ if(displayedUserInfo) {
 } else {
     res.render('alert.html', {
         locals: { 
-            pagePath: pagePath
+            pagePath: pagePath,
+            goTo: goTo,
+            message1: message1,
+            message2, message2
         },
         partials:{
             headPartial: './partial-head',
