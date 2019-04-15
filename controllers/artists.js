@@ -44,6 +44,15 @@ async function getTop3Artists(req, res, next, token){
     let previewURLArray = [];
     let escapeHatch;
     for(let i = 0; i < 3; i++) { // forEach and map were giving us headache, back to basics
+        console.log(" ");
+        console.log(" ");
+        console.log(" ");
+        console.log(" ");
+        console.log(spotifyResult.data.items);
+        console.log(" ");
+        console.log(" ");
+        console.log(" ");
+        console.log(" ");
         if((spotifyResult.data.items).length < 1){
             escapeHatch = true;
             break;
