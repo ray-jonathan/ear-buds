@@ -32,7 +32,7 @@ class Artists {
         return db.one(`insert into artists 
         (user_id, artist_name, artist_picture, artist_track_url)
         values
-        ($1, $2, $3)
+        ($1, $2, $3, $4)
         returning true`, [userID, spotifyResult.track.artists[0].name, spotifyResult.track.album.images[2].url, spotifyResult.track.preview_url]);
     }
 
