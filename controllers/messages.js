@@ -84,9 +84,9 @@ async function getMessages(req, res){
     // }
     else{
         const theMatchID = await Message.getMatchIdOfYourMostRecentMessage(req.session.userid);
-        console.log("=======================");
-        console.log(theMatchID.matches_id);
-        console.log("=======================");
+        // console.log("=======================");
+        // console.log(theMatchID.matches_id);
+        // console.log("=======================");
         const thePair = await Match.getMatchById(theMatchID.matches_id);
         let theOtherUser;
         if (thePair.current_user_id === req.session.userid){
@@ -94,7 +94,7 @@ async function getMessages(req, res){
         }else{
             theOtherUser = thePair.current_user_id;
         }
-        console.log("theOtherUser ", theOtherUser);
+        // console.log("theOtherUser ", theOtherUser);
         requestedUserID = theOtherUser;
     }
 
@@ -176,11 +176,11 @@ async function getMessages(req, res){
     }
     // const nowNow = (Date.now())/1000;
     // console.log("NOW NOW NOW: ", nowNow);
-    console.log(" ");
-    console.log(" ");
-    console.log("timeStatusObject: ");
-    console.log(timeStatusObject);
-    console.log(Date.now());
+    // console.log(" ");
+    // console.log(" ");
+    // console.log("timeStatusObject: ");
+    // console.log(timeStatusObject);
+    // console.log(Date.now());
 
 
 
