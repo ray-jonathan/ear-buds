@@ -23,7 +23,7 @@ create table artists (
     user_id integer references users(id),
     artist_name varchar(200),
     artist_picture varchar(500),
-    artist_track_url varchar(200) default ('https://p.scdn.co/mp3-preview/22bf10aff02db272f0a053dff5c0063d729df988?cid=774b29d4f13844c495f206cafdad9c86')
+    artist_track_url varchar(500) default ('https://p.scdn.co/mp3-preview/22bf10aff02db272f0a053dff5c0063d729df988?cid=774b29d4f13844c495f206cafdad9c86')
 );
 
 create table matches (

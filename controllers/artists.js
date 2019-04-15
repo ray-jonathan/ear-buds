@@ -17,14 +17,30 @@ async function searchArtist(req, res){
     const token = req.session.passport.accessToken;
     const header = {headers: {"Authorization" : 'Bearer ' + token}};
     // console.log(token);
-    const spotifyResult = await axios.get(`https://api.spotify.com/v1/search?q=${searchArtistName}&type=artist&limit=1`, header);
+    let spotifyResult = await axios.get(`https://api.spotify.com/v1/search?q=${searchArtistName}&type=artist&limit=1`, header)
+    .catch(async (e) => { // Should solve Spotify 401 (Access Token Expired) issues 
+        console.log(e);
+        spotifyResult.data.artists.items[0].name, spotifyResult.data.artists.items[0].images[0].url
+        spotifyResult = 
+        {data: {
+            artists: {
+                items: [ {
+                    name: 'Rick Astley',
+                    images: ['https://i.ytimg.com/vi/hAq443fhyDo/maxresdefault.jpg']
+                }]
+            }
+        }};
+        artist_track_url = 'https://p.scdn.co/mp3-preview/22bf10aff02db272f0a053dff5c0063d729df988?cid=774b29d4f13844c495f206cafdad9c86';
+        await Artists.add1(req.session.userid, spotifyResult, artist_track_url);
+        res.redirect('/profile');
+    });
     console.log(" ");
     console.log(spotifyResult.data.artists.items[0].id);
     console.log(" ");
     const artistID = spotifyResult.data.artists.items[0].id;
     const topTracks = await axios.get(`https://api.spotify.com/v1/artists/${artistID}/top-tracks?country=US`, header);
     console.log(topTracks);
-    const artist_track_url = topTracks.data.tracks[0].preview_url;
+    let artist_track_url = topTracks.data.tracks[0].preview_url;
     // console.log("Double wow!");
     // console.log(spotifyResult.data.artists.items);
     await Artists.add1(req.session.userid, spotifyResult, artist_track_url);
