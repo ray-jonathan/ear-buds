@@ -3,32 +3,15 @@ ${headPartial}
 <body >
 <!-- <a href="/auth/spotify">Login with Spotify</a> -->
     <div style="display: flex;">
-        <img style="width: 100vw; height: 100vh; justify-content: center; align-items: center;" src="./assets/earbuds.svg" alt="">
+        <img style="width: 100vw; height: 100vh; justify-content: center; align-items: center;" src="./assets/earbuds2.svg" alt="">
     </div>
 
-
-
-    <div class="modal" tabindex="-1" role="dialog" id="myModal">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Welcome to EarBuds! You need to login with Spotify to use this great app!</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p><a href="/auth/spotify">Login with Spotify</a></p>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
     <script>
-        setTimeout(function(){
-            $('#myModal').modal('show');
-        }, 2000);
+      setTimeout(function () {
+     // after 2 seconds
+        window.location = "/auth/spotify";
+      }, 2000)
+
     </script>
 
 </body>
