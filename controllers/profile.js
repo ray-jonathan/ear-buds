@@ -48,7 +48,7 @@ async function getProfile(req, res, next){
     const pagePath = (((req.url).split('/')[1]));
 
 
-
+    let messageNotification;
     // // Code for adding message notification icon when there is an unread message
     // get all of a user's matches
     let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
@@ -81,14 +81,13 @@ async function getProfile(req, res, next){
     });
     // console.log("niftyNewArray ", niftyNewArray);
     if(niftyNewArray.length > 0){
-    if(!(niftyNewArray[0])){
-            console.log("Safely aborting!");
-            res.redirect('/profile');
-        }
-        // console.log(" ");
+        if(!(niftyNewArray[0])){
+                console.log("Safely aborting!");
+                res.redirect('/profile');
+            }
+            // console.log(" ");
         const you = await Profile.getUserById(req.session.userid);
         // console.log(you.last_vist);
-        let messageNotification;
         if(((niftyNewArray[0].reverse())[0].timestamp) > you.last_visit){
             console.log("New messages waiting for you!");
             messageNotification = true;
@@ -104,7 +103,7 @@ async function getProfile(req, res, next){
         messageNotification = false;
     }
     //////////////////////////////////////////////////////////////////
-
+    console.log("messageNotification ", messageNotification);
     // render the profile page!
     function renderProfile(){
         res.render('profile.html', {
@@ -117,8 +116,8 @@ async function getProfile(req, res, next){
                 artistIncomplete: artistIncompleter,
                 hideMe: false,
                 firstVist: firstVisitBool.exists,
-                pagePath: pagePath,
-                messageNotification: messageNotification
+                pagePath: pagePath
+                ,messageNotification: messageNotification
 
             },
             partials:{

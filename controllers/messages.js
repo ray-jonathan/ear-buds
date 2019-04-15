@@ -27,7 +27,9 @@ async function getMessages(req, res){
                 pagePath: pagePath2,
                 goTo: goTo,
                 message1: message1,
-                message2: message2
+                message2: message2,
+                messageNotification : false
+
             },
             partials:{
                 headPartial: './partial-head',
@@ -403,7 +405,8 @@ async function getMessages(req, res){
             wholeConversation: wholeConvo,
             resquestedUser: resquestedUser,
             pagePath: pagePath,
-            timeStatusObject: timeStatusObject
+            timeStatusObject: timeStatusObject,
+            messageNotification : false
             // ,messageNotification: messageNotification
             
 

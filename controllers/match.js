@@ -62,7 +62,7 @@ async function getMatch(req, res){
 
 
 
-
+    let messageNotification = false;
     // // Code for adding message notification icon when there is an unread message
         // get all of a user's matches
         let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
@@ -93,27 +93,32 @@ async function getMatch(req, res){
                 return message;
             }
         });
-        if(!(niftyNewArray[0])){
-            console.log("Safely aborting!");
-            res.redirect('/profile');
+        if(niftyNewArray.length > 0){
+            if(!(niftyNewArray[0])){
+                    console.log("Safely aborting!");
+                    res.redirect('/profile');
+                }
+                // console.log(" ");
+            const you = await Profile.getUserById(req.session.userid);
+            // console.log(you.last_vist);
+            if(((niftyNewArray[0].reverse())[0].timestamp) > you.last_visit){
+                console.log("New messages waiting for you!");
+                messageNotification = true;
+            }else{
+                console.log(" No new message");
+                messageNotification = false;
+            }
+            // const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
+            // // use that match_id to find the users in the matches table by that id
+            // const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
         }
-        // console.log("niftyNewArray ", niftyNewArray);
-        // console.log(" ");
-        const you = await Profile.getUserById(req.session.userid);
-        // console.log(you.last_vist);
-        let messageNotification;
-        if(((niftyNewArray[0].reverse())[0].timestamp) > you.last_visit){
-            console.log("New messages waiting for you!");
-            messageNotification = true;
-        }else{
-            console.log(" No new message");
+        else{
             messageNotification = false;
         }
         // const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
         // // use that match_id to find the users in the matches table by that id
         // const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
 //////////////////////////////////////////////////////////////////
-
 
 
 
