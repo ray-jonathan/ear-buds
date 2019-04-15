@@ -61,13 +61,12 @@ ${navPartial}
 </style>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">Meet your match!</a>
-    <a href="#">${displayedUser.name}</a>
+    <h1 style="font-size: 2rem">Meet your match!</h1>
+    <br>
+    <h1 style="font-size: 1.5rem; color:gainsboro">${displayedUser.name}</h1>
     <div class="picture-frame">
         <img src="${displayedUser.picture}" alt="">
     </div>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
     <p></p>
 </div>
 
@@ -131,7 +130,7 @@ ${navPartial}
             height:300px;
             float: left;
             margin: 10px;
-            border: 2px solid cornflowerblue;            
+            /* border: 2px solid cornflowerblue;             */
             /* centering , but my object-fit below in the img tag with width=height is fixing this too.*/
             display: flex;
             justify-content: center;
