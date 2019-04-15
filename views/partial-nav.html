@@ -32,7 +32,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="font-family: 'Montserrat', sans-serif; margin:5px;">
                 <a class="profile" style=" ${ pagePath === `profile` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/profile">profile</a>
                 <a class="match" style=" ${ pagePath === `match` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/match">match</a>
-                <a class="messages" style=" ${ pagePath === `messages` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/messages">messages</a>
+                <a class="messages ${messageNotification === true? `data-notifications ` : `` }" style="display:inline-block !important; ${ pagePath === `messages` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/messages">messages</a>
                 <a class="info" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="javascript:void(0)" onclick="openNav()" >info</a>
                 <a class="logout" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="/logout">logout</a>
         </div>
@@ -51,5 +51,20 @@
         .logout:hover {
                 color: #B52D2A !important;
                 font-weight: bold;
+        }
+        .data-notifications {
+	        position: relative;
+        }
+
+        .data-notifications:after {
+                content: attr(data-notifications);
+                position: absolute;
+                background: #B52D2A;
+                border-radius: 50%;
+                display: inline-block;
+                padding: 0.3em;
+                color: #f2f2f2;
+                right: -9px;
+                top: -5px;
         }
 </style>

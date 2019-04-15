@@ -46,6 +46,81 @@ async function getMatch(req, res){
     // console.log(userArrayOfArtists);
     const pagePath = (((req.url).split('/')[1]));
 
+
+
+
+    // // Code for adding message notification icon when there is an unread message
+        // get all of a user's matches
+        let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
+        // filter out the blocked folks
+        arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
+            return (matchObject.blocked !== true);
+        });
+        // console.log("arrayOfMatchObjects", arrayOfMatchObjects);
+        // make an array of the match ids
+        let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
+            return matchObject.id;
+        });
+        // console.log("arrayOfMatchIDs ", arrayOfMatchIDs);
+        // get all the messages that have those match ids
+        let arrayOfMessages = [];
+        for(let i = 0; i < arrayOfMatchIDs.length; i++) { // forEach and map were giving us headache, back to basics
+            const newMessage = await Message.getConversationByMatchId(arrayOfMatchIDs[i]);
+            arrayOfMessages.push(newMessage);
+        }
+        // console.log("arrayOfMessages ", arrayOfMessages);
+        // reverse the array that you just produced, making it descend chronologically
+        let reverseArrayOfMessages = arrayOfMessages.reverse();
+        // grab the match_id of the first item in that array
+        let niftyNewArray = [];
+        reverseArrayOfMessages.forEach(message => {
+            if(message.length > 0){
+                niftyNewArray.push(message);
+                return message;
+            }
+        });
+        if(!(niftyNewArray[0])){
+            console.log("Safely aborting!");
+            res.redirect('/profile');
+        }
+        // console.log("niftyNewArray ", niftyNewArray);
+        // console.log(" ");
+        const you = await Profile.getUserById(req.session.userid);
+        // console.log(you.last_vist);
+        let messageNotification;
+        if(((niftyNewArray[0].reverse())[0].timestamp) > you.last_visit){
+            console.log("New messages waiting for you!");
+            messageNotification = true;
+        }else{
+            console.log(" No new message");
+            messageNotification = false;
+        }
+        // const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
+        // // use that match_id to find the users in the matches table by that id
+        // const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
+//////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if(displayedUserInfo) {
     res.render('match.html', {
         locals: { 
@@ -54,7 +129,9 @@ if(displayedUserInfo) {
             userArtists: userArrayOfArtists,
             hideMe: false,
             displayedUser: displayedUserInfo,
-            pagePath: pagePath
+            pagePath: pagePath,
+            messageNotification: messageNotification
+
         },
         partials:{
             headPartial: './partial-head',

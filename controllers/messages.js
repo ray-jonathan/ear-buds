@@ -372,6 +372,10 @@ async function getMessages(req, res){
     // console.log(resquestedUser.name);
     const pagePath = (((req.url).split('/')[1]));
 
+
+    // // Code for adding message notification icon when there is an unread message
+
+
     res.render('./messages', {
         locals: { 
             // user: req.session.passport.user
@@ -385,6 +389,7 @@ async function getMessages(req, res){
             resquestedUser: resquestedUser,
             pagePath: pagePath,
             timeStatusObject: timeStatusObject
+            // ,messageNotification: messageNotification
             
 
         },
