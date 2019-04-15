@@ -53,7 +53,7 @@ async function getTop3Artists(req, res, next, token){
         console.log(" ");
         console.log(" ");
         console.log(" ");
-        if((spotifyResult.data.items).length < 1){
+        if((spotifyResult.data.items).length < 3){
             escapeHatch = true;
             break;
         }
