@@ -120,16 +120,20 @@ async function getMessages(req, res){
 
             const otherUserLastVist = lastActivity.last_vist;
             const nowHourAgo = Date.now() - 3600000;
+            const now6HoursAgo = Date.now() - 21600000;
             const now12HoursAgo = Date.now() - 43200000;
 
             if (otherUserLastVist > nowHourAgo){
                 timeStatusObject[`${lastActivity.id}`] = 'online';
             }
-            else if (otherUserLastVist > now12HoursAgo){
+            else if (otherUserLastVist > now6HoursAgo){
                 timeStatusObject[`${lastActivity.id}`] = 'away';
             }
-            else{
+            else if (otherUserLastVist > now12HoursAgo){
                 timeStatusObject[`${lastActivity.id}`] = 'busy';
+            }
+            else{
+                timeStatusObject[`${lastActivity.id}`] = 'offline';
             }
         }
     
