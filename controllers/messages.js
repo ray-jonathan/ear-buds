@@ -9,9 +9,8 @@ const escapeHtml = require('escape-html');
 
 
 async function getMessages(req, res){
-    // const updateTime = await Profile.lastVist(req.session.userid);
+    // // Updates your last_vist value for status icons elsewhere
     await Profile.lastVist(req.session.userid);
-    // console.log("Able to update last vist time: ", updateTime.bool);
 
     // // Prevent user from loading page if they have no matches or no unblocked matches
     const matchesList = await Match.getMatchesThatUserIsIn(req.session.userid);
@@ -38,50 +37,65 @@ async function getMessages(req, res){
             res.redirect('/messages');
         }
     }
-    else{ // URL path is set to /messages
-        // get all of a user's matches
-        let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
-        // filter out the blocked folks
-        arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
-            return (matchObject.blocked !== true);
-        });
-        // console.log("arrayOfMatchObjects", arrayOfMatchObjects);
-        // make an array of the match ids
-        let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
-            return matchObject.id;
-        });
-        console.log("arrayOfMatchIDs ", arrayOfMatchIDs);
-        // get all the messages that have those match ids
-        let arrayOfMessages = [];
-        for(let i = 0; i < arrayOfMatchIDs.length; i++) { // forEach and map were giving us headache, back to basics
-            const newMessage = await Message.getConversationByMatchId(arrayOfMatchIDs[i]);
-            arrayOfMessages.push(newMessage);
-        }
-        console.log("arrayOfMessages ", arrayOfMessages);
-        // reverse the array that you just produced, making it descend chronologically
-        let reverseArrayOfMessages = arrayOfMessages.reverse();
-        // grab the match_id of the first item in that array
-        let niftyNewArray = [];
-        reverseArrayOfMessages.forEach(message => {
-            if(message.length > 0){
-                niftyNewArray.push(message);
-                return message;
-            }
-        });
-        if(!(niftyNewArray[0])){
-            console.log("Safely aborting!");
-            res.redirect('/profile');
-        }
-        console.log(niftyNewArray);
-        const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
-        // use that match_id to find the users in the matches table by that id
-        const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
-        // find the user that isn't you
-        if (matchObject.current_user_id === req.session.userid){
-            requestedUserID = matchObject.viewed_user_id;
+    // else{ // URL path is set to /messages
+    //     // get all of a user's matches
+    //     let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
+    //     // filter out the blocked folks
+    //     arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
+    //         return (matchObject.blocked !== true);
+    //     });
+    //     // console.log("arrayOfMatchObjects", arrayOfMatchObjects);
+    //     // make an array of the match ids
+    //     let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
+    //         return matchObject.id;
+    //     });
+    //     console.log("arrayOfMatchIDs ", arrayOfMatchIDs);
+    //     // get all the messages that have those match ids
+    //     let arrayOfMessages = [];
+    //     for(let i = 0; i < arrayOfMatchIDs.length; i++) { // forEach and map were giving us headache, back to basics
+    //         const newMessage = await Message.getConversationByMatchId(arrayOfMatchIDs[i]);
+    //         arrayOfMessages.push(newMessage);
+    //     }
+    //     console.log("arrayOfMessages ", arrayOfMessages);
+    //     // reverse the array that you just produced, making it descend chronologically
+    //     let reverseArrayOfMessages = arrayOfMessages.reverse();
+    //     // grab the match_id of the first item in that array
+    //     let niftyNewArray = [];
+    //     reverseArrayOfMessages.forEach(message => {
+    //         if(message.length > 0){
+    //             niftyNewArray.push(message);
+    //             return message;
+    //         }
+    //     });
+    //     if(!(niftyNewArray[0])){
+    //         console.log("Safely aborting!");
+    //         res.redirect('/profile');
+    //     }
+    //     console.log(niftyNewArray);
+    //     const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
+    //     // use that match_id to find the users in the matches table by that id
+    //     const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
+    //     // find the user that isn't you
+    //     if (matchObject.current_user_id === req.session.userid){
+    //         requestedUserID = matchObject.viewed_user_id;
+    //     }else{
+    //         requestedUserID = matchObject.current_user_id;
+    //     }
+    // }
+    else{
+        const theMatchID = await Message.getMatchIdOfYourMostRecentMessage(req.session.userid);
+        console.log("=======================");
+        console.log(theMatchID.matches_id);
+        console.log("=======================");
+        const thePair = await Match.getMatchById(theMatchID.matches_id);
+        let theOtherUser;
+        if (thePair.current_user_id === req.session.userid){
+            theOtherUser = thePair.viewed_user_id;
         }else{
-            requestedUserID = matchObject.current_user_id;
+            theOtherUser = thePair.current_user_id;
         }
+        console.log("theOtherUser ", theOtherUser);
+        requestedUserID = theOtherUser;
     }
 
     // // Below is code for calculating how recent other users have been online
@@ -382,18 +396,85 @@ async function getMessages(req, res){
 }
 
 async function addMessage(req, res){
+    let matchID;
     if (req.body.blockUser){ // blocking users
         const userToBlock = parseInt(req.body.blockUser);
         const myself = parseInt(req.session.userid);
-        const matchID = await Match.getMatchIdFromTwoUsers(myself, userToBlock);
+        matchID = await Match.getMatchIdFromTwoUsers(myself, userToBlock);
         await Match.blockUser(matchID[0]);
         res.redirect('/messages');
     }
 
-    const requestedUserID = parseInt(((req.url).split('/'))[2]);
+
+
+
+
+
+
+    // const requestedUserID = parseInt(((req.url).split('/'))[2]);
+
+    let requestedUserID;
+    if (((req.url).split('/')).length === 3){
+        requestedUserID = (((req.url).split('/'))[2]);
+        matchID = await Match.getMatchIdFromTwoUsers(requestedUserID, req.session.userid);
+        console.log("Should be matt's messages");
+    }
+    else{ // URL path is set to /messages
+        // get all of a user's matches
+        let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
+        // filter out the blocked folks
+        arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
+            return (matchObject.blocked !== true);
+        });
+        // console.log("arrayOfMatchObjects", arrayOfMatchObjects);
+        // make an array of the match ids
+        let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
+            return matchObject.id;
+        });
+        console.log("arrayOfMatchIDs ", arrayOfMatchIDs);
+        // get all the messages that have those match ids
+        let arrayOfMessages = [];
+        for(let i = 0; i < arrayOfMatchIDs.length; i++) { // forEach and map were giving us headache, back to basics
+            const newMessage = await Message.getConversationByMatchId(arrayOfMatchIDs[i]);
+            arrayOfMessages.push(newMessage);
+        }
+        console.log("arrayOfMessages ", arrayOfMessages);
+        // reverse the array that you just produced, making it descend chronologically
+        let reverseArrayOfMessages = arrayOfMessages.reverse();
+        // grab the match_id of the first item in that array
+        let niftyNewArray = [];
+        reverseArrayOfMessages.forEach(message => {
+            if(message.length > 0){
+                niftyNewArray.push(message);
+                return message;
+            }
+        });
+        if(!(niftyNewArray[0])){
+            console.log("Safely aborting!");
+            res.redirect('/profile');
+        }
+        console.log(niftyNewArray);
+        const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
+        // use that match_id to find the users in the matches table by that id
+        const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
+        // find the user that isn't you
+        if (matchObject.current_user_id === req.session.userid){
+            requestedUserID = matchObject.viewed_user_id;
+        }else{
+            requestedUserID = matchObject.current_user_id;
+        }
+    }
+
+
+
+
+
+
+
+
     const userMessage = escapeHtml(req.body.userMessage[1]);
 
-    const matchID = await Match.getMatchIdFromTwoUsers(req.session.userid, requestedUserID);
+    // let matchID = await Match.getMatchIdFromTwoUsers(req.session.userid, requestedUserID);
     const messageObject = {
         matchesId : matchID[0], 
         message : userMessage, 

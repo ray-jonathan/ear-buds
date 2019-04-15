@@ -122,9 +122,7 @@ ${headPartial}
           <div class="wrap">
             <form action="${ resquestedUser.id? `/messages/${resquestedUser.id}` : `/messages`  }" method="POST">
               <input type="search" hidden name="userMessage" id="userMessage" placeholder="BAD your message..." />
-
                 <i id="refresh" class="fas fa-sync-alt attachment" aria-hidden="true"></i>
-
               <input type="search" name="userMessage" id="mess" placeholder="Write your message...">
               <button type="submit" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
             </form>
