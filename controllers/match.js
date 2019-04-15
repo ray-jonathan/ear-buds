@@ -48,6 +48,17 @@ async function getMatch(req, res){
     const goTo = '/messages';
     const message1 = 'There are currently no more users to check out!';
     const message2 = 'You are being automatically redirected to Messages now!';
+    const bgoTo = '/profile';
+    const bmessage1 = 'You have no matches!';
+    const bmessage2 = 'You are too picky, try again later!';
+
+    await Profile.lastVist(req.session.userid);
+
+    // // Prevent user from loading page if they have no matches or no unblocked matches
+    const matchesList = await Match.getMatchesThatUserIsIn(req.session.userid);
+    // console.log(matchesList);
+    const notLiked = matchesList.filter(matchObject => { return matchObject.liked === true;});
+    console.log('look here', notLiked)
 
 if(displayedUserInfo) {
     res.render('match.html', {
@@ -64,6 +75,19 @@ if(displayedUserInfo) {
             navPartial: './partial-nav'
         }
     });
+} else if (notLiked.length < 1){
+    res.render('alert.html', {
+        locals: { 
+            pagePath: pagePath,
+            goTo: bgoTo,
+            message1: bmessage1,
+            message2: bmessage2
+        },
+        partials:{
+            headPartial: './partial-head',
+            navPartial: './partial-nav'
+        }
+    });    
 } else {
     res.render('alert.html', {
         locals: { 
@@ -78,8 +102,6 @@ if(displayedUserInfo) {
         }
     });
 }
-
-
 }
 
 async function addMatch(req,res) {
