@@ -82,7 +82,9 @@ async function getRecentlyPlayed(req, res, next, token){
     // for(let i = 0; i < spotifyResult.data.items.length; i++) { // forEach and map were giving us headache, back to basics
     //     console.log(req.session.userid, spotifyResult.data.items[i]);
     // }
+    console.log("Did we break it Mr. Krabs?");
     await Artists.add1recent(req.session.userid, spotifyResult.data.items[0]);
+    console.log("We didn't!");
     // res.redirect('/profile');
     return;
 }

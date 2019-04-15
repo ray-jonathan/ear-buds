@@ -17,8 +17,13 @@ async function getProfile(req, res, next){
         user = await Profile.getBySpotifyId(req.session.passport.user.id);
         req.session.userid = user.id;
         await getTop3Artists(req, res, next, req.session.passport.accessToken);
+        console.log("You should see this");
+        console.log(" ");
+        console.log(" ");
+        console.log(" ");
         await getRecentlyPlayed(req, res, next, req.session.passport.accessToken);
-    }else{
+    }
+    else{
         user = await Profile.getBySpotifyId(req.session.passport.user.id);
         req.session.userid = user.id;
     }
