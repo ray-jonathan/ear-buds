@@ -1,5 +1,5 @@
 const db = require('./conn');
-const moment = require('moment');
+// const moment = require('moment');
 
 class Profile {
     constructor(id, spotify_id, name, picture='http://beverlycove.org/wp-content/uploads/2016/07/no-profile-male.jpg', last_vist){        this.id = id;
@@ -11,7 +11,7 @@ class Profile {
 
     static add(user){
         const photo = user.photos[0]? user.photos[0] : 'http://beverlycove.org/wp-content/uploads/2016/07/no-profile-male.jpg';
-        const now = moment().format();
+        const now = Date.now();
         return db.one(`insert into users 
         (spotify_id, name, picture, last_vist)
         values
@@ -45,7 +45,7 @@ class Profile {
     }
 
     static lastVist(id){
-        const now = moment().format();
+        const now = Date.now();
         return db.one(`update only users set last_vist = $1 where id=$2 returning true;`, [now, id]);
     }
 

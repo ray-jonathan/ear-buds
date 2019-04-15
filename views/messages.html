@@ -107,14 +107,14 @@ ${headPartial}
       <!-- <form action="${ wholeConversation[0].user_id? `/messages/${wholeConversation[0].user_id}` : `/messages`  }" method="POST"> -->
         <div class="message-input">
           <div class="wrap">
-              <form action="${ resquestedUser.id? `/messages/${resquestedUser.id}` : `/messages`  }" method="POST">
-            <input type="search" hidden name="userMessage" id="userMessage" placeholder="BAD your message..." />
+            <form action="${ resquestedUser.id? `/messages/${resquestedUser.id}` : `/messages`  }" method="POST">
+              <input type="search" hidden name="userMessage" id="userMessage" placeholder="BAD your message..." />
 
-              <i id="refresh" class="fas fa-sync-alt attachment" aria-hidden="true"></i>
+                <i id="refresh" class="fas fa-sync-alt attachment" aria-hidden="true"></i>
 
-            <input type="search" name="userMessage" id="searchArtist" placeholder="Write your message...">
-          <button type="submit" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-        </form>
+              <input type="search" name="userMessage" id="searchArtist" placeholder="Write your message...">
+              <button type="submit" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            </form>
           </div>
         </div>
         <!-- </form> -->

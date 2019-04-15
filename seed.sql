@@ -40,10 +40,10 @@ values
 insert into messages
     (matches_id, message, timestamp, user_id)
 values
-    (1, 'Dude, you have some serious musical ADD, but love me some John Mayer', '2017-12-30 21:00:09.622951', 1),
-    (1, 'No way man, Vanilla Ice and Teletubbies make a great mashup!', '2017-12-30 23:00:09.622951', 2),
-    (3, 'YOURE JON SNOW!', '2017-12-31 23:00:09.622951', 2),
-    (3, 'You know nothing Jon Ray', '2017-12-31 23:04:09.622951', 4),
-    (2, 'Hi i am dany!','2018-12-31 23:04:09.622951', 3),
-    (2, 'hi dany, you rule the kingdom ok?','2018-11-30 23:04:09.622951', 1)
+    (1, 'Dude, you have some serious musical ADD, but love me some John Mayer', '1555302913', 1),
+    (1, 'No way man, Vanilla Ice and Teletubbies make a great mashup!', '1555305913', 2),
+    (3, 'YOURE JON SNOW!', '1555301913', 2),
+    (3, 'You know nothing Jon Ray', '1555202913', 4),
+    (2, 'Hi i am dany!','1555302813', 3),
+    (2, 'hi dany, you rule the kingdom ok?','1555302943', 1)
 ;

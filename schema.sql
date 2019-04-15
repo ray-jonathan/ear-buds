@@ -15,7 +15,7 @@ create table users (
     spotify_id varchar (200),
     name varchar (200),
     picture varchar (500),
-    last_vist TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    last_vist bigint default extract(epoch from now())
 );
 
 create table artists (
@@ -38,6 +38,6 @@ create table messages (
     id serial primary key,
     matches_id integer references matches(id),
     message varchar(1000),
-    timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    timestamp bigint default extract(epoch from now()),
     user_id integer references users(id)
 );
