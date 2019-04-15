@@ -21,6 +21,9 @@ class Artists {
 
 
     static add1(userID, spotifyResult, artist_track_url){
+        if(artist_track_url === null){
+            artist_track_url = 'https://p.scdn.co/mp3-preview/22bf10aff02db272f0a053dff5c0063d729df988?cid=774b29d4f13844c495f206cafdad9c86';
+        }
         return db.one(`insert into artists 
         (user_id, artist_name, artist_picture, artist_track_url)
         values
