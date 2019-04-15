@@ -4,7 +4,7 @@ const  Match = require('../models/match');
 const Artists = require('../models/artists');
 const Profile = require('../models/profile');
 const Message = require('../models/messages');
-const moment = require('moment');
+// const moment = require('moment');
 
 
 async function giveTheCardsInfo(userId) {
@@ -98,7 +98,7 @@ async function addMatch(req,res) {
     const initialMessage= {
         matchesId: matchAdd.id,
         message: 'Hey! I really like your taste in music!',
-        timestamp: moment().format(),
+        timestamp: Date.now(),
         userId: userId
     }
 

@@ -1,5 +1,5 @@
 const db = require('./conn');
-const moment = require('moment');
+// const moment = require('moment');
 const axios = require('axios');
 
 class Artists {

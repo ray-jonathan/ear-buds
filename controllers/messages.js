@@ -4,7 +4,7 @@ const Profile = require('../models/profile');
 const Match = require('../models/match');
 const axios = require('axios');
 const escapeHtml = require('escape-html');
-const moment = require('moment');
+// const moment = require('moment');
 
 
 
@@ -44,7 +44,7 @@ async function getMessages(req, res){
         arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
             return (matchObject.blocked !== true);
         });
-        console.log("arrayOfMatchObjects", arrayOfMatchObjects);
+        // console.log("arrayOfMatchObjects", arrayOfMatchObjects);
         // make an array of the match ids
         let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
             return matchObject.id;
@@ -56,6 +56,7 @@ async function getMessages(req, res){
             const newMessage = await Message.getConversationByMatchId(arrayOfMatchIDs[i]);
             arrayOfMessages.push(newMessage);
         }
+        console.log("arrayOfMessages ", arrayOfMessages);
         // reverse the array that you just produced, making it descend chronologically
         let reverseArrayOfMessages = arrayOfMessages.reverse();
         // grab the match_id of the first item in that array
@@ -70,6 +71,7 @@ async function getMessages(req, res){
             console.log("Safely aborting!");
             res.redirect('/profile');
         }
+        console.log(niftyNewArray);
         const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
         // use that match_id to find the users in the matches table by that id
         const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
@@ -80,6 +82,57 @@ async function getMessages(req, res){
             requestedUserID = matchObject.current_user_id;
         }
     }
+
+    // // Below is code for calculating how recent other users have been online
+    let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
+    // filter out the blocked folks
+    arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
+        return (matchObject.blocked !== true);
+    });
+    // console.log("arrayOfMatchObjects", arrayOfMatchObjects);
+    // make an array of the match ids
+    let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
+        return matchObject.id;
+    });
+    // for each person on their contacts pane, assign the ID a value of shortTerm, midTerm, or longTerm away status
+    timeStatusObject = {};
+    for(let i=0; i < arrayOfMatchIDs.length; i++){
+        let lastMessageTimestamp = await Message.getTimestampsOfAUsersMessages(arrayOfMatchIDs[i]);
+        let messageTime = lastMessageTimestamp[0].timestamp;
+        let nowHourAgo = (Date.now())- 3600000;
+        let now12HoursAgo = (Date.now())- 43200000;
+        matchid = arrayOfMatchIDs[i].toString();
+        let timefactorHour = ((messageTime-nowHourAgo)/3600000);
+        let timefactor12Hour = ((messageTime-now12HoursAgo)/3600000);
+        console.log("comparison", (messageTime-nowHourAgo));
+        if ((timefactorHour < 1)&&(timefactorHour > 0)){
+            console.log("match ", matchid);
+            console.log("timefactorHour ", timefactorHour);
+            timeStatusObject[`${matchid}`] = 'shortTerm';
+        }
+        else if ((timefactor12Hour < 12)&&(timefactorHour > 0)){
+            console.log("match ", matchid);
+            console.log("timefactor12Hour ", timefactor12Hour);
+            timeStatusObject[`${matchid}`] = 'midTerm';
+        }
+        else{
+            console.log(" ");
+            console.log("messageTime", messageTime);
+            timeStatusObject[`${matchid}`] = 'longTerm';
+        }
+    }
+    // const nowNow = (Date.now())/1000;
+    // console.log("NOW NOW NOW: ", nowNow);
+    console.log("timeStatusObject: ");
+    console.log(timeStatusObject);
+
+
+
+
+
+
+    //////////////////////////////////////////////////////////////////
+
     // console.log("requestedUserID :", requestedUserID);
     // console.log("My Id :", req.session.userid);
     // console.log("requestedUserID ", requestedUserID);
@@ -303,7 +356,7 @@ async function addMessage(req, res){
         matchesId : matchID[0], 
         message : userMessage, 
         userId : req.session.userid,
-        timestamp: moment().format()};
+        timestamp: Date.now()};
     
     await Message.addMessage(messageObject);
     res.redirect('/messages');

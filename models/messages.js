@@ -53,6 +53,10 @@ class Messages {
             return arrayOfUsers;
         })
     }
+
+    static getTimestampsOfAUsersMessages(user_id){
+        return db.any(`select timestamp from messages where user_id=$1 order by timestamp desc limit 1`, [user_id]);
+    }
 }
 
 module.exports = Messages;
