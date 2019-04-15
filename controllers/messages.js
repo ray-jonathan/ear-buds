@@ -12,6 +12,7 @@ async function getMessages(req, res){
     // const updateTime = await Profile.lastVist(req.session.userid);
     await Profile.lastVist(req.session.userid);
     // console.log("Able to update last vist time: ", updateTime.bool);
+
     // // Prevent user from loading page if they have no matches or no unblocked matches
     const matchesList = await Match.getMatchesThatUserIsIn(req.session.userid);
     // console.log(matchesList);
@@ -95,37 +96,77 @@ async function getMessages(req, res){
         return matchObject.id;
     });
     // for each person on their contacts pane, assign the ID a value of shortTerm, midTerm, or longTerm away status
-    timeStatusObject = {};
+    let timeStatusObject = {};
     for(let i=0; i < arrayOfMatchIDs.length; i++){
-        let lastMessageTimestamp = await Message.getTimestampsOfAUsersMessages(arrayOfMatchIDs[i]);
-        let messageTime = lastMessageTimestamp[0].timestamp;
-        let nowHourAgo = (Date.now())- 3600000;
-        let now12HoursAgo = (Date.now())- 43200000;
-        matchid = arrayOfMatchIDs[i].toString();
-        let timefactorHour = ((messageTime-nowHourAgo)/3600000);
-        let timefactor12Hour = ((messageTime-now12HoursAgo)/3600000);
-        console.log("comparison", (messageTime-nowHourAgo));
-        if ((timefactorHour < 1)&&(timefactorHour > 0)){
-            console.log("match ", matchid);
-            console.log("timefactorHour ", timefactorHour);
-            timeStatusObject[`${matchid}`] = 'shortTerm';
+        let idOfCleanOtherUser = [];
+        // console.log(`${arrayOfMatchIDs[i]}: `, );
+        const matches = await Match.getMatchById(arrayOfMatchIDs[i]);
+        // console.log(someValue);
+        if ((matches.liked === true)){
+            // console.log(matches.id);
+            const matchObject = await Match.getMatchById(matches.id);
+            // console.log(matchObject);
+            if(matchObject.current_user_id === req.session.userid){
+                // console.log("True");
+                idOfCleanOtherUser.push(matchObject.viewed_user_id);
+            }
+            else{
+                // console.log("False");
+                idOfCleanOtherUser.push(matchObject.current_user_id);
+            }
+
+            let lastActivity = await Profile.getUserById(idOfCleanOtherUser[0]);
+            // console.log(lastActivity.last_vist);
+
+            const otherUserLastVist = lastActivity.last_vist;
+            const nowHourAgo = Date.now() - 3600000;
+            const now6HoursAgo = Date.now() - 21600000;
+            const now12HoursAgo = Date.now() - 43200000;
+
+            if (otherUserLastVist > nowHourAgo){
+                timeStatusObject[`${lastActivity.id}`] = 'online';
+            }
+            else if (otherUserLastVist > now6HoursAgo){
+                timeStatusObject[`${lastActivity.id}`] = 'away';
+            }
+            else if (otherUserLastVist > now12HoursAgo){
+                timeStatusObject[`${lastActivity.id}`] = 'busy';
+            }
+            else{
+                timeStatusObject[`${lastActivity.id}`] = 'offline';
+            }
         }
-        else if ((timefactor12Hour < 12)&&(timefactorHour > 0)){
-            console.log("match ", matchid);
-            console.log("timefactor12Hour ", timefactor12Hour);
-            timeStatusObject[`${matchid}`] = 'midTerm';
-        }
-        else{
-            console.log(" ");
-            console.log("messageTime", messageTime);
-            timeStatusObject[`${matchid}`] = 'longTerm';
-        }
+    
+        // let messageTime = lastMessageTimestamp[0].timestamp;
+        // let nowHourAgo = (Date.now())- 3600000;
+        // let now12HoursAgo = (Date.now())- 43200000;
+        // matchid = arrayOfMatchIDs[i].toString();
+        // let timefactorHour = ((messageTime-nowHourAgo)/3600000);
+        // let timefactor12Hour = ((messageTime-now12HoursAgo)/3600000);
+        // console.log("comparison", (messageTime-nowHourAgo));
+        // if ((timefactorHour < 1)&&(timefactorHour > 0)){
+        //     console.log("match ", matchid);
+        //     console.log("timefactorHour ", timefactorHour);
+            // timeStatusObject[`${matchid}`] = 'shortTerm';
+        // }
+        // else if ((timefactor12Hour < 12)&&(timefactorHour > 0)){
+        //     console.log("match ", matchid);
+        //     console.log("timefactor12Hour ", timefactor12Hour);
+        //     timeStatusObject[`${matchid}`] = 'midTerm';
+        // }
+        // else{
+        //     console.log(" ");
+        //     console.log("messageTime", messageTime);
+        //     timeStatusObject[`${matchid}`] = 'longTerm';
+        // }
     }
     // const nowNow = (Date.now())/1000;
     // console.log("NOW NOW NOW: ", nowNow);
+    console.log(" ");
+    console.log(" ");
     console.log("timeStatusObject: ");
     console.log(timeStatusObject);
-
+    console.log(Date.now());
 
 
 
@@ -328,7 +369,8 @@ async function getMessages(req, res){
             otherUsers: arrayOfOtherPeople,
             wholeConversation: wholeConvo,
             resquestedUser: resquestedUser,
-            pagePath: pagePath
+            pagePath: pagePath,
+            timeStatusObject: timeStatusObject
             
 
         },
