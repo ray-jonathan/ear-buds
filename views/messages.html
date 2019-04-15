@@ -45,7 +45,7 @@ ${headPartial}
             <li class="contact" ${resquestedUser.id === otherUser.id ? `style="background: rgba(256, 256, 256, 0.1)"` :`style=""`}>
                   <a href="/messages/${otherUser.id}" style="text-decoration: none; color: white;">
                   <div class="wrap">
-                    <span class="contact-status busy"></span>
+                    <span class="contact-status ${timeStatusObject[otherUser.id]}"></span>
                     <div class="picture-frame">
 
                       <img src="${otherUser.picture}" alt="" />

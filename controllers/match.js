@@ -102,7 +102,7 @@ async function addMatch(req,res) {
         userId: userId
     }
 
-    if(matchAdd.liked){
+    if(matchAdd){
         await Message.addMessage(initialMessage);
     }
     console.log(matchAdd.liked)
