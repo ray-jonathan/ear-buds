@@ -43,7 +43,7 @@ ${headPartial}
             ${otherUsers.map((otherUser) =>  `
 
             <li class="contact" ${resquestedUser.id === otherUser.id ? `style="background: rgba(256, 256, 256, 0.1)"` :`style=""`}>
-                  <a href="/messages/${otherUser.id}" style="text-decoration: none; color: white;">
+                  <a href="/messages/${otherUser.id}" onclick="clearStorage();" style="text-decoration: none; color: white;">
                   <div class="wrap">
                     <span class="contact-status busy"></span>
                     <div class="picture-frame">
@@ -57,7 +57,7 @@ ${headPartial}
                     </a>
                     <form action="/messages" method="POST">
                     <div style="position:absolute;right:0;top:25%;">
-                      <input hidden name="blockUser" value="${otherUser.id}">
+                      <input hidden name="blockUser" value="${otherUser.id}" id="newUser">
                       <button  type="submit" style="background: none;padding: 0px;border: none;">
                         <i class="fas fa-ban"></i>
                       </button>
@@ -112,7 +112,7 @@ ${headPartial}
 
                 <i id="refresh" class="fas fa-sync-alt attachment" aria-hidden="true"></i>
 
-              <input type="search" name="userMessage" id="searchArtist" placeholder="Write your message...">
+              <input type="search" name="userMessage" id="mess" placeholder="Write your message...">
               <button type="submit" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
             </form>
           </div>
@@ -122,8 +122,25 @@ ${headPartial}
   </div>
 
   <script> // for the refresh button
+  console.log(window.location.pathname)
+
+  window.onload = function() {
+
+  var mess = localStorage.getItem("message");
+  if (mess) {
+    document.querySelector('#mess').value = mess
+  } else {
+    console.log('nope didnt work')
+  };
+// ...
+}
+  function clearStorage() {
+    localStorage.clear();
+    console.log('its running')
+  }
   const refresh = document.getElementById('refresh')
   refresh.addEventListener('click', ()=>{
+    localStorage.setItem('message', $('#mess').val())
     location.reload();
   })
   </script>
@@ -177,11 +194,13 @@ ${headPartial}
 
     $('.submit').click(function() {
       newMessage();
+      localStorage.clear();
     });
 
     $(window).on('keydown', function(e) {
       if (e.which == 13) {
         newMessage();
+        localStorage.clear();
         // return false;
       }
     });
