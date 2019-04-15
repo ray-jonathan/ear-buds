@@ -62,7 +62,7 @@ if(displayedUserInfo) {
         }
     });
 } else {
-    res.redirect('/messages')
+    res.render('alert.html');
 }
 
 
