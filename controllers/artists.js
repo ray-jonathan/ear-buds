@@ -42,17 +42,27 @@ async function getTop3Artists(req, res, next, token){
     // }
 
     let previewURLArray = [];
+    let escapeHatch;
     for(let i = 0; i < 3; i++) { // forEach and map were giving us headache, back to basics
+        if(!(spotifyResult.data.items)){
+            escapeHatch = true;
+            break;
+        }
         let artistID = spotifyResult.data.items[i].id;
         const topTracks = await axios.get(`https://api.spotify.com/v1/artists/${artistID}/top-tracks?country=US`, header);
         const artist_track_url = topTracks.data.tracks[0].preview_url;
         previewURLArray.push(artist_track_url);
     }
+    if(!(escapeHatch === true)){
     console.log(previewURLArray);
 
     await Artists.add3(req.session.userid, spotifyResult.data.items, previewURLArray);
     // res.redirect('/profile');
     return;
+    }
+    else{
+    return ;
+    }
 }
 
 async function getRecentlyPlayed(req, res, next, token){
