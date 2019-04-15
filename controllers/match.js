@@ -163,7 +163,8 @@ if(displayedUserInfo) {
             pagePath: pagePath,
             goTo: bgoTo,
             message1: bmessage1,
-            message2: bmessage2
+            message2: bmessage2,
+            messageNotification : false
         },
         partials:{
             headPartial: './partial-head',
@@ -176,7 +177,8 @@ if(displayedUserInfo) {
             pagePath: pagePath,
             goTo: goTo,
             message1: message1,
-            message2, message2
+            message2, message2,
+            messageNotification : false
         },
         partials:{
             headPartial: './partial-head',
