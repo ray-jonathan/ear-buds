@@ -44,10 +44,12 @@ async function getMessages(req, res){
         arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
             return (matchObject.blocked !== true);
         });
+        console.log("arrayOfMatchObjects", arrayOfMatchObjects);
         // make an array of the match ids
         let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
             return matchObject.id;
         });
+        console.log("arrayOfMatchIDs ", arrayOfMatchIDs);
         // get all the messages that have those match ids
         let arrayOfMessages = [];
         for(let i = 0; i < arrayOfMatchIDs.length; i++) { // forEach and map were giving us headache, back to basics
@@ -55,9 +57,20 @@ async function getMessages(req, res){
             arrayOfMessages.push(newMessage);
         }
         // reverse the array that you just produced, making it descend chronologically
-        const reverseArrayOfMessages = arrayOfMessages.reverse();
+        let reverseArrayOfMessages = arrayOfMessages.reverse();
         // grab the match_id of the first item in that array
-        const mostRecentMatchIdConversedWith = reverseArrayOfMessages[0][0].matches_id;
+        let niftyNewArray = [];
+        reverseArrayOfMessages.forEach(message => {
+            if(message.length > 0){
+                niftyNewArray.push(message);
+                return message;
+            }
+        });
+        if(!(niftyNewArray[0])){
+            console.log("Safely aborting!");
+            res.redirect('/profile');
+        }
+        const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
         // use that match_id to find the users in the matches table by that id
         const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
         // find the user that isn't you
@@ -69,7 +82,7 @@ async function getMessages(req, res){
     }
     // console.log("requestedUserID :", requestedUserID);
     // console.log("My Id :", req.session.userid);
-    console.log("requestedUserID ", requestedUserID);
+    // console.log("requestedUserID ", requestedUserID);
 
     const matchIdOfWholeConversation = await Match.getMatchIdFromTwoUsers(requestedUserID, req.session.userid)
     // console.log("matchIdOfWholeConversation ............................. ", matchIdOfWholeConversation);
