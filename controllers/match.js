@@ -62,7 +62,15 @@ if(displayedUserInfo) {
         }
     });
 } else {
-    res.render('alert.html');
+    res.render('alert.html', {
+        locals: { 
+            pagePath: pagePath
+        },
+        partials:{
+            headPartial: './partial-head',
+            navPartial: './partial-nav'
+        }
+    });
 }
 
 

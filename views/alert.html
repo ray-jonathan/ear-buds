@@ -1,6 +1,36 @@
+${headPartial}
+
+<!-- NOTE: -->
+<!-- Page should reload for each match or, if grabbing a stack of users, at the end of the stack to allow update to DB -->
+
 <body>
-    
-    <script>
-        alert('sup')
-        </script>
+${navPartial}
+
+<div class="modal" tabindex="-1" role="dialog" id="myModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <br />
+                    <br />
+                    <p style="text-align: center">There are currently no more users to check out!</p>
+                    <br />
+                    <p style="text-align: center">You are being automatically redirected to Messages now!</p>
+                    <br />
+                    <br />
+                </div>
+
+            </div>
+            </div>
+        </div>
+
+<script>
+    setTimeout(function(){
+        $('#myModal').modal('show');
+    }, 0);
+    setTimeout(() => {
+        window.location = "/messages";
+    }, 2000)
+
+</script>
+
 </body>
