@@ -114,7 +114,7 @@ module.exports = {
 // Limit: 3
 // Scopes: user-top-read
 // Returns: Object
-// Desired Info: Object.items[n] .name, .images[2].url
+// Desired Info: Object.items[n] .name, .images[0].url
 
 // // Lookup and add artist to list
 // Endpoint: https://api.spotify.com/v1/search?q={Lucy%20Dacus}&type={artist}&limit={1}
@@ -123,4 +123,4 @@ module.exports = {
 // Limit: 1
 // Scopes: null
 // Returns: Object
-// Desired Info: Object.artists.items[n] .name, .images[2].url
+// Desired Info: Object.artists.items[n] .name, .images[0].url

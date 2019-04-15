@@ -25,7 +25,7 @@ class Artists {
         (user_id, artist_name, artist_picture, artist_track_url)
         values
         ($1, $2, $3, $4)
-        returning true`, [userID, spotifyResult.data.artists.items[0].name, spotifyResult.data.artists.items[0].images[2].url, artist_track_url]);
+        returning true`, [userID, spotifyResult.data.artists.items[0].name, spotifyResult.data.artists.items[0].images[0].url, artist_track_url]);
     }
     
     static add1recent(userID, spotifyResult){
@@ -33,7 +33,7 @@ class Artists {
         (user_id, artist_name, artist_picture, artist_track_url)
         values
         ($1, $2, $3, $4)
-        returning true`, [userID, spotifyResult.track.artists[0].name, spotifyResult.track.album.images[2].url, spotifyResult.track.preview_url]);
+        returning true`, [userID, spotifyResult.track.artists[0].name, spotifyResult.track.album.images[0].url, spotifyResult.track.preview_url]);
     }
 
     static add3(userID, spotifyResult, previewURLArray){
@@ -45,9 +45,9 @@ class Artists {
         ($1, $8, $9, $10)
         returning true`, 
         [userID, 
-            spotifyResult[0].name, spotifyResult[0].images[2].url, previewURLArray[0],
-            spotifyResult[1].name, spotifyResult[1].images[2].url, previewURLArray[1],
-            spotifyResult[2].name, spotifyResult[2].images[2].url, previewURLArray[2]
+            spotifyResult[0].name, spotifyResult[0].images[0].url, previewURLArray[0],
+            spotifyResult[1].name, spotifyResult[1].images[0].url, previewURLArray[1],
+            spotifyResult[2].name, spotifyResult[2].images[0].url, previewURLArray[2]
         ]).catch((error) => {
             console.log('[DB ERROR]: ', error.message || error);
         });
@@ -100,7 +100,7 @@ module.exports = Artists;
 // Limit: 3
 // Scopes: user-top-read
 // Returns: Object
-// Desired Info: Object.items[n] .name, .images[2].url
+// Desired Info: Object.items[n] .name, .images[0].url
 
 // // Lookup and add artist to list
 // Endpoint: https://api.spotify.com/v1/search?q={Lucy%20Dacus}&type={artist}&limit={1}
@@ -109,7 +109,7 @@ module.exports = Artists;
 // Limit: 1
 // Scopes: null
 // Returns: Object
-// Desired Info: Object.artists.items[n] .name, .images[2].url
+// Desired Info: Object.artists.items[n] .name, .images[0].url
 
 
 
