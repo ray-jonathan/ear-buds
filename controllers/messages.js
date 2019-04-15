@@ -17,8 +17,23 @@ async function getMessages(req, res){
     // console.log(matchesList);
     const notBlocked = matchesList.filter(matchObject => { return matchObject.blocked !== true;});
     // console.log("We good here 1");
+    const pagePath2 = (((req.url).split('/')[1]));
+    const goTo = ('/match')
+    const message1 = 'OOPS! Looks like you have no messages yet!'
+    const message2 = 'Lets go get you one!'
     if (notBlocked.length < 1){
-        res.redirect('/match');
+        res.render('alert.html', {
+            locals: { 
+                pagePath: pagePath2,
+                goTo: goTo,
+                message1: message1,
+                message2: message2
+            },
+            partials:{
+                headPartial: './partial-head',
+                navPartial: './partial-nav'
+            }
+        });    
     }
 
     ////////////////////////////////////////////////////

@@ -45,6 +45,20 @@ async function getMatch(req, res){
     const userArrayOfArtists = await Artists.getArtists(idOfCard);
     // console.log(userArrayOfArtists);
     const pagePath = (((req.url).split('/')[1]));
+    const goTo = '/messages';
+    const message1 = 'There are currently no more users to check out!';
+    const message2 = 'You are being automatically redirected to Messages now!';
+    const bgoTo = '/profile';
+    const bmessage1 = 'You have no matches!';
+    const bmessage2 = 'You are too picky, try again later!';
+
+    await Profile.lastVist(req.session.userid);
+
+    // // Prevent user from loading page if they have no matches or no unblocked matches
+    const matchesList = await Match.getMatchesThatUserIsIn(req.session.userid);
+    // console.log(matchesList);
+    const notLiked = matchesList.filter(matchObject => { return matchObject.liked === true;});
+    console.log('look here', notLiked)
 
 
 
@@ -138,11 +152,33 @@ if(displayedUserInfo) {
             navPartial: './partial-nav'
         }
     });
+} else if (notLiked.length < 1){
+    res.render('alert.html', {
+        locals: { 
+            pagePath: pagePath,
+            goTo: bgoTo,
+            message1: bmessage1,
+            message2: bmessage2
+        },
+        partials:{
+            headPartial: './partial-head',
+            navPartial: './partial-nav'
+        }
+    });    
 } else {
-    res.render('alert.html');
+    res.render('alert.html', {
+        locals: { 
+            pagePath: pagePath,
+            goTo: goTo,
+            message1: message1,
+            message2, message2
+        },
+        partials:{
+            headPartial: './partial-head',
+            navPartial: './partial-nav'
+        }
+    });
 }
-
-
 }
 
 async function addMatch(req,res) {
