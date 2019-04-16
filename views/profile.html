@@ -107,7 +107,7 @@ Note:
             margin:auto;
         }
         .liquorcabinet {
-            width : 50%;
+            width : 100%;
             top :50px;
             display: flex;
             flex-direction: row;
@@ -133,6 +133,81 @@ Note:
             height: 100%;
             object-fit: cover;
         }
+        .info-reminder{
+            /* position: absolute;
+            bottom: 10%;
+            left:20%;
+            right:20%; */
+            display: none;
+            flex-direction: row;
+            justify-content: center;
+            font-size:5vw; 
+            text-align: center;
+            padding: 2%;
+            padding-top: 5%;
+            padding-bottom: 1%; 
+            text-shadow: 3px 3px #32465a; 
+            color: gainsboro;
+        }
+@media screen and (max-width: 360px) {
+        .liquorcabinet{
+            width : 100%;            
+        }
+
+}
+@media screen and (max-width:768px) {
+        .liquorcabinet{
+            width : 100%;   
+            grid-template-columns: 100%;
+        }
+        .navbar{
+            display:flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .show{
+            display:flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+        }
+        .info-reminder{
+            display:flex;
+        }
+}
+@media screen and (max-width:1200px) {
+        .liquorcabinet{
+            padding-top: 8% !important;
+            width : 75%;   
+        }
+        .navbar{
+            display:flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .show{
+            display:flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+        }
+}
+@media screen and (min-width:1200px) {
+        .liquorcabinet{
+            padding-top: 8% !important;
+            width : 75%;   
+        }
+        .navbar{
+            display:flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .show{
+            display:flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+        }
+}
+
+
 </style>
 
     <div class="liquorcabinet" id="main">
@@ -178,6 +253,12 @@ Note:
             </form>            
         `).join(' ')}
     </div>
+
+    <br>
+    <br>
+    <h2 onclick="openNav()" class="info-reminder" style="">
+        Choose your top artists or find details about yourself in the info pane.
+    </h2>
 
 <script>
     /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */

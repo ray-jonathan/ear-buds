@@ -22,7 +22,7 @@
 }
 </style>
 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background: #121212 !important; width:100%;">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" style="background: #121212 !important; width:100%;">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,11 +30,11 @@
                 <img src="./assets/earbudsInvert.png" alt="" >        
         </div>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="font-family: 'Montserrat', sans-serif; margin:5px;">
-                <a class="profile" style=" ${ pagePath === `profile` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/profile">profile</a>
-                <a class="match" style=" ${ pagePath === `match` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/match">match</a>
-                <a class="messages ${messageNotification === true? `data-notifications ` : `` }" style="display:inline-block !important; ${ pagePath === `messages` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none;" href="/messages">messages</a>
-                <a class="info" style="${ pagePath === `messages` ? `font-weight: bold; color: rgb(109,109,109); text-decoration: line-through !important;` : `font-weight: bold; color: rgb(179,179,179);`} font-weight: bold; margin:15px;" ${ pagePath !== `messages` ? `href="javascript:void(0)"` : `` } onclick="openNav()" >info</a>
-                <a class="logout" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none;" href="/logout">logout</a>
+                <a class="profile" style=" ${ pagePath === `profile` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none; font-size:2vw;" href="/profile">profile</a>
+                <a class="match" style=" ${ pagePath === `match` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none; font-size:2vw;" href="/match">match</a>
+                <a class="messages ${messageNotification === true? `data-notifications ` : `` }" style="display:inline-block !important; ${ pagePath === `messages` ? `font-weight: lighter; color: #2ab659;` : `font-weight: bold; color: rgb(179,179,179);`}  margin:15px; text-decoration: none; font-size:2vw;" href="/messages">messages</a>
+                <a class="info" style="${ pagePath === `messages` ? `font-weight: bold; color: rgb(109,109,109); text-decoration: line-through !important;` : `font-weight: bold; color: rgb(179,179,179);`} font-weight: bold; margin:15px; font-size:2vw;" ${ pagePath !== `messages` ? `href="javascript:void(0)"` : `` } onclick="openNav()" >info</a>
+                <a class="logout" style="color: rgb(179,179,179); font-weight: bold; margin:15px; text-decoration: none; font-size:2vw;" href="/logout">logout</a>
         </div>
 </nav>
 <style>
