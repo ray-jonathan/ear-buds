@@ -337,10 +337,11 @@ ${navPartial}
     <!-- </div> -->
     <div class="options"> 
         <div class="option" >
-                <form action="/match" method="POST" class="" id="clickConnectForm">
+                <form action="/match" method="POST" name="buttonclicked" value="True"  class="" id="clickConnectForm">
+                    <input hidden name="buttonclicked" value="True" >
 
                     <!-- <div class="btn-group">
-                        <button style="width:15vw; height:30px;" type="submit" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >
+                        <button style="display:none;" type="submit" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >
                             Connect
                         </button>
                     </div> -->
@@ -348,7 +349,8 @@ ${navPartial}
                 </form>
         </div>
         <div class="option">
-                <form action="/match" method="POST" class="" id="clickSkipForm">
+                <form action="/match" method="POST" name="buttonclicked" value="false" class="" id="clickSkipForm">
+                    <input hidden  name="buttonclicked" value="False" >
 
                     <!-- <div class="btn-group">
                         <button style="width:15vw; height:30px;" type="submit" name="buttonclicked" value="False" class="btn btn-light d-flex justify-content-center" >
@@ -364,10 +366,13 @@ ${navPartial}
 <br>
 <div class="clicky-container" >
     <div id="clickSkip" style="color:#B52D2A;">
-        <i class="fas fa-times" style="display: flex;flex-direction: row;align-items: center;align-content: center;justify-content: center;justify-items: center;/*! position: relative; */"></i>
+        <!-- <input hidden  onclick="myFunction()" name="buttonclicked" value="False" > -->
+        <i class="fas fa-times" onclick="myFunction()" style="display: flex;flex-direction: row;align-items: center;align-content: center;justify-content: center;justify-items: center;/*! position: relative; */"></i>
     </div>
     <div id="clickConnect" style="color:#2ab659;">
-        <i class="far fa-heart" style="display: flex;flex-direction: row;align-items: center;align-content: center;justify-content: center;justify-items: center;/*! position: relative; */"></i>
+            <!-- <input hidden  name="buttonclicked" value="True" > -->
+            
+        <i class="far fa-heart" onclick="myFunction()" style="display: flex;flex-direction: row;align-items: center;align-content: center;justify-content: center;justify-items: center;/*! position: relative; */"></i>
     </div>
 </div>
 </div>
@@ -378,12 +383,17 @@ ${navPartial}
 </h2>
 
 <script>
-document.getElementById("clickSkip").onclick = function() {
-    document.getElementById("clickSkipForm").submit();
-};
-document.getElementById("clickConnect").onclick = function() {
+function myFunction(){
+    // e.preventDefault();
+    console.log("Hello??");
     document.getElementById("clickConnectForm").submit();
-};
+}
+// document.getElementById("clickSkip").onclick = function() {
+//     document.getElementById("clickSkipForm").submit();
+// };
+// document.getElementById("clickConnect").onclick = function() {
+//     document.getElementById("clickConnectForm").submit();
+// };
 </script>
 
 <script>
@@ -400,7 +410,7 @@ document.getElementById("clickConnect").onclick = function() {
     }
 </script>
 
-<script>
+<!-- <script>
 $(document.body).click( function(e) {
     console.log(e);
     (typeof audioObject !== 'undefined')?  audioObject.pause() : console.log('No music?'); ;
@@ -409,7 +419,7 @@ $(document.body).click( function(e) {
 $(".liquorcabinet").click( function(e) {
     e.stopPropagation(); // this stops the event from bubbling up to the body
 });
-</script>
+</script> -->
 
 </body>
 </html>
