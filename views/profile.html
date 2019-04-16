@@ -149,16 +149,33 @@ Note:
             text-shadow: 3px 3px #32465a; 
             color: gainsboro;
         }
-@media screen and (max-width: 360px) {
+        @media screen and (max-width: 360px) {
         .liquorcabinet{
             width : 100%;            
         }
+        .clicky-container{
+            display:flex; 
+            flex-direction:row; 
+            justify-content:space-evenly;
+            -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+            -webkit-text-stroke-width: 2px;
+            -webkit-text-stroke-color: black;        
+        }
+        #clickConnect{
+            font-size: 4em !important;
+            /* padding-top: 30px;
+            margin-bottom:-40px; */
+        }
+        #clickSkip{
+            padding-top: 30px !important;
+            font-size: 4.5em !important;
+            /* margin-left: 60px; */
+        }
 
-}
-@media screen and (max-width:768px) {
+    }
+    @media screen and (max-width:768px) {
         .liquorcabinet{
-            width : 100%;   
-            grid-template-columns: 100%;
+            width : 100%;            
         }
         .navbar{
             display:flex;
@@ -173,11 +190,45 @@ Note:
         .info-reminder{
             display:flex;
         }
-}
-@media screen and (max-width:1200px) {
+        .clicky-container{
+            display:flex; 
+            flex-direction:row; 
+            justify-content:space-evenly;
+            -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+            -webkit-text-stroke-width: 2px;
+            -webkit-text-stroke-color: black;        
+        }
+
+
+
+        .gladware{
+            display: flex;
+            flex-direction: column !important;
+            align-content: space-between
+        }
+        .clicky-container{
+            display:flex;
+            flex-direction: row !important;
+            padding-top:40px;
+            margin-left:-60px !important;
+            align-items: left;
+        }
+        #clickConnect{
+            font-size: 6em;
+            /* padding-top: 30px;
+            margin-bottom:-40px; */
+        }
+        #clickSkip{
+            padding-top: 30px !important;
+            font-size: 6.5em;
+            /* margin-left: 60px; */
+        }
+
+    }
+    @media screen and (max-width:1200px) {
         .liquorcabinet{
             padding-top: 8% !important;
-            width : 75%;   
+            width : 50%;   
         }
         .navbar{
             display:flex;
@@ -189,11 +240,52 @@ Note:
             flex-direction: row !important;
             justify-content: space-between !important;
         }
-}
-@media screen and (min-width:1200px) {
+        .clicky-container{
+            justify-content: center;
+        }
+        #clickConnect{
+            padding-left:20px;
+            margin-left: 20px;
+            font-size: 8em;
+        }
+        #clickSkip{
+            padding-right:20px;
+            margin-right: 20;
+            font-size: 8.5em;
+        }
+
+
+
+        .gladware{
+            display: flex;
+            flex-direction: row-reverse;
+            align-content: space-between
+        }
+        .clicky-container{
+            display:flex;
+            flex-direction: column;
+            padding-top:40px;
+            margin-left:60px;
+            align-items: left;
+        }
+        #clickConnect{
+            font-size: 6em;
+            padding-top: 30px;
+            margin-bottom:-40px;
+        }
+        #clickSkip{
+            font-size: 6.5em;
+            margin-left: 60px;
+        }
+
+    }
+    @media screen and (min-width:1200px) {
+        .body{
+            overflow: hidden;
+        }
         .liquorcabinet{
             padding-top: 8% !important;
-            width : 75%;   
+            width : 38%;   
         }
         .navbar{
             display:flex;
@@ -205,7 +297,31 @@ Note:
             flex-direction: row !important;
             justify-content: space-between !important;
         }
-}
+        .gladware{
+            display: flex;
+            /* flex-wrap: wrap-reverse */
+            /* justify-content: center */
+            flex-direction: row-reverse;
+            align-content: space-between
+        }
+        .clicky-container{
+            display:flex;
+            flex-direction: column;
+            padding-top:40px;
+            padding-left: 100px;
+            margin-left:120px;
+            margin-right:-100px;
+            align-items: left;
+        }
+        #clickConnect{
+            font-size: 9em;
+            padding-top: 30px;
+            margin-bottom:-40px;
+        }
+        #clickSkip{
+            font-size: 9.5em;
+        }
+    }
 
 
 </style>
