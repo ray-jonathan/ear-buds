@@ -349,7 +349,7 @@ ${navPartial}
                 </form>
         </div>
         <div class="option">
-                <form action="/match" method="POST" name="buttonclicked" value="false" class="" id="clickSkipForm">
+                <form action="/match" method="POST" name="buttonclicked" value="False" class="" id="clickSkipForm">
                     <input hidden  name="buttonclicked" value="False" >
 
                     <!-- <div class="btn-group">
@@ -367,7 +367,7 @@ ${navPartial}
 <div class="clicky-container" >
     <div id="clickSkip" style="color:#B52D2A;">
         <!-- <input hidden  onclick="myFunction()" name="buttonclicked" value="False" > -->
-        <i class="fas fa-times" onclick="myFunction()" style="display: flex;flex-direction: row;align-items: center;align-content: center;justify-content: center;justify-items: center;/*! position: relative; */"></i>
+        <i class="fas fa-times" onclick="mySkip()" style="display: flex;flex-direction: row;align-items: center;align-content: center;justify-content: center;justify-items: center;/*! position: relative; */"></i>
     </div>
     <div id="clickConnect" style="color:#2ab659;">
             <!-- <input hidden  name="buttonclicked" value="True" > -->
@@ -386,6 +386,10 @@ ${navPartial}
 function myFunction(){
     // e.preventDefault();
     document.getElementById("clickConnectForm").submit();
+}
+function mySkip() {
+    document.getElementById("clickSkipForm").submit();
+
 }
 // document.getElementById("clickSkip").onclick = function() {
 //     document.getElementById("clickSkipForm").submit();
