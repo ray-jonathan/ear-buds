@@ -2,7 +2,10 @@ ${headPartial}
 
 <!-- NOTE: -->
 <!-- Page should reload for each match or, if grabbing a stack of users, at the end of the stack to allow update to DB -->
-
+<head>
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
 <body>
 ${navPartial}
 
@@ -61,11 +64,17 @@ ${navPartial}
 </style>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <br>
     <h1 style="font-size: 2rem">Meet your match!</h1>
     <br>
+    <br>
     <h1 style="font-size: 1.5rem; color:gainsboro">${displayedUser.name}</h1>
-    <div class="picture-frame">
-        <img src="${displayedUser.picture}" alt="">
+    <br>
+    <div class="picture-frame" style="
+        width:200px; 
+        height:200px;
+    ">
+        <img src="${displayedUser.picture}" alt="${displayedUser.name}'s photo'">
     </div>
     <p></p>
 </div>
@@ -75,7 +84,6 @@ ${navPartial}
 
 
 
-<div class="container">
     <style>
         body {
             /* display: flex; */
@@ -140,23 +148,151 @@ ${navPartial}
             height: 100%;
             object-fit: cover;
         }
+        .container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .options{
+            display: flex;
+            flex-direction: row-reverse;
+            align-content: space-between;
+            justify-content: space-between;
+        }
+        .option{
+            padding-right: 9vw;
+            padding-left: 9vw;
+        }
+        .clicky-container{
+            display:flex; 
+            flex-direction:row; 
+            justify-content:space-evenly;
+            -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+            -webkit-text-stroke-width: 2px;
+            -webkit-text-stroke-color: black;        
+        }
+        #clickConnect{
+            padding-top: 2px;
+            margin-right: -5px;
+            font-size: 6em;
+            -webkit-text-fill-color: #2ab659; /* Will override color (regardless of order) */
+        }
+        #clickConnect:hover{
+            -webkit-text-stroke-color: #FFF;        
+        }
+        #clickSkip{
+            padding-left: 2px;
+            margin-left: 2px;
+            font-size: 6.5em;
+            -webkit-text-fill-color: #B52D2A; /* Will override color (regardless of order) */
+        }
+        #clickSkip:hover{
+            -webkit-text-stroke-color: #FFF;        
+        }
+        .info-reminder{
+            /* position: absolute;
+            bottom: 10%;
+            left:20%;
+            right:20%; */
+            display: none;
+            flex-direction: row;
+            justify-content: center;
+            font-size:5vw; 
+            text-align: center;
+            padding-bottom: 1%; 
+            text-shadow: 3px 3px #32465a; 
+            color: gainsboro;
+        }
+        
+    @media screen and (max-width: 360px) {
+        .liquorcabinet{
+            width : 100%;            
+        }
+    }
+    @media screen and (max-width:768px) {
+        .liquorcabinet{
+            width : 100%;            
+        }
+        .navbar{
+            display:flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .show{
+            display:flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+        }
+        .info-reminder{
+            display:flex;
+        }
+    }
+    @media screen and (max-width:1200px) {
+        .liquorcabinet{
+            padding-top: 8% !important;
+            width : 75%;   
+        }
+        .navbar{
+            display:flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .show{
+            display:flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+        }
+        #clickConnect{
+            font-size: 10em;
+        }
+        #clickSkip{
+            font-size: 10.5em;
+        }
+    }
+    @media screen and (min-width:1200px) {
+        .liquorcabinet{
+            padding-top: 8% !important;
+            width : 75%;   
+        }
+        .navbar{
+            display:flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .show{
+            display:flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+        }
+        .clicky-container{
+            position: relative;
+            float: left;
+        }
+        #clickConnect{
+            position: fixed;
+            left: 50px;
+            top: 400px;
+            font-size: 12em;
+        }
+        #clickSkip{
+            position: fixed;
+            left: 50px;
+            top: 800px;
+            font-size: 12.5em;
+        }
+    }
+
     </style>
 
 
-    <h1 class="d-flex justify-content-center" style="font-size:3rem; padding-bottom: 1%; text-shadow: 3px 3px #32465a; color: gainsboro;">
+    <h1 class="d-flex justify-content-center" style="font-size:7vw; padding-bottom: 1%; text-shadow: 3px 3px #32465a; color: gainsboro;">
         ${displayedUser.name}
     </h1>
 
+<div class="container">
 
-    <div class="row d-flex align-items-center justify-content-center ">
-        <div class="col-sm-3">
-                <form action="/match" method="POST" class="d-flex justify-content-center">
-                    <div class="d-flex justify-content-center btn-group">
-                        <button style="width:15vw;" type="submit" name="buttonclicked" value="False" class="btn btn-light d-flex justify-content-center" >Skip</button>
-                    </div>
-                </form>
-        </div>
-        <div class="col-sm-6">
+    <!-- <div class="row d-flex align-items-center justify-content-center "> -->
+        <!-- <div class="col-sm-6"> -->
                 <div class="liquorcabinet">
                         ${userArtists.map((Artist) =>  `
                             <div class="aspect-ratio-box text-white" id="${Artist.id}">
@@ -190,19 +326,58 @@ ${navPartial}
                             </script>
                             `).join(' ')}
                         </div>
-        </div>
-        <div class="col-sm-3">
-                <form action="/match" method="POST" class="d-flex justify-content-center">
-                    <div class="d-flex justify-content-center btn-group">
-                        <button style="width:15vw;" type="submit" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >Connect</button>
-                    </div>
+        <!-- </div> -->
+    <!-- </div> -->
+    <div class="options"> 
+        <div class="option" >
+                <form action="/match" method="POST" class="" id="clickConnectForm">
+
+                    <!-- <div class="btn-group">
+                        <button style="width:15vw; height:30px;" type="submit" name="buttonclicked" value="True" class="btn btn-dark d-flex justify-content-center" >
+                            Connect
+                        </button>
+                    </div> -->
+
                 </form>
         </div>
+        <div class="option">
+                <form action="/match" method="POST" class="" id="clickSkipForm">
 
+                    <!-- <div class="btn-group">
+                        <button style="width:15vw; height:30px;" type="submit" name="buttonclicked" value="False" class="btn btn-light d-flex justify-content-center" >
+                            Skip
+                        </button>
+                    </div> -->
+
+                </form>
+        </div>
     </div>
 </div>
 
+<br>
+<div class="clicky-container" >
+    <div id="clickSkip" style="color:#B52D2A;">
+        <i class="fas fa-times" style="display: flex;flex-direction: row;align-items: center;align-content: center;justify-content: center;justify-items: center;/*! position: relative; */"></i>
+    </div>
+    <div id="clickConnect" style="color:#2ab659;">
+        <i class="far fa-heart" style="display: flex;flex-direction: row;align-items: center;align-content: center;justify-content: center;justify-items: center;/*! position: relative; */"></i>
+    </div>
+</div>
 
+<br>
+<br>
+<h2 onclick="openNav()" class="info-reminder" style="">
+    Get more details from the info pane.
+</h2>
+
+<script>
+document.getElementById("clickSkip").onclick = function() {
+    document.getElementById("clickSkipForm").submit();
+};
+document.getElementById("clickConnect").onclick = function() {
+    document.getElementById("clickConnectForm").submit();
+};
+</script>
 
 <script>
     /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
