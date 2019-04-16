@@ -264,20 +264,26 @@ ${navPartial}
             flex-direction: row !important;
             justify-content: space-between !important;
         }
+        .gladware{
+            display: flex;
+            /* flex-wrap: wrap-reverse */
+            /* justify-content: center */
+            flex-direction: row-reverse;
+            align-content: space-between
+        }
         .clicky-container{
-            position: relative;
-            float: left;
+            display:flex;
+            flex-direction: column;
+            padding-top:40px;
+            margin-left:60px;
+            align-items: left;
         }
         #clickConnect{
-            position: fixed;
-            left: 50px;
-            top: 400px;
             font-size: 12em;
+            padding-top: 30px;
+            margin-bottom:-40px;
         }
         #clickSkip{
-            position: fixed;
-            left: 50px;
-            top: 800px;
             font-size: 12.5em;
         }
     }
@@ -289,6 +295,7 @@ ${navPartial}
         ${displayedUser.name}
     </h1>
 
+<div class="gladware">
 <div class="container">
 
     <!-- <div class="row d-flex align-items-center justify-content-center "> -->
@@ -363,7 +370,7 @@ ${navPartial}
         <i class="far fa-heart" style="display: flex;flex-direction: row;align-items: center;align-content: center;justify-content: center;justify-items: center;/*! position: relative; */"></i>
     </div>
 </div>
-
+</div>
 <br>
 <br>
 <h2 onclick="openNav()" class="info-reminder" style="">
