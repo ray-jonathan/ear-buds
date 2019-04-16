@@ -34,6 +34,7 @@ async function giveTheCardsInfo(userId) {
 
 
 async function getMatch(req, res){
+    console.log(req.body);
     const userId = req.session.userid 
     const idOfCard = await giveTheCardsInfo(userId)
     // console.log(idOfCard)
@@ -189,6 +190,15 @@ if(displayedUserInfo) {
 }
 
 async function addMatch(req,res) {
+    console.log(" ");
+    console.log(" ");
+    console.log(" ");
+    console.log(" ");
+    console.log(" ");
+    console.log(" ");
+    console.log("req");
+    console.log(" ");
+    console.log(req.body);
     // console.log('we made it here')
     const userId = req.session.userid 
     // console.log(userId)
@@ -213,6 +223,7 @@ async function addMatch(req,res) {
 
     const matchAdd = await Match.add(addMatch)
 
+    console.log(matchAdd);
     console.log(userId)
     console.log(matchAdd.id)
     const initialMessage= {
