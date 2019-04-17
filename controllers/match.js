@@ -105,10 +105,12 @@ async function getMatch(req, res){
             // console.log(you.last_vist);
             console.log(("The last message sent to you... ", niftyNewArray[0].reverse())[0]);
             console.log("The last message sent to you at this time... ", (niftyNewArray[0].reverse())[0].timestamp);
-            console.log("Your last visit to the Messages page:  ", you.lastVisit);
+            console.log("Your last visit to the Messages page:  ", you.lastVist);
+            console.log("you.lastVist type is: ", typeof you.lastVist);
+            console.log("you.last_vist type is: ", typeof you.last_vist);
             console.log("You are: ");
             console.log(you);    
-            if(((niftyNewArray[0].reverse())[0].timestamp) > you.lastVisit){
+            if(((niftyNewArray[0].reverse())[0].timestamp) > you.lastVist){
                 console.log("New messages waiting for you!");
                 messageNotification = true;
             }else{
