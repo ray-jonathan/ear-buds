@@ -14,9 +14,7 @@ async function getMessages(req, res){
 
     // // Prevent user from loading page if they have no matches or no unblocked matches
     const matchesList = await Match.getMatchesThatUserIsIn(req.session.userid);
-    // console.log(matchesList);
     const notBlocked = matchesList.filter(matchObject => { return matchObject.blocked !== true;});
-    // console.log("We good here 1");
     const pagePath2 = (((req.url).split('/')[1]));
     const goTo = ('/match')
     const message1 = 'OOPS! Looks like you have no messages yet!'

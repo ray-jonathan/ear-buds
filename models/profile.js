@@ -41,7 +41,6 @@ class Profile {
 
     static lastVist(id){
         const now = Date.now();
-        console.log(`User ${id} is on the messages page at ${now}`);
         return db.one(`update only users set last_vist = $1 where id=$2 returning true;`, [now, id]);
     }
 

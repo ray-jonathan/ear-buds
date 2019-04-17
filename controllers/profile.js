@@ -100,10 +100,10 @@ async function getProfile(req, res, next){
         
         // compare the latest message to the user's last visit to the messages page
         if((arrayOfMess[0].timestamp) > parseInt(you.last_vist)){
-            console.log("New messages waiting for you!");
+            // console.log("New messages waiting for you!");
             messageNotification = true;
         }else{
-            console.log(" No new message");
+            // console.log(" No new message");
             messageNotification = false;
         }
     }
