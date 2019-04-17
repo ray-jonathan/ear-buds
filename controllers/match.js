@@ -112,7 +112,7 @@ async function getMatch(req, res){
             console.log(" ");
             console.log("The last message sent to you... ");
             console.log(niftyNewArray[0][0]);
-            console.log("The last message sent to you at this time... ", (niftyNewArray[0][0].timestamp);
+            console.log("The last message sent to you at this time... ", (niftyNewArray[0][0].timestamp));
             console.log(" ");
             console.log("Your last visit to the Messages page:  ", parseInt(you.last_vist));
             console.log("You are: ");
