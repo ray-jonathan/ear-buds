@@ -90,6 +90,9 @@ async function getProfile(req, res, next){
 
     console.log(" ");
     console.log("arrayOfMess "); 
+    arrayOfMess.sort((a,b) => {
+        return b.timestamp - a.timestamp
+    });
     console.log(arrayOfMess);
     console.log(" ");
 

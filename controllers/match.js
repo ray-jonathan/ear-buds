@@ -97,9 +97,14 @@ async function getMatch(req, res){
     
         console.log(" ");
         console.log("arrayOfMess "); 
+        arrayOfMess.sort((a,b) => {
+            return b.timestamp - a.timestamp
+        });
         console.log(arrayOfMess);
         console.log(" ");
     
+
+
         // reverse the array that you just produced, making it descend chronologically
         let reverseArrayOfMessages = arrayOfMessages.reverse();
         // grab the match_id of the first item in that array
