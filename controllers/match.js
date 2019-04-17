@@ -103,11 +103,15 @@ async function getMatch(req, res){
                 // console.log(" ");
             const you = await Profile.getUserById(req.session.userid);
             // console.log(you.last_vist);
-            console.log(("The last message sent to you... ", niftyNewArray[0].reverse())[0]);
+            console.log(" ");
+            console.log("The last message sent to you... ", niftyNewArray[0].reverse()[0]);
             console.log("The last message sent to you at this time... ", (niftyNewArray[0].reverse())[0].timestamp);
-            console.log("Your last visit to the Messages page:  ", you.last_vist);
+            console.log(" ");
+            console.log(typeof parseInt(you.last_vist));
+            console.log("Your last visit to the Messages page:  ", parseInt(you.last_vist));
             console.log("You are: ");
             console.log(you);    
+            console.log(" ");
             if(((niftyNewArray[0].reverse())[0].timestamp) > parseInt(you.last_vist)){
                 console.log("New messages waiting for you!");
                 messageNotification = true;
