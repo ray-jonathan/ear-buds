@@ -98,21 +98,22 @@ async function getProfile(req, res, next){
         const you = await Profile.getUserById(req.session.userid);
         // console.log(you.last_vist);
         console.log(" ");
+        niftyNewArray[0].reverse()
         console.log(".......................... profile page ..........................");
         console.log(" ");
         console.log("Most recent messages: ");
-        console.log(niftyNewArray[0].reverse());
+        console.log(niftyNewArray[0]);
         console.log(" ");
         console.log("The last message sent to you... ");
-        console.log(niftyNewArray[0].reverse()[0]);
-        console.log("The last message sent to you at this time... ", (niftyNewArray[0].reverse())[0].timestamp);
+        console.log(niftyNewArray[0][0]);
+        console.log("The last message sent to you at this time... ", (niftyNewArray[0][0].timestamp);
         console.log(" ");
         console.log("Your last visit to the Messages page:  ", parseInt(you.last_vist));
         console.log("You are: ");
         console.log(you);
-        console.log("...................................................................");    
+        console.log(".................................................................");    
         console.log(" ");
-        if(((niftyNewArray[0].reverse())[0].timestamp) > you.last_visit){
+        if(((niftyNewArray[0])[0].timestamp) > parseInt(you.last_vist)){
             console.log("New messages waiting for you!");
             messageNotification = true;
         }else{
