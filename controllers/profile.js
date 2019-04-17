@@ -76,6 +76,10 @@ async function getProfile(req, res, next){
         const newMessage = await Message.getConversationByMatchId(arrayOfMatchIDs[i]);
         arrayOfMessages.push(newMessage);
     }
+    console.log(" ");
+    console.log("arrayOfMessages "); 
+    console.log(arrayOfMessages);
+    console.log(" ");
     // console.log("arrayOfMessages ", arrayOfMessages);
     // reverse the array that you just produced, making it descend chronologically
     let reverseArrayOfMessages = arrayOfMessages.reverse();
