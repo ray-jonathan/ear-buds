@@ -107,7 +107,7 @@ async function getMatch(req, res){
             console.log("The last message sent to you... ", niftyNewArray[0].reverse()[0]);
             console.log("The last message sent to you at this time... ", (niftyNewArray[0].reverse())[0].timestamp);
             console.log(" ");
-            console.log(typeof parseInt(you.last_vist));
+            console.log(".......................... match page ..........................");
             console.log("Your last visit to the Messages page:  ", parseInt(you.last_vist));
             console.log("You are: ");
             console.log(you);    
