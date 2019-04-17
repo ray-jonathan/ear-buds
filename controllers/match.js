@@ -34,7 +34,7 @@ async function giveTheCardsInfo(userId) {
 
 
 async function getMatch(req, res){
-    console.log(req.body);
+    // console.log(req.body);
     const userId = req.session.userid 
     const idOfCard = await giveTheCardsInfo(userId)
     // console.log(idOfCard)
@@ -59,7 +59,7 @@ async function getMatch(req, res){
     const matchesList = await Match.getMatchesThatUserIsIn(req.session.userid);
     // console.log(matchesList);
     const notLiked = matchesList.filter(matchObject => { return matchObject.liked === true;});
-    console.log('look here', notLiked)
+    // console.log('look here', notLiked)
 
 
 
@@ -96,12 +96,16 @@ async function getMatch(req, res){
         });
         if(niftyNewArray.length > 0){
             if(!(niftyNewArray[0])){
-                    console.log("Safely aborting!");
+                    console.log(`${user.id} is: `);
+                    console.log("safely aborting to /profile!");
                     res.redirect('/profile');
                 }
                 // console.log(" ");
             const you = await Profile.getUserById(req.session.userid);
             // console.log(you.last_vist);
+            console.log(("The last message sent to you... ", niftyNewArray[0].reverse())[0]);
+            console.log("The last message sent to you at this time... ", (niftyNewArray[0].reverse())[0].timestamp);
+            console.log("Your last visit to the Messages page:  ", you.last_visit);    
             if(((niftyNewArray[0].reverse())[0].timestamp) > you.last_visit){
                 console.log("New messages waiting for you!");
                 messageNotification = true;
@@ -178,7 +182,7 @@ if(displayedUserInfo) {
             pagePath: pagePath,
             goTo: goTo,
             message1: message1,
-            message2, message2,
+            message2: message2,
             messageNotification : false
         },
         partials:{
@@ -190,24 +194,24 @@ if(displayedUserInfo) {
 }
 
 async function addMatch(req,res) {
-    console.log(" ");
-    console.log(" ");
-    console.log(" ");
-    console.log(" ");
-    console.log(" ");
-    console.log(" ");
-    console.log("req");
-    console.log(" ");
-    console.log(req.body);
+    // console.log(" ");
+    // console.log(" ");
+    // console.log(" ");
+    // console.log(" ");
+    // console.log(" ");
+    // console.log(" ");
+    // console.log("req");
+    // console.log(" ");
+    // console.log(req.body);
     // console.log('we made it here')
-    const userId = req.session.userid 
+    const userId = req.session.userid;
     // console.log(userId)
-    const idOfCard = await giveTheCardsInfo(userId)
-    const viewedUserInfo = await Match.getUser(idOfCard)
+    const idOfCard = await giveTheCardsInfo(userId);
+    const viewedUserInfo = await Match.getUser(idOfCard);
     // console.log(viewedUserInfo.id)
 
     
-    req.body.buttonclicked
+    // req.body.buttonclicked
     
     
     const addMatch = {
@@ -217,15 +221,21 @@ async function addMatch(req,res) {
         blocked: "False"
     }
 
-
+    if (req.body.buttonclicked === 'True'){
+        console.log(`User ${userId} LIKED User ${viewedUserInfo.id}`);
+    }
+    else if(req.body.buttonclicked === 'False'){
+        console.log(`User ${userId} SKIPPED User ${viewedUserInfo.id}`);
+    }
+    
 
     // console.log('show me it:', req.body.buttonclicked)
 
-    const matchAdd = await Match.add(addMatch)
+    const matchAdd = await Match.add(addMatch);
 
-    console.log(matchAdd);
-    console.log(userId)
-    console.log(matchAdd.id)
+    // console.log(matchAdd);
+    // console.log(userId)
+    // console.log(matchAdd.id)
     const initialMessage= {
         matchesId: matchAdd.id,
         message: 'Hey! I really like your taste in music!',
@@ -236,10 +246,10 @@ async function addMatch(req,res) {
     if(matchAdd.liked){
         await Message.addMessage(initialMessage);
     }
-    console.log(matchAdd.liked)
-    console.log("are we making it here?")
+    // console.log(matchAdd.liked)
+    // console.log("are we making it here?")
 
-    await res.redirect('/match')
+    await res.redirect('/match');
 
 
 }

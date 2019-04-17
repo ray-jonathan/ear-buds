@@ -14,13 +14,16 @@ async function getProfile(req, res, next){
     let user;
     if (!(firstVisitBool.exists)){
         await Profile.add(req.session.passport.user);
+        console.log(`~~~ NEW USER SIGN UP ~~~`);
         user = await Profile.getBySpotifyId(req.session.passport.user.id);
+        console.log(`Name: ${user.name}`);
+        console.log(`Spotify ID: ${user.id}`);
         req.session.userid = user.id;
         await getTop3Artists(req, res, next, req.session.passport.accessToken);
-        console.log("You should see this");
-        console.log(" ");
-        console.log(" ");
-        console.log(" ");
+        // console.log("You should see this");
+        // console.log(" ");
+        // console.log(" ");
+        // console.log(" ");
         await getRecentlyPlayed(req, res, next, req.session.passport.accessToken);
     }
     else{
@@ -87,12 +90,16 @@ async function getProfile(req, res, next){
     // console.log("niftyNewArray ", niftyNewArray);
     if(niftyNewArray.length > 0){
         if(!(niftyNewArray[0])){
-                console.log("Safely aborting!");
+                console.log(`${user.id} is: `);
+                console.log("safely aborting to /profile!");
                 res.redirect('/profile');
             }
             // console.log(" ");
         const you = await Profile.getUserById(req.session.userid);
         // console.log(you.last_vist);
+        console.log(("The last message sent to you... ", niftyNewArray[0].reverse())[0]);
+        console.log("The last message sent to you at this time... ", (niftyNewArray[0].reverse())[0].timestamp);
+        console.log("Your last visit to the Messages page:  ", you.last_visit);
         if(((niftyNewArray[0].reverse())[0].timestamp) > you.last_visit){
             console.log("New messages waiting for you!");
             messageNotification = true;
@@ -108,7 +115,7 @@ async function getProfile(req, res, next){
         messageNotification = false;
     }
     //////////////////////////////////////////////////////////////////
-    console.log("messageNotification ", messageNotification);
+    // console.log("messageNotification ", messageNotification);
     // render the profile page!
     function renderProfile(){
         res.render('profile.html', {
@@ -139,38 +146,4 @@ async function getProfile(req, res, next){
 module.exports = {
     getProfile
 };
-
-// // Notes on Axios:
-// const axios = require('axios');
-// axios.{{METHOD}}('{{URL}}').then((response)=>{console.log(response)});
-// // example of GET and POST with options:
-// axios.get('/user', {params: {ID: 12345}}).then(function (response) {console.log(response);}).catch(function (error) {console.log(error);});
-// axios.post('/user', {firstName: 'Fred',lastName: 'Flintstone'}).then(function (response) {console.log(response);}).catch(function (error) {console.log(error);});
-// // there's even support for Promise.All: https://www.npmjs.com/package/axios#user-content-example
-
-// // API FRAMEWORK // //
-
-// // Top three artists for logged-in user
-// Endpoint: https://api.spotify.com/v1/me/top/{type}?time_range={time_range}&limit={limit}
-// Type: artists
-// Time Range: short_term
-// Limit: 3
-// Scopes: user-top-read
-// Returns: Object
-// Desired Info: Object.items[n] .name, .images[0].url
-
-// // Lookup and add artist to list
-// Endpoint: https://api.spotify.com/v1/search?q={Lucy%20Dacus}&type={artist}&limit={1}
-// q: [Artist Name] (needs to be url-encoded)
-// Type: artist
-// Limit: 1
-// Scopes: null
-// Returns: Object
-// Desired Info: Object.artists.items[n] .name, .images[0].url
-
-
-
-// // DB FRAMEWORK // //
-
-// // Update/Insert top_artists table 
 
