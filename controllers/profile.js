@@ -52,12 +52,11 @@ async function getProfile(req, res, next){
         }
     }
 
-
     const pagePath = (((req.url).split('/')[1]));
 
 
+// // Code for adding message notification icon when there is an unread message
     let messageNotification;
-    // // Code for adding message notification icon when there is an unread message
     // get all of a user's matches
     let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
     // filter out the blocked folks
@@ -76,11 +75,8 @@ async function getProfile(req, res, next){
         const newMessage = await Message.getConversationByMatchId(arrayOfMatchIDs[i]);
         arrayOfMessages.push(newMessage);
     }
-    console.log(" ");
-    console.log("arrayOfMessages "); 
-    console.log(arrayOfMessages);
-    console.log(" ");
 
+    // put them in one big array
     let arrayOfMess = [];
     for(let i = 0; i < arrayOfMessages.length; i++){
         for(let j = 0; j < arrayOfMessages[i].length; j++){
@@ -88,51 +84,21 @@ async function getProfile(req, res, next){
         }
     }
 
-    console.log(" ");
-    console.log("arrayOfMess "); 
+    // sort that array by most recent
     arrayOfMess.sort((a,b) => {
         return b.timestamp - a.timestamp
     });
-    console.log(arrayOfMess);
-    console.log(" ");
 
-    // console.log("arrayOfMessages ", arrayOfMessages);
-    // reverse the array that you just produced, making it descend chronologically
-    // let reverseArrayOfMessages = arrayOfMessages.reverse();
-    // grab the match_id of the first item in that array
-    // let niftyNewArray = [];
-    // reverseArrayOfMessages.forEach(message => {
-    //     if(message.length > 0){
-    //         niftyNewArray.push(message);
-    //         return message;
-    //     }
-    // });
-    // console.log("niftyNewArray ", niftyNewArray);
+    // make sure the user has conversations
     if(arrayOfMess.length > 0){
         if(!(arrayOfMess[0])){
                 console.log(`${user.id} is: `);
                 console.log("safely aborting to /profile!");
                 res.redirect('/profile');
             }
-            // console.log(" ");
         const you = await Profile.getUserById(req.session.userid);
-        // console.log(you.last_vist);
-        console.log(" ");
-        // niftyNewArray[0].reverse()
-        console.log(".......................... profile page ..........................");
-        console.log(" ");
-        console.log("Most recent messages: ");
-        console.log(arrayOfMess);
-        console.log(" ");
-        console.log("The last message sent to you... ");
-        console.log(arrayOfMess[0]);
-        console.log("The last message sent to you at this time... ", (arrayOfMess[0].timestamp));
-        console.log(" ");
-        console.log("Your last visit to the Messages page:  ", parseInt(you.last_vist));
-        console.log("You are: ");
-        console.log(you);
-        console.log(".................................................................");    
-        console.log(" ");
+        
+        // compare the latest message to the user's last visit to the messages page
         if((arrayOfMess[0].timestamp) > parseInt(you.last_vist)){
             console.log("New messages waiting for you!");
             messageNotification = true;
@@ -140,16 +106,12 @@ async function getProfile(req, res, next){
             console.log(" No new message");
             messageNotification = false;
         }
-        // const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
-        // // use that match_id to find the users in the matches table by that id
-        // const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
     }
     else{
         messageNotification = false;
     }
-    //////////////////////////////////////////////////////////////////
-    // console.log("messageNotification ", messageNotification);
-    // render the profile page!
+//////////////////////////////////////////////////////////////////
+
     function renderProfile(){
         res.render('profile.html', {
             locals: { 
@@ -161,8 +123,8 @@ async function getProfile(req, res, next){
                 artistIncomplete: artistIncompleter,
                 hideMe: false,
                 firstVist: firstVisitBool.exists,
-                pagePath: pagePath
-                ,messageNotification: messageNotification
+                pagePath: pagePath,
+                messageNotification: messageNotification
 
             },
             partials:{

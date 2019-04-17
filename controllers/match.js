@@ -63,168 +63,110 @@ async function getMatch(req, res){
 
 
 
-    let messageNotification = false;
-    // // Code for adding message notification icon when there is an unread message
-        // get all of a user's matches
-        let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
-        // filter out the blocked folks
-        arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
-            return (matchObject.blocked !== true);
-        });
-        // console.log("arrayOfMatchObjects", arrayOfMatchObjects);
-        // make an array of the match ids
-        let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
-            return matchObject.id;
-        });
-        // console.log("arrayOfMatchIDs ", arrayOfMatchIDs);
-        // get all the messages that have those match ids
-        let arrayOfMessages = [];
-        for(let i = 0; i < arrayOfMatchIDs.length; i++) { // forEach and map were giving us headache, back to basics
-            const newMessage = await Message.getConversationByMatchId(arrayOfMatchIDs[i]);
-            arrayOfMessages.push(newMessage);
-        }
-        console.log(" ");
-        console.log("arrayOfMessages "); 
-        console.log(arrayOfMessages);
-        console.log(" ");
+// // Code for adding message notification icon when there is an unread message
+    let messageNotification;
+    // get all of a user's matches
+    let arrayOfMatchObjects = await Match.getMatchesThatUserIsIn(req.session.userid);
+    // filter out the blocked folks
+    arrayOfMatchObjects = arrayOfMatchObjects.filter((matchObject) => {
+        return (matchObject.blocked !== true);
+    });
+    // console.log("arrayOfMatchObjects", arrayOfMatchObjects);
+    // make an array of the match ids
+    let arrayOfMatchIDs = arrayOfMatchObjects.map((matchObject) => {
+        return matchObject.id;
+    });
+    // console.log("arrayOfMatchIDs ", arrayOfMatchIDs);
+    // get all the messages that have those match ids
+    let arrayOfMessages = [];
+    for(let i = 0; i < arrayOfMatchIDs.length; i++) { // forEach and map were giving us headache, back to basics
+        const newMessage = await Message.getConversationByMatchId(arrayOfMatchIDs[i]);
+        arrayOfMessages.push(newMessage);
+    }
 
-        let arrayOfMess = [];
-        for(let i = 0; i < arrayOfMessages.length; i++){
-            for(let j = 0; j < arrayOfMessages[i].length; j++){
-                arrayOfMess.push(arrayOfMessages[i][j]);
-            }
+    // put them in one big array
+    let arrayOfMess = [];
+    for(let i = 0; i < arrayOfMessages.length; i++){
+        for(let j = 0; j < arrayOfMessages[i].length; j++){
+            arrayOfMess.push(arrayOfMessages[i][j]);
         }
-    
-        console.log(" ");
-        console.log("arrayOfMess "); 
-        arrayOfMess.sort((a,b) => {
-            return b.timestamp - a.timestamp
-        });
-        console.log(arrayOfMess);
-        console.log(" ");
-    
+    }
 
+    // sort that array by most recent
+    arrayOfMess.sort((a,b) => {
+        return b.timestamp - a.timestamp
+    });
 
-        // reverse the array that you just produced, making it descend chronologically
-        let reverseArrayOfMessages = arrayOfMessages.reverse();
-        // grab the match_id of the first item in that array
-        let niftyNewArray = [];
-        reverseArrayOfMessages.forEach(message => {
-            if(message.length > 0){
-                niftyNewArray.push(message);
-                return message;
+    // make sure the user has conversations
+    if(arrayOfMess.length > 0){
+        if(!(arrayOfMess[0])){
+                console.log(`${user.id} is: `);
+                console.log("safely aborting to /profile!");
+                res.redirect('/profile');
             }
-        });
-        if(niftyNewArray.length > 0){
-            if(!(niftyNewArray[0])){
-                    console.log(`${user.id} is: `);
-                    console.log("safely aborting to /profile!");
-                    res.redirect('/profile');
-                }
-                // console.log(" ");
-            const you = await Profile.getUserById(req.session.userid);
-            // console.log(you.last_vist);
-            console.log(" ");
-            niftyNewArray[0].reverse();
-            console.log(".......................... match page ..........................");
-            console.log(" ");
-            console.log("Most recent messages: ");
-            console.log(niftyNewArray[0]);
-            console.log(" ");
-            // console.log("The last message sent to you... ");
-            // console.log(niftyNewArray[0][0]);
-            // console.log("The last message sent to you at this time... ", (niftyNewArray[0][0].timestamp));
-            // console.log(" ");
-            // console.log("Your last visit to the Messages page:  ", parseInt(you.last_vist));
-            // console.log("You are: ");
-            // console.log(you);
-            console.log(".................................................................");    
-            console.log(" ");
-            if(((niftyNewArray[0])[0].timestamp) > parseInt(you.last_vist)){
-                console.log("New messages waiting for you!");
-                messageNotification = true;
-            }else{
-                console.log(" No new message");
-                messageNotification = false;
-            }
-            // const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
-            // // use that match_id to find the users in the matches table by that id
-            // const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
-        }
-        else{
+        const you = await Profile.getUserById(req.session.userid);
+        
+        // compare the latest message to the user's last visit to the messages page
+        if((arrayOfMess[0].timestamp) > parseInt(you.last_vist)){
+            console.log("New messages waiting for you!");
+            messageNotification = true;
+        }else{
+            console.log(" No new message");
             messageNotification = false;
         }
-        // const mostRecentMatchIdConversedWith = niftyNewArray[0][0].matches_id;
-        // // use that match_id to find the users in the matches table by that id
-        // const matchObject = await Match.getMatchById(mostRecentMatchIdConversedWith);
+    }
+    else{
+        messageNotification = false;
+    }
 //////////////////////////////////////////////////////////////////
 
 
+    if(displayedUserInfo) {
+        res.render('match.html', {
+            locals: { 
+                user: req.session.passport.user,
+                // otherUsers: arrayOfAllUsersId,
+                userArtists: userArrayOfArtists,
+                hideMe: false,
+                displayedUser: displayedUserInfo,
+                pagePath: pagePath,
+                messageNotification: messageNotification
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if(displayedUserInfo) {
-    res.render('match.html', {
-        locals: { 
-            user: req.session.passport.user,
-            // otherUsers: arrayOfAllUsersId,
-            userArtists: userArrayOfArtists,
-            hideMe: false,
-            displayedUser: displayedUserInfo,
-            pagePath: pagePath,
-            messageNotification: messageNotification
-
-        },
-        partials:{
-            headPartial: './partial-head',
-            navPartial: './partial-nav'
-        }
-    });
-} else if (notLiked.length < 1){
-    res.render('alert.html', {
-        locals: { 
-            pagePath: pagePath,
-            goTo: bgoTo,
-            message1: bmessage1,
-            message2: bmessage2,
-            messageNotification : false
-        },
-        partials:{
-            headPartial: './partial-head',
-            navPartial: './partial-nav'
-        }
-    });    
-} else {
-    res.render('alert.html', {
-        locals: { 
-            pagePath: pagePath,
-            goTo: goTo,
-            message1: message1,
-            message2: message2,
-            messageNotification : false
-        },
-        partials:{
-            headPartial: './partial-head',
-            navPartial: './partial-nav'
-        }
-    });
-}
+            },
+            partials:{
+                headPartial: './partial-head',
+                navPartial: './partial-nav'
+            }
+        });
+    } else if (notLiked.length < 1){
+        res.render('alert.html', {
+            locals: { 
+                pagePath: pagePath,
+                goTo: bgoTo,
+                message1: bmessage1,
+                message2: bmessage2,
+                messageNotification : false
+            },
+            partials:{
+                headPartial: './partial-head',
+                navPartial: './partial-nav'
+            }
+        });    
+    } else {
+        res.render('alert.html', {
+            locals: { 
+                pagePath: pagePath,
+                goTo: goTo,
+                message1: message1,
+                message2: message2,
+                messageNotification : false
+            },
+            partials:{
+                headPartial: './partial-head',
+                navPartial: './partial-nav'
+            }
+        });
+    }
 }
 
 async function addMatch(req,res) {
