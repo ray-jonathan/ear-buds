@@ -80,6 +80,19 @@ async function getProfile(req, res, next){
     console.log("arrayOfMessages "); 
     console.log(arrayOfMessages);
     console.log(" ");
+
+    let arrayOfMess = [];
+    for(let i = 0; i < arrayOfMessages.length; i++){
+        for(let j = 0; j < arrayOfMessages[i].length; j++){
+            arrayOfMess.push(arrayOfMessages[i][j]);
+        }
+    }
+
+    console.log(" ");
+    console.log("arrayOfMess "); 
+    console.log(arrayOfMess);
+    console.log(" ");
+
     // console.log("arrayOfMessages ", arrayOfMessages);
     // reverse the array that you just produced, making it descend chronologically
     let reverseArrayOfMessages = arrayOfMessages.reverse();
