@@ -98,18 +98,18 @@ async function getProfile(req, res, next){
 
     // console.log("arrayOfMessages ", arrayOfMessages);
     // reverse the array that you just produced, making it descend chronologically
-    let reverseArrayOfMessages = arrayOfMessages.reverse();
+    // let reverseArrayOfMessages = arrayOfMessages.reverse();
     // grab the match_id of the first item in that array
-    let niftyNewArray = [];
-    reverseArrayOfMessages.forEach(message => {
-        if(message.length > 0){
-            niftyNewArray.push(message);
-            return message;
-        }
-    });
+    // let niftyNewArray = [];
+    // reverseArrayOfMessages.forEach(message => {
+    //     if(message.length > 0){
+    //         niftyNewArray.push(message);
+    //         return message;
+    //     }
+    // });
     // console.log("niftyNewArray ", niftyNewArray);
-    if(niftyNewArray.length > 0){
-        if(!(niftyNewArray[0])){
+    if(arrayOfMess.length > 0){
+        if(!(arrayOfMess[0])){
                 console.log(`${user.id} is: `);
                 console.log("safely aborting to /profile!");
                 res.redirect('/profile');
@@ -118,22 +118,22 @@ async function getProfile(req, res, next){
         const you = await Profile.getUserById(req.session.userid);
         // console.log(you.last_vist);
         console.log(" ");
-        niftyNewArray[0].reverse()
+        // niftyNewArray[0].reverse()
         console.log(".......................... profile page ..........................");
         console.log(" ");
         console.log("Most recent messages: ");
-        console.log(niftyNewArray[0]);
+        console.log(arrayOfMess);
         console.log(" ");
         console.log("The last message sent to you... ");
-        console.log(niftyNewArray[0][0]);
-        console.log("The last message sent to you at this time... ", (niftyNewArray[0][0].timestamp));
+        console.log(arrayOfMess[0]);
+        console.log("The last message sent to you at this time... ", (arrayOfMess[0].timestamp));
         console.log(" ");
         console.log("Your last visit to the Messages page:  ", parseInt(you.last_vist));
         console.log("You are: ");
         console.log(you);
         console.log(".................................................................");    
         console.log(" ");
-        if(((niftyNewArray[0])[0].timestamp) > parseInt(you.last_vist)){
+        if((arrayOfMess[0].timestamp) > parseInt(you.last_vist)){
             console.log("New messages waiting for you!");
             messageNotification = true;
         }else{
