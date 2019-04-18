@@ -2,6 +2,8 @@
 
 ![Home Page](./read-me-assets/splash.png)
 
+<h3 align="center"><a href="https://earbuds.jonathan-ray.com">Live site</a></h3>
+
 ## Contents
     -Description
     -Features
