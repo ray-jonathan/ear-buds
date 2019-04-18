@@ -414,9 +414,9 @@ ${navPartial}
                             <script>
                                 artistID = document.getElementById('${Artist.id}');
                                 artistID.addEventListener('click', (e)=>{
-                                    console.log("You clicked on ${Artist.artist_name}!");
-                                    console.log("${Artist.artist_track_url}");
-                                    (typeof audioObject !== 'undefined')? audioObject.pause() : console.log('nothing playing'); ;
+                                    // console.log("You clicked on ${Artist.artist_name}!");
+                                    // console.log("${Artist.artist_track_url}");
+                                    (typeof audioObject !== 'undefined')? audioObject.pause() : console.log(''); ;
                                     audioObject = new Audio("${Artist.artist_track_url}");
                                     audioObject.play();
                                 })
@@ -505,8 +505,8 @@ function mySkip() {
 
 <script>
 $(document.body).click( function(e) {
-    console.log(e);
-    (typeof audioObject !== 'undefined')?  audioObject.pause() : console.log('No music?'); ;
+    // console.log(e);
+    (typeof audioObject !== 'undefined')?  audioObject.pause() : console.log(''); ;
 });
 
 $(".liquorcabinet").click( function(e) {

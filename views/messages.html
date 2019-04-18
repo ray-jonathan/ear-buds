@@ -138,21 +138,21 @@ ${headPartial}
   </div>
 
   <script> // for the refresh button
-  console.log(window.location.pathname)
+  // console.log(window.location.pathname)
 
   window.onload = function() {
     var mess = localStorage.getItem("message");
     if (mess) {
       document.querySelector('#mess').value = mess
     } else {
-      console.log('nope didnt work')
+      // console.log('nope didnt work')
     };
   // ...
   }
 
   function clearStorage() {
     localStorage.clear();
-    console.log('its running')
+    // console.log('its running')
   }
 
   const refresh = document.getElementById('refresh')
