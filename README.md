@@ -19,11 +19,13 @@
 * A splash pages is loaded with a timeout that will redirect you to sign in with Spotify.
 * If you are already logged in, it will bypass you past the login.
 * The profile page auto populates your top artists based on your spotify activity.
-* You can change your top artists in the database at ny time based on artists in the spotify library.
+* You can change your top artists in the database at any time based on artists in the spotify library.
 * The match page will pull other users top artists and allows you to click the heart if you want to connect, or the X if you want to skip them.
 * When you are out of matches, or have no one you are matched with, you will get a modal telling you such and redirecting you back to a path to feel these aspects out.
 * The messages page shows you everyone you have connected with and allows you to message back and forth with them (not in real time, as that was out of the scope of the project).
 * This also incorporates status icons based on the last time another user logged in.
+* The messages tab within the site navigation features a notification icon whenever you have a message that was sent since the last time you checked your messages.
+* Additionally, the messages page defaults to your most recently active conversation.
 * Lastly, it allows you to block users and it will remove that conversation on both your page as well as the other users page.
 
 
@@ -35,6 +37,7 @@
 * PostgreSQL
 * Node.js
 * Express
+* ES6 Renderer
 * Passport.js
 
 ## Challenges and Solutions
@@ -42,9 +45,9 @@
 
     Not only did this allow us to put that conversation in the messaging page, but it also got the converstation rolling for the two users, making this a pretty neat feature.
 
-* Having the application load the cities in the drop down menu based on the state selected was a challenge early on. We handled this by pulling in all of the states and corresponding cities into a JSON file, bypassing an unneccessary extra API call.
-
-    We then manipulated the DOM to listen for when the state selection had changed. At that time we appended under the city element all the corresponding cities for the seleted state. Putting all the cities in a JSON file made it so the cities populating was instantaneous
+* Creating a dynamic chat experience that didn't rely on more advanced/conventional technologies (ie React) was _grueling._ The underlying mechanism for sending and receiving messages from a PostGreSQL database was pretty straightforward but creating features that the enduser is used to in other chat clients (such as loading the conversation with the most recent message first, away/busy/online statuses, et cetera) and implementing them within a Bootstrap template proved to be a lot of juggling.
+    
+    Breaking each of these features into individual status variables and passing them into the `local` variables during the view engine's rendering of the page allowed us to tackle the problems individually and flood the page with ternary operators for simple decision making, leading to a more dynamic experience.
 
 ## MVP
 * Create a full-stack friend finder using Spotify music.
