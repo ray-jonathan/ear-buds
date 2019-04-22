@@ -15,20 +15,20 @@
     -Screenshots
 
 ## Decription
-“EarBuds” is where music and online profile matching collide. This full-stack application allows user to log in to your proile, edit your top artists, and connect with other users wher you can chat and share different music!
+“EarBuds” is where music and online profile matching collide. This full-stack application allows you to log in to your proile, edit your top artists, and connect with other users where you can chat and share different music!
 
 ### Features
-* A splash pages is loaded with a timeout that will redirect you to sign in with Spotify.
-* If you are already logged in, it will bypass you past the login.
-* The profile page auto populates your top artists based on your spotify activity.
-* You can change your top artists in the database at any time based on artists in the spotify library.
-* The match page will pull other users top artists and allows you to click the heart if you want to connect, or the X if you want to skip them.
-* When you are out of matches, or have no one you are matched with, you will get a modal telling you such and redirecting you back to a path to feel these aspects out.
-* The messages page shows you everyone you have connected with and allows you to message back and forth with them (not in real time, as that was out of the scope of the project).
+* A splash page is loaded with a timeout that will redirect you to sign in with Spotify.
+* If you are already logged in, it will let you past the login process.
+* The profile page auto-populates your top artists based on your Spotify activity.
+* You can change your top artists in the database at any time based on artists in the Spotify library.
+* The match page will pull other users' top artists and allows you to click the "heart" if you want to connect, or the "X" if you want to skip them.
+* When you are out of matches, or have no one with whom you are matched, you will get a modal telling you such and redirected to the appropiate page.
+* The messages page shows you everyone you have connected with and allows you to message back and forth with them in a dynamic way just shy of real-time. (Any activity on the page refreshes the content.)
 * This also incorporates status icons based on the last time another user logged in.
 * The messages tab within the site navigation features a notification icon whenever you have a message that was sent since the last time you checked your messages.
 * Additionally, the messages page defaults to your most recently active conversation.
-* Lastly, it allows you to block users and it will remove that conversation on both your page as well as the other users page.
+* Lastly, it allows you to block users and it will remove that conversation on both your page as well as the other user's page.
 
 
 ## Technologies
@@ -56,14 +56,14 @@
 * Requirements
     * Users can change their top artists to display
     * Users are able to click like or skip on each potential match.
-    * Messaging is allowed between the two users.
+    * Messaging is allowed between the matched users.
 
 ## Stretch Goals
 * Provide 30 second snippets of music when you click on another users artist.
-    * Completed (albeit with edge-case issues)
-* Creating pre populated playlists between matched users based on their artists.
+    * Completed (albeit with edge-cases that are handled with a default track)
+* Creating pre-populated playlists between matched users based on their artists.
     * Incomplete
-* Making it that both users have to agree to match before they are connected.
+* Requiring both users to agree to match before they are connected.
     * Incomplete
 * Having status icons next to conversations to show when they were last online.
     * Completed
