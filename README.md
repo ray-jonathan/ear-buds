@@ -15,7 +15,7 @@
     -Screenshots
 
 ## Decription
-“EarBuds” is where music and online profile matching collide. This full-stack application allows you to log in to your proile, edit your top artists, and connect with other users where you can chat and share different music!
+“EarBuds” is where music and online profile matching collide. This full-stack application allows you to log in to your profile, edit your top artists, and connect with other users where you can chat and share different music!
 
 ### Features
 * A splash page is loaded with a timeout that will redirect you to sign in with Spotify.
