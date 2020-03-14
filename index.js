@@ -51,7 +51,7 @@ passport.use(
         {
             clientID: CLIENT_ID,
             clientSecret: CLIENT_SECRET,
-            callbackURL: `https://earbuds.mattraines.dev/auth/callback/`
+            callbackURL: `https://earbuds.jonathan-ray.com/auth/callback/`
             // ,passReqToCallback: true // will pass the req body thru to the callback
         },
         async function(accessToken, refreshToken, expires_in, profile, done){
