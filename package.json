@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/ray-jonathan/ear-buds#readme",
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "dotenv": "^7.0.0",
     "escape-html": "^1.0.3",
     "express": "^4.16.4",
