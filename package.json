@@ -31,7 +31,7 @@
     "express-es6-template-engine": "^2.1.7",
     "express-session": "^1.15.6",
     "helmet": "^3.21.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "passport": "^0.4.0",
     "passport-oauth2-refresh": "^1.1.0",
     "passport-spotify": "^1.0.1",
